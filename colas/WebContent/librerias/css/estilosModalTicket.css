@@ -1,0 +1,413 @@
+/* Estilos específicos para el modal de ticket */
+
+/* Modal backdrop personalizado */
+.modal-backdrop.ticket-backdrop {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.9));
+  backdrop-filter: blur(10px);
+}
+
+/* Modal dialog */
+.modal-dialog.ticket-modal {
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+/* Modal content */
+.modal-content.ticket-content {
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  background: white;
+}
+
+/* Modal body */
+.modal-body.ticket-body {
+  padding: 0;
+  background: white;
+}
+
+/* Ticket container */
+.ticket-container {
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header del ticket */
+.ticket-header {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  text-align: center;
+  padding: 30px 20px 20px;
+  position: relative;
+}
+
+.ticket-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.company-logo {
+  max-height: 80px;
+  max-width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+/* Sección de documento */
+.document-section {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  margin: 0;
+  border-left: 4px solid #3498db;
+  position: relative;
+}
+
+.document-section::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, #3498db, #2980b9);
+}
+
+.document-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.document-type {
+  background: #3498db;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.document-number {
+  font-family: "Courier New", monospace;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 2px solid #e1e8ed;
+  letter-spacing: 1px;
+}
+
+/* Sección de atención */
+.attention-section {
+  padding: 30px 20px;
+  text-align: center;
+  background: white;
+  position: relative;
+}
+
+.attention-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ticket-code {
+  font-size: 72px;
+  font-weight: 900;
+  color: #e74c3c;
+  margin: 20px 0;
+  text-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+  font-family: "Arial Black", Arial, sans-serif;
+  line-height: 1;
+}
+
+.service-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 20px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+  border-left: 4px solid #27ae60;
+}
+
+.ticket-datetime {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin: 15px 0;
+  font-weight: 600;
+}
+
+/* Sección de impresión */
+.print-section {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 25px 20px;
+  text-align: center;
+  border-top: 1px solid #e1e8ed;
+}
+
+.print-question {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.print-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.print-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.print-btn-no {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  color: white;
+}
+
+.print-btn-no:hover {
+  background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(149, 165, 166, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+.print-btn-yes {
+  background: linear-gradient(135deg, #27ae60, #229954);
+  color: white;
+}
+
+.print-btn-yes:hover {
+  background: linear-gradient(135deg, #229954, #1e8449);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+.print-btn:active {
+  transform: translateY(0);
+}
+
+/* Efectos decorativos */
+.ticket-container::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(52, 152, 219, 0.1), transparent);
+  border-radius: 50%;
+}
+
+.ticket-container::after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(39, 174, 96, 0.1), transparent);
+  border-radius: 50%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .modal-dialog.ticket-modal {
+    margin: 15px;
+    max-width: none;
+  }
+
+  .ticket-header {
+    padding: 25px 15px 15px;
+  }
+
+  .welcome-title {
+    font-size: 24px;
+  }
+
+  .company-logo {
+    max-height: 60px;
+  }
+
+  .document-section {
+    padding: 15px;
+  }
+
+  .document-info {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .attention-section {
+    padding: 25px 15px;
+  }
+
+  .ticket-code {
+    font-size: 60px;
+  }
+
+  .service-name {
+    font-size: 20px;
+    padding: 12px;
+  }
+
+  .print-section {
+    padding: 20px 15px;
+  }
+
+  .print-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .print-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 20px;
+  }
+
+  .company-logo {
+    max-height: 50px;
+  }
+
+  .ticket-code {
+    font-size: 48px;
+  }
+
+  .service-name {
+    font-size: 18px;
+  }
+
+  .document-info {
+    font-size: 14px;
+  }
+
+  .document-type,
+  .document-number {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* Animaciones */
+@keyframes ticketSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes codeGlow {
+  0%,
+  100% {
+    text-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+  }
+  50% {
+    text-shadow: 0 4px 20px rgba(231, 76, 60, 0.6);
+  }
+}
+
+.modal.show .ticket-container {
+  animation: ticketSlideIn 0.5s ease-out;
+}
+
+.ticket-code {
+  animation: codeGlow 2s ease-in-out infinite;
+}
+
+/* Estilos para impresión */
+@media print {
+  .modal-backdrop,
+  .print-section {
+    display: none !important;
+  }
+
+  .modal-dialog {
+    margin: 0;
+    max-width: none;
+  }
+
+  .modal-content {
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .ticket-container {
+    background: white !important;
+  }
+
+  .ticket-header {
+    background: #f8f9fa !important;
+    color: #2c3e50 !important;
+  }
+
+  .welcome-title {
+    color: #2c3e50 !important;
+    text-shadow: none !important;
+  }
+
+  .ticket-code {
+    color: #2c3e50 !important;
+    text-shadow: none !important;
+  }
+}

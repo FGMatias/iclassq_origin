@@ -1,0 +1,595 @@
+html {
+	overflow: -moz-scrollbars-vertical;
+	overflow-y: scroll;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+/*Barra navegación*/
+#divCabecera {
+	background-color: #fff;
+}
+
+.navLogo {
+	height: auto;
+	padding: 10px 10px;
+}
+
+#divBreadcrumb .breadcrumb { /*En una sola linea*/
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0px;
+}
+
+.breadcrumb>li {
+	display: inline;
+}
+
+.aOpcionNavbar {
+	position: relative;
+	padding: 5px 35px 5px 25px !important;
+	color: #00649d !important;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus,
+	.navbar-default .navbar-nav>.open>a:hover {
+	background-color: #cfcfcf; /*nav favorito*/
+}
+
+#ulMenu02>.open>a, #ulMenu02>.open>a:focus, #ulMenu02>.open>a:hover {
+	color: #0062AE !important;
+}
+
+.navbar-fixed-bottom, .navbar-fixed-top {
+	z-index: 990;
+}
+
+.aOpcionCabecera:focus, .aOpcionCabecera:hover {
+	background-color: #cfcfcf !important;
+}
+
+.spanFecha {
+	font-size: 13px;
+}
+
+#liOpcionUsuario2 {
+	max-width: 440px;
+}
+
+#aOpcionUsuario2 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 13px;
+}
+
+.liEstadoDomicilio {
+	max-width: 260px;
+	overflow: hidden;
+}
+
+.pEstadoDomicilio {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 13px;
+}
+
+.aOpcionSalir:hover {
+	background-color: #cfcfcf;
+	color: #0063ae !important;
+}
+/*Buscador*/
+.divRowBuscar {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.divRowOpciones {
+	
+}
+
+#txtBusca {
+	border: 1px solid #CCCDCF !important;
+	font-size: 20px;
+	height: 50px !important;
+	border-radius: 0px;
+}
+
+#spanBotonBuscar {
+	background-color: #AB1440 !important;
+	border: 1px solid #AB1440 !important;
+	cursor: pointer;
+	cursor: hand;
+	font-size: 15px;
+	padding: 0px 20px;
+	border-radius: 0px;
+}
+
+#txtBusca::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+	color: #959595;
+}
+
+#txtBusca:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color: #959595;
+	opacity: 1;
+}
+
+#txtBusca::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color: #959595;
+	opacity: 1;
+}
+
+#txtBusca:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #959595;
+}
+/*Resaltado*/
+.spanNivelDescripcion {
+	z-index: 0;
+}
+
+.spanNivelDescripcion span {
+	background-color: #ffff4d;
+}
+
+#divSubMenuIzquierda .spanNivelDescripcion span {
+	background-color: transparent;
+}
+/*Menú*/
+.h3TituloIzquierda {
+	margin: 5px 0px;
+	font-size: 1.5em;
+}
+
+.imgIconoSunat1 {
+	height: 20px;
+}
+
+.flecha, .tacho, .estrella {
+	display: block;
+	top: 28%;
+	right: 10px;
+	position: absolute;
+	font-size: 1.2em;
+}
+
+.divOpcionServicio:hover {
+	background-color: #cfcfcf;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.divOpcionServicio h4 {
+	margin-bottom: 7px !important;
+	margin-top: 7px !important;
+}
+
+.divOpcionServicioActivo {
+	background-color: #0062AE !important;
+	color: #fff !important;
+}
+
+.divOpcionServicioActivoModoBusqueda {
+	background-color: #f6f6f4 !important;
+	color: #333 !important;
+}
+
+.divOpcionServicioActivoModoBusqueda .flecha {
+	color: #f6f6f4 !important;
+}
+/*Niveles*/
+.ulMenu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ulMenu li {
+	line-height: 1.4em;
+}
+
+.liOpcion {
+	padding: 8px;
+	position: relative;
+}
+
+.liOpcion:hover, .nivelActivo {
+	background-color: #cfcfcf;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.spanNivelBullet {
+	font-size: 0.7em;
+}
+
+.nivel1 {
+	padding: 10px 15px !important;
+	font-size: 17px;
+	color: #004586 !important; /*mas oscuro*/
+	font-weight: bold;
+}
+
+.nivel2 {
+	padding-left: 35px !important;
+	font-size: 15px;
+	color: #444 !important;
+	font-weight: bold;
+}
+
+.nivel3 {
+	padding-left: 50px !important;
+	font-size: 15px;
+	color: #000 !important;
+	font-weight: normal;
+}
+
+.nivel4 {
+	padding-left: 75px !important;
+	font-size: 14px;
+	color: #00649d !important;
+}
+
+.nivel4 .spanNivelDescripcion {
+	display: inline-block;
+	width: 80%;
+}
+
+.nivel4 .spanNivelDescripcion:hover {
+	text-decoration: underline !important;
+}
+
+.modoPersonas .opcionPersonas {
+	display: block !important;
+}
+
+.modoEmpresas .opcionEmpresas {
+	display: block !important;
+}
+
+.modoAduanas  .opcionAduanas {
+	display: block !important;
+}
+/*Menu Izquierda*/
+#divSubMenuIzquierda {
+	width: 275px;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	float: left;
+	position: relative !important;
+	border-right: 1px solid #bbb !important;
+}
+
+.divSubMenuIzquierdaOculto {
+	/* left: -275px;*/
+	width: 0px !important;
+}
+
+#divSubmenuMostrar {
+	position: absolute;
+	right: 0px;
+	top: 15px;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.divSubMenuIzquierdaOculto>.divSubmenuCabecera>#divSubmenuMostrar {
+	right: -20px !important;
+}
+
+.divSubMenuIzquierdaOculto>.divSubmenuCabecera>#divSubmenuMostrar>.glyphicon-chevron-right
+	{
+	display: inline !important;
+}
+
+.divSubMenuIzquierdaOculto>.divSubmenuCabecera {
+	width: 0px;
+}
+
+.divSubMenuIzquierdaOculto>.divSubmenuCabecera>#divSubmenuMostrar>.spanMinimizar
+	{
+	display: none !important;
+}
+
+.divSubMenuIzquierdaOculto>.divSubmenuCabecera>button {
+	display: none !important;
+}
+
+.divSubmenuCabecera {
+	position: fixed;
+	z-index: 100;
+	width: 257px;
+	background-color: #f6f6f4;
+	border-bottom: 1px solid #eeeeee;
+}
+
+.divSubmenuCabecera button {
+	padding: 10px 10px 10px 5px !important;
+	margin: 5px 0px 5px 5px;
+	background-color: #f6f6f4 !important;
+}
+
+.divSubmenuCabecera button:hover {
+	background-color: #cfcfcf !important;
+}
+
+#ulSubmenu {
+	z-index: 50;
+	margin-bottom: 70px !important;
+	margin-top: 50px;
+}
+
+#ulSubmenu .liOpcion {
+	padding: 7px !important;
+	line-height: 1.2em;
+}
+
+#ulSubmenu .nivel1 {
+	padding-left: 15px !important;
+	text-transform: uppercase;
+	line-height: 1em;
+}
+
+#ulSubmenu .nivel1 .spanNivelDescripcion {
+	
+}
+
+#ulSubmenu .nivel1:hover {
+	background-color: #f6f6f4;
+	cursor: default !important;
+}
+
+#ulSubmenu .nivel2 {
+	padding-left: 15px !important;
+}
+
+#ulSubmenu .nivel3 {
+	padding-left: 30px !important;
+}
+
+#ulSubmenu .nivel4 {
+	padding-left: 50px !important;
+}
+/*iFrame*/
+.divContainerIframe {
+	height: 100%;
+	width: auto !important;
+	overflow: hidden;
+}
+
+.divContainerIframe .row {
+	height: 100%;
+}
+
+.divContainerIframe .embed-responsive.embed-responsive-4by3 {
+	padding-bottom: 0;
+	height: 100% !important;
+	overflow-y: auto;
+	font-size: 12px;
+}
+
+#iframeApplication {
+	overflow-x: auto !important;
+}
+/*Campaña*/
+#divModalCampanaBak {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 998;
+	background-color: #3f3f3f;
+	opacity: 0.5;
+}
+
+#divModalCampana {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 999;
+	padding: 20px;
+}
+
+#divModalCampana>div {
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+}
+
+#ifrVCE {
+	height: 100%;
+	width: 100% !important;
+	border: 0px;
+}
+/*Iconera*/
+.divTituloSeccion {
+	border-bottom: 1px solid #CCCDCF;
+	margin-bottom: 20px;
+	border-left: 20px solid #fff;
+	border-right: 20px solid #fff;
+	padding: 0px;
+}
+
+.divIconosTitulo {
+	font-weight: bold;
+	line-height: 1.2em;
+	margin-bottom: 30px;
+}
+/*Footer*/
+#footerLinks {
+	background-color: #f6f6f4;
+	padding: 30px 0;
+}
+
+#footerPrincipal {
+	background-color: #0063AE;
+	padding: 20px 0 15px 0px;
+}
+/*Estilos*/
+small, .small {
+	font-size: 11px;
+}
+
+.negrita {
+	font-weight: bold !important;
+}
+
+.oculto {
+	display: none !important;
+}
+
+.sinOverflow {
+	overflow: hidden !important;
+}
+
+.sinRadio {
+	border-radius: 0px !important;
+}
+
+.sinBorde {
+	border: 0px !important;
+	box-shadow: none;
+}
+
+.sinPadding {
+	padding: 0px !important;
+}
+
+.colBlanco {
+	color: #fff !important;
+}
+
+.colAzul {
+	color: #0062AE !important; /*oficial*/
+}
+
+.colAzul2 {
+	color: #004586 !important; /*mas oscuro*/
+}
+
+.colRojo {
+	color: #AB1440 !important; /*oficial*/
+}
+
+.colCeleste {
+	color: #00A6CC !important; /*mas oscuro*/
+}
+
+.colCeleste2 {
+	color: #79E7FF !important;
+}
+
+.backAzul1 {
+	background-color: #0063AE;
+}
+
+.backPlomo1 {
+	background-color: #F6F6F4;
+}
+
+.backCeleste1 {
+	background-color: #00A6CC;
+}
+
+.backBlanco {
+	background-color: #fff;
+}
+
+@media ( max-width : 768px) {
+	body {
+		padding-top: 50px;
+	}
+	#imgLogo {
+		height: 35px;
+	}
+	.text-centro { /*Por el footer*/
+		text-align: center !important;
+		float: none !important;
+	}
+	/*Menú*/
+	.divOpcionServicio {
+		width: 30%;
+		padding: 5px !important;
+		display: inline-block !important;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.divOpcionServicio h4 {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	/*Iconera*/
+	.divIconosTitulo {
+		font-weight: normal;
+		font-size: 11px;
+	}
+	.aOpcionNavbar {
+		padding: 0px !important;
+	}
+	.navbar-nav>li>a {
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.liBarraMovil {
+		font-size: 13px;
+	}
+	.pEstadoDomicilio {
+		margin-top: 3px;
+		margin-bottom: 3px;
+	}
+}
+
+@media ( min-width : 768px) and (max-width: 991px) {
+	.text-small {
+		font-size: 11px;
+	}
+	#liOpcionUsuario2 {
+		max-width: 325px;
+	}
+	.liEstadoDomicilio {
+		max-width: 185px;
+	}
+}
+
+@media ( min-width : 768px) {
+	body {
+		padding-top: 50px;
+	}
+	.aOpcionCabecera {
+		padding-top: 21px !important;
+		padding-bottom: 21px !important;
+	}
+}
+
+@media ( min-width : 992px) {
+	.h3TituloIzquierda {
+		margin: 10px 0px;
+		font-size: 1.6em;
+	}
+}
+
+@media ( min-width : 1200px) {
+}
+
+.listBox {
+	height: 100px;
+	padding-left: 25px;
+	overflow-y: auto;
+	border: 2px solid #337ab7;
+}
+
+.hand {
+	cursor: pointer;
+}

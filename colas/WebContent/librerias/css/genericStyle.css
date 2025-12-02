@@ -1,0 +1,113 @@
+/** Iconos **/
+.iconWin24 {
+	background-image: url(../imagenes/icon_window.png) !important;
+}
+.new_user_16 {
+	background-image: url(icons/new_user_16.png) !important;
+}
+.delete_user_16 {
+	background-image: url(icons/delete_user_16.png) !important;
+}
+.edit_user_16 {
+	background-image: url(icons/edit_user_16.png) !important;
+}
+.key_user_16 {
+	background-image: url(icons/key_user_16.png) !important;
+}
+
+.enable_user_16{
+	background-image: url(icons/enable_user_16.png) !important;
+}
+
+.grabar_24 {
+	background-image: url(icons/grabar_24.png) !important;
+}
+.ok_24 {
+	background-image: url(icons/ok_24.png) !important;
+}
+.cancel_24 {
+	background-image: url(icons/cancel_24.png) !important;
+}
+.create_16 {
+	background-image: url(icons/create_16.png) !important;
+}
+
+.key_24 {
+	background-image: url(icons/key_24.png) !important;
+}
+
+.save_16 {
+	background-image: url(icons/save_16.png) !important;
+}
+
+/**Objetivos**/
+
+.new_objetivo_16 {
+	background-image: url(icons/new_objetivo_16.png) !important;
+}
+
+.edit_objetivo_16 {
+	background-image: url(icons/edit_objetivo_16.png) !important;
+}
+
+/**Fin-Objetivos**/
+
+/**Indicador**/
+
+.new_indicador_16 {
+	background-image: url(icons/new_indicador_16.png) !important;
+}
+
+/**Fin-Indicador**/
+
+/**Proyectos**/
+.new_proyecto_16 {
+	background-image: url(icons/new_proyecto_16.png) !important;
+}
+
+.edit_proyecto_16 {
+	background-image: url(icons/edit_proyecto_16.png) !important;
+}
+/**Inicio-Proyectos**/
+
+/** Iconos **/
+
+/** Ext **/
+.x-grid-row .x-grid-cell-inner {
+    		white-space: normal;
+    	}
+.x-grid-row-over .x-grid-cell-inner {
+    		white-space: normal;
+    	}
+/** Ext **/
+
+/**mensajes**/
+.contentMensajeGeneric{
+	font-size: 12px;
+	color: #666;
+	font-family: Verdana;
+	text-align: center;
+}
+/**mensajes**/
+
+/** tema **/
+.imgTema {
+	width: 180px;
+	height: 130px;
+	opacity: 0.4;
+	filter: alpha(opacity = 40); /* For IE8 and earlier */
+	cursor: pointer;
+}
+
+.imgTema:hover
+{
+opacity:1.0;
+filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+.qtip{
+	z-index: 99999999999999 !important;
+}
+/** tema **/
+
+

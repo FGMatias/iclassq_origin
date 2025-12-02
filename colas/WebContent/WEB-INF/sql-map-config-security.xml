@@ -1,0 +1,60 @@
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" lazyLoadingEnabled="true" enhancementEnabled="true" maxSessions="128" />
+		
+		<!-- Seguridad -->
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/opcion.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/rol.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/rolxopcion.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/usuario.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/usuarioxrol.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/seguridad/dao/ibatis/maps/reinicio_servicio.xml" />
+		<!-- Seguridad -->
+		
+		<!-- 		Negocio -->
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/maestra.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/proyecto.xml" />		
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/grupoxsede.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/grupo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/subgrupo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/grupoxkiosko.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/algoritmoxgrupo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/area.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/algoritmo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/prioridad.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/empresa.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/ticket.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/secuencia.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/sucursal.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/rol_equipo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/rol_equipo_grupo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/monitor_cajas.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/ventanilla.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/publicidad.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/monitor.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/agrupador.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/evaluador.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/parametro.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/adicionales.xml" />
+
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/asistencia.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/dni.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/tabla_general.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/rol_equipo_subgrupo.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/session.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/encuesta.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/encuesta_preguntas.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/encuesta_opciones.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/encuesta_respuesta.xml" />
+		
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/tipo_documento.xml" />
+		
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/ticket_derivacion.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/motivo_ausencia.xml" />
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/usuario_ausencia.xml" />
+
+		<sqlMap resource="pe/gob/ep/iclassq/negocio/dao/ibatis/maps/audio.xml" />
+		
+</sqlMapConfig>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jee="http://www.springframework.org/schema/jee"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+  	
+  	
+     <bean id="sirepDs" class="org.apache.commons.dbcp.BasicDataSource"	destroy-method="close">
+				<property name="url">
+					<value>jdbc:mysql://localhost:3306/iclassq?useUnicode=true&amp;characterEncoding=UTF-8</value>
+				</property>
+				<property name="driverClassName">
+					<value>com.mysql.jdbc.Driver</value>
+				</property>
+				<property name="username">
+					<value>root</value>
+				</property>
+				<property name="password">
+					<value></value>
+				</property>
+		</bean>
+    
+ 
+	 <bean id="sqlMapClientSirep" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation" value="WEB-INF/sql-map-config-security.xml" />
+		<property name="dataSource" ref="sirepDs" />
+	</bean> 
+ 	
+	<!-- Seguridad -->
+	<bean id="usuarioDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.UsuarioDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>	 
+ 	
+	<bean id="rolDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.RolDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>	 
+ 	
+	<bean id="opcionDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.OpcionDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>	
+ 	
+	<bean id="rolOpcionDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.RolOpcionDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>	
+ 	
+	<bean id="usuarioRolDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.UsuarioRolDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>	
+ 	
+ 	<!-- Auditoria Reinicio Servicio --> 	 	
+	<bean id="reinicioServicioDAO" class="pe.gob.ep.iclassq.seguridad.dao.ibatis.ReinicioServicioDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+	<!-- Seguridad -->
+	
+	
+ 	
+ 	<!-- Tabla Maestra --> 	
+	<bean id="maestraDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.MaestraDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Tabla Proyecto--> 	
+	<bean id="proyectoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.ProyectoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Tabla Grupo X Sede--> 	
+	<bean id="grupoXSedeDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.GrupoXSedeDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Tabla Grupo --> 	
+	<bean id="grupoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.GrupoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Tabla Grupo --> 	
+	<bean id="subGrupoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.SubGrupoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Tabla Grupo X Kiosko--> 	
+	<bean id="grupoXKioskoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.GrupoXKioskoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Algoritmo X Grupo --> 	
+	<bean id="algoritmoXGrupoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AlgoritmoXGrupoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Algoritmo --> 	
+	<bean id="algoritmoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AlgoritmoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Area --> 	
+	<bean id="areaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AreaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Prioridad --> 	
+	<bean id="prioridadDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.PrioridadDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Empresa--> 	
+	<bean id="empresaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EmpresaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Ticket--> 	
+	<bean id="ticketDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.TicketDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Secuencia--> 	
+	<bean id="secuenciaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.SecuenciaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Sucursal--> 	
+	<bean id="sucursalDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.SucursalDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Rol Equipo--> 	
+	<bean id="rolEquipoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.RolEquipoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Rol Equipo Grupo--> 	 	
+	<bean id="rolEquipoGrupoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.RolEquipoGrupoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Rol Equipo Grupo--> 	 	
+	<bean id="monitorCajasDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.MonitorCajasDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Ventanilla--> 	 	
+	<bean id="VentanillaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.VentanillaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Publicidad--> 	 	
+	<bean id="publicidadDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.PublicidadDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Publicidad--> 	 	
+	<bean id="monitorDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.MonitorDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Agrupador--> 	 	
+	<bean id="agrupadorDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AgrupadorDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Evaluador--> 	 	
+	<bean id="evaluadorDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EvaluadorDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Parametro--> 	 	
+	<bean id="parametroDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.ParametroDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Adicionales--> 	 	
+	<bean id="adicionalesDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AdicionalesDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+  	<!-- Agrega FMV-->
+  	
+ 	<!-- asistencia--> 	 	
+	<bean id="asistenciaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AsistenciaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>  	
+
+ 	<!-- dni--> 	 	
+	<bean id="dniDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.DniDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>  
+ 	
+ 	<!-- tabla_general--> 	 	
+	<bean id="tablageneralDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.TablaGeneralDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>  
+
+  	<!-- Rol Equipo SubGrupo--> 	 	
+	<bean id="rolEquipoSubGrupoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.RolEquipoSubGrupoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Session--> 	 	
+	<bean id="sessionDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.SessionDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Encuesta --> 	 	
+	<bean id="encuestaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EncuestaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+ 	
+ 	<!-- Encuesta Preguntas --> 	 	
+	<bean id="encuestaPreguntasDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EncuestaPreguntasDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+ 	
+ 	<!-- Encuesta Opciones --> 	 	
+	<bean id="encuestaOpcionesDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EncuestaOpcionesDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+ 	
+ 	<!-- Encuesta Respuesta --> 	 	
+	<bean id="encuestaRespuestaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.EncuestaRespuestaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+ 	
+ 	<!-- Tipo Documento --> 	 	
+	<bean id="tipoDocumentoDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.TipoDocumentoDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean> 
+ 	
+ 	<!-- Ticket Derivacion --> 	 	
+	<bean id="ticketDerivacionDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.TicketDerivacionDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Motivo Ausencia --> 	 	
+	<bean id="motivoAusenciaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.MotivoAusenciaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Usuario Ausencia --> 	 	
+	<bean id="usuarioAusenciaDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.UsuarioAusenciaDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+ 	<!-- Audio --> 	 	
+	<bean id="audioDAO" class="pe.gob.ep.iclassq.negocio.dao.ibatis.AudioDAOImpl">
+		<property name="sqlMapClient" ref="sqlMapClientSirep" /> 
+ 	</bean>
+ 	
+
+</beans>

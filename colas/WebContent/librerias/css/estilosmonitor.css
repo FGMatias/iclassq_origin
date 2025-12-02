@@ -1,0 +1,108 @@
+body {
+margin: 0;
+margin-bottom: 40px;
+overflow:hidden;
+}
+
+#video_background_container {
+    width: 1920px; /* Ancho del contenedor al 100% del contenedor principal */
+    height: 0; /* Inicialmente establece la altura en 0 para el aspecto responsive */
+    padding-top: 56.25%; /* Proporción de aspecto 16:9 (9 / 16 * 100) */
+    position: relative; /* Establece posición relativa para posicionar el video interno */
+}
+
+#video_background { 
+    position: absolute; 
+    top: 0px; 
+    right: 0px; 
+    width: 100%; 
+    height: 100%; 
+    object-fit: fill; 
+
+}
+#playlist li{
+    list-style:none;
+}
+
+#txtPublicidad{
+    height:25%;
+    background: #ff6d46;
+    padding: 2px 0;
+    color: #fff;
+    font-size:31px;
+    font-weight: bold;     
+    position: absolute;
+    border:3px solid #ff6d46;
+    text-transform: uppercase;
+    top:-46px;
+}
+
+footer{
+    font-family:'Arial';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+table, td, th {
+border:3px solid #ff6d46;
+background:#fff;
+    text-align:center;
+    font-size:70px;
+    color: #ff6d46;
+    font-weight: bold;
+
+}
+
+table {
+border-collapse: collapse;
+width: 100%;
+}
+
+tr {
+    height:100%;
+    
+}
+td {
+    text-align:center;
+    font-size:45px;
+    font-weight: bold;
+    padding: 5px;
+}
+.activo{
+border: 2px solid #fff;
+background-image: linear-gradient(to right, #ff6d46, #ff3e00, #ff6d46);
+color:#fff;
+
+}
+
+.parpadea {
+	  
+  animation-name: parpadeo;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.5; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.5; }
+  100% { opacity: 1.0; }
+} 

@@ -1,0 +1,524 @@
+header {
+	display: flex !important;
+	height: 150px;
+}
+
+.myButton1 {
+    background-color:#056ec5;
+    background-image: linear-gradient(to right,#49a0e7, #3b54c5, #49a0e7); /* Standard syntax (must be last) */
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:26px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 400px;
+	height:100px;
+	text-align:center;
+	margin:5px 0;
+}
+.myButton1:hover {
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+
+.descripcion { 
+	color:#49a0e7;
+	font-size: 20px;
+	font-family: Arial;
+	display: flex;
+	align-items: center;
+}
+
+.boton{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+}
+
+#dni{
+	color: #011a86;
+	font-size:25px;
+}
+.dni-boton{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+	font-weight: normal;
+	align-content: center;
+}
+.dni-descripcion{
+	color:#49a0e7;
+	font-family: Arial;
+	font-weight: normal;
+	font-size: 32px;
+	text-align: center;
+}
+.dni-label{
+	font-size: 25px;
+	font-family:Arial;
+}
+.dni-aviso{
+	color:#49a0e7;
+	font-family:Times;
+	font-size: 37px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.teclado-boton{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+	font-weight: normal;
+	align-content: center;
+	padding: 5px 0;
+}
+.myButton2 {
+	background-image: linear-gradient(to right,#49a0e7, #3b54c5, #49a0e7); /* Standard syntax (must be last) */
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:26px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 100%;
+	height:50px;
+	text-align:center;
+	
+}
+.myButton2:hover {
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+#btnKioskoAtras{
+	color:#ffffff;
+}
+
+#btnKioskoAtras:hover{
+	color:#49a0e7;	
+}
+
+#btnKioskoContinuar{
+	color:#ffffff;
+}
+
+#btnKioskoContinuar:hover{
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+	
+}
+
+.myButton3 {
+	background-image: linear-gradient(to right,#49a0e7, #3b54c5, #49a0e7); /* Standard syntax (must be last) */
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:27px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 100%;
+	height:75px;
+	text-align:center;
+}
+.myButton3:hover {
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+.myButton4 {
+	background-image: linear-gradient(to right,#49a0e7, #3b54c5, #49a0e7); /* Standard syntax (must be last) */
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:35px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 70%;
+	text-align:center;
+}
+.myButton4:hover {
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+.myButton5 {
+	background-image: linear-gradient(to right,#49a0e7, #3b54c5, #49a0e7); /* Standard syntax (must be last) */
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:27px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 50%;
+	text-align:center;
+}
+.myButton5:hover {
+	background:#fff;
+	color:#49a0e7;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+.justificarMenu{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#ticket{
+	text-align: center;
+	font-family: monospace;
+	font-size:17px;
+}
+
+#numero_ticket{
+	font-size: 30px;
+}
+
+#espacio{
+	height:100px;
+}
+
+
+
+
+/**@Autor: WIllian Pillaca
+Estlos para ventanas modales**/
+
+
+.modal-header-success {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5cb85c;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-warning {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #f0ad4e;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-danger {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #d9534f;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-info {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5bc0de;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-primary {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #428bca;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+a:not([href]):not([tabindex]){
+	color: #fff;	
+}
+
+a:not([href]):not([tabindex]):hover{
+	color:#49a0e7;
+}
+
+
+.frame {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #F5F50E;
+    white-space: nowrap;
+    background: #144766;
+    text-align: center;    
+    
+}
+.frame:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #144766;
+    white-space: nowrap;
+    background: #fff;    
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+
+
+.modal-header-evaluador-success {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #144766;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+ #img_background{ 
+     object-fit: cover;  
+     margin-left: 50px;	 
+ } 
+
+/**poder judicial  @Autor Willian Pillaca**/
+
+.dni-descripcion-pj{
+	color:#93938E;
+	font-family: Arial;
+	font-weight: normal;
+	font-size: 32px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.myButton1-pj {
+    background-color:#B00701;
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#D6D6D6;
+	font-family:Arial;
+	font-size:26px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 400px;
+	height:100px;
+	text-align:center;
+	margin:5px 0;
+}
+
+.btnIngresoDNI {
+	background-color:#B00701;
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#D6D6D6;
+	font-family:Arial;
+	font-size:50px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 180%;
+	height:90px;
+	text-align:center;
+}
+.btnIngresoDNI:hover {
+	background:#D6D6D6;
+	color:#B00701;
+	border:2px solid #B00701;
+	text-decoration: none;
+}
+
+.btnNextPrevius {
+	background-color:#B00701;
+	-moz-border-radius:25px;
+	-webkit-border-radius:25px;
+	border-radius:15px;
+	/*border:4px solid #062096;*/
+	display:inline-block;
+	cursor:pointer;
+	color:#D6D6D6;
+	font-family:Arial;
+	font-size:50px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3b54c5;
+	width: 100%;
+	height:90px;
+	text-align:center;
+	
+}
+.btnNextPrevius:hover {
+	background:#D6D6D6;
+	color:#B00701;
+	border:2px solid #3b54c5;
+	text-decoration: none;
+}
+
+.justificarMenu-pj{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+}
+.dni-boton-pj{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+	font-weight: normal;
+	align-content: center;
+	text-decoration:none;
+}
+.dni-label-pj{
+	font-size: 25px;
+	font-family:Arial;
+	font-weight: bold;
+	color: #93938E;
+}
+
+/*evaluador*/
+.frame_1 {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #04B404;
+    white-space: nowrap;
+    background: #04B404;
+    text-align: center;    
+    
+}
+.frame_1:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #144766;
+    white-space: nowrap;
+    background: #fff;    
+}
+
+.frame_2 {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #0431B4;
+    white-space: nowrap;
+    background: #0431B4;
+    text-align: center;    
+    
+}
+.frame_2:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #0431B4;
+    white-space: nowrap;
+    background: #0431B4;    
+}
+
+.frame_3 {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #F7FE2E;
+    white-space: nowrap;
+    background: #F7FE2E;
+    text-align: center;    
+    
+}
+.frame_3:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #0431B4;
+    white-space: nowrap;
+    background: #0431B4;    
+}
+
+.frame_4 {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #FE9A2E;
+    white-space: nowrap;
+    background: #FE9A2E;
+    text-align: center;    
+    
+}
+.frame_4:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #0431B4;
+    white-space: nowrap;
+    background: #0431B4;    
+}
+.frame_5 {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #FF0000;
+    white-space: nowrap;
+    background: #FF0000;
+    text-align: center;    
+    
+}
+.frame_5:hover {
+    height: 70px;      /* equals max image height */
+    width: 100%;
+    border: 1px solid #0431B4;
+    white-space: nowrap;
+    background: #0431B4;    
+}
+

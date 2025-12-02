@@ -1,0 +1,21 @@
+body{
+    margin:0;
+}
+
+table{
+    
+    font-family:Arial;
+}
+td{
+    background:#fff;
+}
+th{
+    background:#1b8bf3;
+    color: #fff;
+}
+
+
+.btn{
+    font-size:18px;
+}
+

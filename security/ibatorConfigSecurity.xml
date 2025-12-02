@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+<classPathEntry  location="d:\driver\mysql-connector-java-5.1.31.jar"/>
+  <ibatorContext id="context1" targetRuntime="Ibatis2Java5" defaultModelType="conditional">
+   	  <ibatorPlugin type="org.apache.ibatis.ibator.plugins.EqualsHashCodePlugin" />      
+   	  <ibatorPlugin type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin" >        
+  	  	<property name="searchString" value="Example$"/>        
+  	  	<property name="replaceString" value="Criteria"/>      
+  	  </ibatorPlugin> 
+  	  <commentGenerator>
+  	  	<property name="suppressDate" value="true"/>
+  	  </commentGenerator>
+  	  <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/iclassq" 
+  	  userId="root"  
+  	  password=""/>
+  	  <javaModelGenerator targetPackage="pe.gob.ep.iclassq.negocio.bean" targetProject="security" />
+      <sqlMapGenerator targetPackage="pe.gob.ep.iclassq.negocio.dao.ibatis.maps"  targetProject="security">
+ 	  </sqlMapGenerator>
+      <daoGenerator  targetPackage="pe.gob.ep.iclassq.negocio.dao" targetProject="security" type="spring" implementationPackage="pe.gob.ep.iclassq.negocio.dao.ibatis" />
+<!-- 			<table schema="iclassq_konecta4" tableName="tbl_grupo" domainObjectName="Grupo" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_grupoxkiosko" domainObjectName="GrupoXKiosko" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_algoritmoxgrupo" domainObjectName="AlgoritmoXGrupo" />  -->
+<!-- 			<table schema="iclassq_konecta4" tableName="tbl_subgrupo" domainObjectName="SubGrupo" />       	    -->
+<!-- 			<table schema="iclassq2" tableName="tbl_area" domainObjectName="Area" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_algoritmo" domainObjectName="Algoritmo" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_prioridad" domainObjectName="Prioridad" /> -->
+<!-- 			<table schema="iclassq" tableName="tbl_empresa" domainObjectName="Empresa" /> -->
+<!-- 			<table schema="iclassdbpjv01" tableName="tbl_parametro" domainObjectName="Parametro" /> -->
+<!-- 			<table schema="iclassq" tableName="tbl_secuencia" domainObjectName="Secuencia" /> -->
+<!-- 			<table schema="iclassq2" tableName="tbl_sucursal" domainObjectName="Sucursal" /> -->
+<!-- 			<table schema="iclassq2" tableName="ctrl_seg_usuario" domainObjectName="Usuario" />  -->
+<!-- 			<table schema="iclassq" tableName="ctrl_seg_rol" domainObjectName="Rol" />  -->
+<!-- 			<table schema="iclassq2" tableName="tbl_rol_equipo" domainObjectName="RolEquipo" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_rol_equipo_grupo" domainObjectName="RolEquipoGrupo" />   -->
+			<table schema="iclassq" tableName="tbl_monitor_cajas" domainObjectName="MonitorCajas" />
+<!-- 			<table schema="essaludbd" tableName="tbl_monitor" domainObjectName="Monitor" /> -->
+<!-- 			<table schema="essaludbd" tableName="tbl_agrupador" domainObjectName="Agrupador" /> -->
+<!-- 			<table schema="iclassq" tableName="tbl_ticket" domainObjectName="Ticket" /> -->
+<!-- 			<table schema="bdessalud5" tableName="tbl_reniec" domainObjectName="Reniec" /> -->
+<!-- 			<table schema="iclassdb2" tableName="tbl_evaluador" domainObjectName="Evaluador" /> -->
+<!-- 			<table schema="iclassq_konecta2" tableName="tbl_asistencia" domainObjectName="Asistencia" /> -->
+<!-- 			<table schema="bdiclassq2" tableName="tbl_charla" domainObjectName="Charla" /> -->
+<!-- 			<table schema="iclassq_konecta3" tableName="tbl_dni" domainObjectName="Dni" /> -->
+<!-- 			<table schema="iclassqbd" tableName="tbl_rol_equipo_subgrupo" domainObjectName="RolEquipoSubGrupo" /> -->
+<!-- 			<table schema="iclassqbd3" tableName="tbl_session" domainObjectName="Session" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_ticket_adicionales" domainObjectName="Adicionales" /> -->
+<!--     		<table schema="iclassq" tableName="aud_reinicio_servicio" domainObjectName="ReinicioServicio" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_encuesta" domainObjectName="Encuesta" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_encuesta_preguntas" domainObjectName="EncuestaPreguntas" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_encuesta_opciones" domainObjectName="EncuestaOpciones" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_encuesta_respuesta" domainObjectName="EncuestaRespuesta" /> -->
+<!--     		<table schema="iclassq" tableName="tbl_publicidad" domainObjectName="Publicidad" /> -->
+<!-- 			<table schema="iclassq_konecta" tableName="cat_tipo_documento" domainObjectName="TipoDocumento" /> -->
+<!-- 			<table schema="iclassq2" tableName="tbl_ticket_derivacion" domainObjectName="TicketDerivacion" /> -->
+<!-- 			<table schema="iclassq_konecta" tableName="cat_motivo_ausencia" domainObjectName="MotivoAusencia" /> -->
+<!-- 			<table schema="iclassq_konecta" tableName="tbl_usuario_ausencia" domainObjectName="UsuarioAusencia" /> -->
+    </ibatorContext>
+</ibatorConfiguration>

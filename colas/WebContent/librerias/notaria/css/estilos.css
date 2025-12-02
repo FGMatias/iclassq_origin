@@ -1,0 +1,74 @@
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fuente/poppins-v3-latin-regular.ttf');
+}
+
+.titulo{
+	float: left;	
+	line-height:90px;
+	color: #1d85bf;
+	font-size: 30px;
+	font-weight: bold;
+}
+.logo{
+	float:left;
+	margin-top:15px;
+	margin-right:10px;
+	margin-bottom: 10px;
+}
+#usuario_login{
+	float:riht;
+	margin-right:10px;
+	margin-top:5px;
+	color:#1d85bf;
+	width:420px;
+	text-align:center;
+}
+.footer_oefa{
+	height:50px;
+	width:100%;
+	background-color:#1d85bf;
+	margin-top:10px;
+}
+
+.row-no-padding {
+  [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+.direccion_oefa{
+	height:50px;
+	background-color:#1d85bf;
+	color: #fff;
+	font-size:10px;
+	padding-top:20px;
+	padding-left:10px;
+	float: left;
+}
+
+.logo_ministerio{
+	height:100px;
+	background-color:#1d85bf;
+	float:right;
+	padding-top:20px;
+	padding-right:10px;
+}
+
+.vertical-centered-text {
+  height: 80px;
+  width: 100%;
+  display: table;
+  border:1px #ccc solid;
+}
+.vertical-centered-text > * {
+    display: table-cell;
+    vertical-align: middle;
+}
+.navbar-nav{
+	font-size:14px;
+}
+
