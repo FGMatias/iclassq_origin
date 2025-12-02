@@ -1,0 +1,18 @@
+# --- Archivos del Sistema / IDE (Eclipse) ---
+.metadata/
+.settings/
+.classpath
+.project
+Servers/
+
+# --- Archivos Compilados (Basura de Java) ---
+bin/
+build/
+*.class
+
+# --- Servidores y Temporales ---
+apache-tomcat-9.0.95/
+*.log
+
+# --- Archivos Pesados ---
+videos/
