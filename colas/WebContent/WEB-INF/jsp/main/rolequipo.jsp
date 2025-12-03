@@ -187,6 +187,7 @@
 													<option value="M">M</option>
 													<option value="K">K</option>
 													<option value="VS">VS</option>
+													<option value="VA">VA</option>
 													<option value="C">C</option>
 												</select>
 											</div>
@@ -247,6 +248,7 @@
 													<option value="M">M</option>
 													<option value="K">K</option>
 													<option value="VS">VS</option>
+													<option value="VA">VA</option>
 													<option value="C">C</option>
 												</select>
 											</div>
@@ -1063,7 +1065,7 @@ $("#btnOpenModal").click(function() {
 	var divPermiteAtencion = document.getElementById('divPermiteAtencion');
 	$("#txtTipoEquipo").change(function(){
 		var tipoEquipo = $("#txtTipoEquipo").val();
-		if (tipoEquipo == 'V' || tipoEquipo == 'VS'){
+		if (tipoEquipo == 'V' || tipoEquipo == 'VS' | tipoEquipo == 'VA'){
 			divTipoAlgoritmo.style.display = ''; 
 			divPermiteAtencion.style.display = ''; 
 		}else{
@@ -1332,8 +1334,7 @@ $("#btnGrabarRolEquipo").click(function() {
  			idSucursal: idSucursal, 
  			rol: rol, 
  			tipoEquipo: tipoEquipo, 
- 			algoritmo: algoritmo,
- 			permiteAtencion: permiteAtencion
+ 			algoritmo: algoritmo
 		},
  		success: function (response) {
  			var data = response.data; 	
@@ -1764,7 +1765,7 @@ function fnVerUsuariosXRol(tipoEquipo, id){
 				  '</tr>';	        					
 				  $('#tblListadoUsuariosXRol tbody').append(html);
 				}
-				if(tipoEquipo=='V' || tipoEquipo == 'VS'){
+				if(tipoEquipo=='V' || tipoEquipo == 'VS' || tipoEquipo == 'VA'){
 					html = '<tr>' +
 					'<td><span>'+data[i].vUsuarioUsername+'</span></td>' +
 					'<td><span>'+data[i].cUsuarioIp+'</span></td>' +				

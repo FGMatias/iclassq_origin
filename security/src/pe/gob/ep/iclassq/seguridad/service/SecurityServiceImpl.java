@@ -30,27 +30,25 @@ public class SecurityServiceImpl  implements UserDetailsService {
 	private UsuarioService usuarioService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-			Integer idSucursal = SucursalHolder.getSucursal();
-			Usuario user=usuarioService.findUsuarioByUserNameAndSucursal(username, idSucursal);
+		Usuario user=usuarioService.findUsuarioByUserName(username);
 
-			if(user==null){throw new UsernameNotFoundException("Usuario no encontrado");}
-			
-			UserSecurity userSecurity = new UserSecurity();
-			userSecurity.setUsername(user.getvUsuarioUsername());
-			userSecurity.setPassword(user.getvUsuarioPassword());
-			userSecurity.setAccountNonExpired(true);
-			userSecurity.setAccountNonLocked(true);
-			userSecurity.setCredentialsNonExpired(true);
-			userSecurity.setEnabled(Util.equiv(user.getiUsuarioEstado(), Constante.ESTADO_ACTIVO));			
-			List<PerfilSecurity> listPerfilSecurity = new ArrayList<PerfilSecurity>();
-			PerfilSecurity perfilSecurity = new PerfilSecurity();
-			perfilSecurity.setNombrePerfil("ADMIN");
-			listPerfilSecurity.add(perfilSecurity);
-			userSecurity.setPerfiles(listPerfilSecurity);  
-			userSecurity.setUsuarioLogueado(user);
+		if(user==null){throw new UsernameNotFoundException("Usuario no encontrado");}
+		
+		UserSecurity userSecurity = new UserSecurity();
+		userSecurity.setUsername(user.getvUsuarioUsername());
+		userSecurity.setPassword(user.getvUsuarioPassword());
+		userSecurity.setAccountNonExpired(true);
+		userSecurity.setAccountNonLocked(true);
+		userSecurity.setCredentialsNonExpired(true);
+		userSecurity.setEnabled(Util.equiv(user.getiUsuarioEstado(), Constante.ESTADO_ACTIVO));			
+		List<PerfilSecurity> listPerfilSecurity = new ArrayList<PerfilSecurity>();
+		PerfilSecurity perfilSecurity = new PerfilSecurity();
+		perfilSecurity.setNombrePerfil("ADMIN");
+		listPerfilSecurity.add(perfilSecurity);
+		userSecurity.setPerfiles(listPerfilSecurity);  
+		userSecurity.setUsuarioLogueado(user);
 		
 		return userSecurity;
 	}

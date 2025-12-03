@@ -546,16 +546,11 @@ public class UsuarioController {
 		Integer kioskoAlg3Minimo = Integer.parseInt(req.getParameter("kioskoAlg3Minimo"));
 		String horaInicio = req.getParameter("horaInicio");
 		String horaFin = req.getParameter("horaFin");
-		String tiempoStr = req.getParameter("tiempoObjetivoEdit");
-	    Integer tiempoObjetivo = null;
-	    if (tiempoStr != null && !tiempoStr.trim().isEmpty()) {
-	    	tiempoObjetivo = Integer.parseInt(tiempoStr);
-	    }
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		try{
 			data.put("data", essaludService.saveGruposXSede(idSucursal, nombreGrupo, prefijoGrupo, idAlgoritmo, idArea, 
-					descripcionCorta, descripcionLarga, kioskoAlg3Entrada, kioskoAlg3Minimo, horaInicio, horaFin, tiempoObjetivo));
+					descripcionCorta, descripcionLarga, kioskoAlg3Entrada, kioskoAlg3Minimo, horaInicio, horaFin));
 //			data.put("data", essaludService.listarGruposBySucursal(idSucursal));
 			data.put("message", "El grupo ha sido grabado de forma satisfactoria");
 			data.put("success", Boolean.TRUE);
@@ -1094,16 +1089,11 @@ public class UsuarioController {
 		String descripLargaEdit = req.getParameter("descripLargaEdit");
 		String horaInicioEdit= req.getParameter("horaInicioEdit");
 		String horaFinEdit = req.getParameter("horaFinEdit");
-		String tiempoStr = req.getParameter("tiempoObjetivoEdit");
-	    Integer tiempoObjetivoEdit = null;
-	    if (tiempoStr != null && !tiempoStr.trim().isEmpty()) {
-	        tiempoObjetivoEdit = Integer.parseInt(tiempoStr);
-	    }
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		try{	
 			data.put("data", essaludService.editGrupos(idGrupo, idSucursal, nombreEdit, prefijoEdit, algEdit, areaEdit, descripCortaEdit, 
-					kioskoEntradaEdit, kioskoMinimoEdit,descripLargaEdit, horaInicioEdit, horaFinEdit, tiempoObjetivoEdit));
+					kioskoEntradaEdit, kioskoMinimoEdit,descripLargaEdit, horaInicioEdit, horaFinEdit));
 			data.put("message", "el grupo ha sido editado de forma satisfactoria");
 			data.put("success", Boolean.TRUE);
 		}catch (GenericExcepcion ge) {

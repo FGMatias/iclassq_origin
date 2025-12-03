@@ -21,17 +21,16 @@
     <b:property name="authenticationSuccessHandler" ref="successHandlerStandar" />
 </b:bean>
 
- <b:bean id="successHandlerStandar"
-        class="pe.gob.ep.iclassq.filter.CustomAuthenticationSuccessHandler">
-        	<b:property name="alwaysUseDefaultTargetUrl" value="false"/>	
-            <b:property name="defaultTargetUrl" value="/main.app" />
-            <b:property name="targetUrlParameter" value="redirectUrl"/>
-    </b:bean>
+<b:bean id="successHandlerStandar" class="pe.gob.ep.iclassq.filter.CustomAuthenticationSuccessHandler">
+	<b:property name="alwaysUseDefaultTargetUrl" value="false"/>	
+	<b:property name="defaultTargetUrl" value="/main.app" />
+	<b:property name="targetUrlParameter" value="redirectUrl"/>
+</b:bean>
 
-    <b:bean id="failureHandlerStandar"
-        class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-        <b:property name="defaultFailureUrl" value="/login.app" />
-    </b:bean>
+<b:bean id="failureHandlerStandar"
+    class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+    <b:property name="defaultFailureUrl" value="/login.app" />
+</b:bean>
     
 <b:bean id="authenticationManagerForStandar" class="org.springframework.security.authentication.ProviderManager">
 	<b:property name="authenticationEventPublisher" ref="defaultAuthEventPublisher"/>
@@ -43,11 +42,11 @@
 </b:bean>
          
 <b:bean id="standarAuthentificationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-                <b:property name="userDetailsService">
-                    <b:ref bean="securityService" />
-                </b:property>
-                <b:property name="passwordEncoder" ref="passwordEncoder" />
-            </b:bean>
+    <b:property name="userDetailsService">
+        <b:ref bean="securityService" />
+    </b:property>
+    <b:property name="passwordEncoder" ref="passwordEncoder" />
+</b:bean>
             
 <b:bean id="logoutFilterStandar" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 			<b:constructor-arg value="/login.app" index="0" />

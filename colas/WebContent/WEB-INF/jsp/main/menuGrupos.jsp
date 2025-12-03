@@ -1,135 +1,190 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <title>ICLASSQ</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="librerias/css/bootstrap.min.css" rel="stylesheet">
-  <link href="librerias/css/estilosmenu.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="librerias/libBase/include.js"></script>
-  <script src="librerias/libBase/include.essalud.js"></script>  
-  <script src="librerias/js/bootstrap.min.js"></script>
-  <script src="librerias/admin/plugins/jquery/jquery.min.js"></script>
-  
-  
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ICLASSQ</title>
+    
+    <script src="librerias/essalud/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="librerias/essalud/css/boostrap.min.css">
+    <link href="librerias/css/estilosGrupos.css" rel="stylesheet">
 </head>
-<body>  
-	<header>
-		<img id="img_background">		
-	</header>
-	<div class="container">
-<!--         <div class="row"> -->
-<!--             <div id="espacio" class="col-md-6"> -->
-<!--             </div> -->
-<!--             <div class="col-md-2 offset-md-4"> -->
-<!--             	<span style="font-size:30px;margin-top:0px"><a href="logout.app"><i class="fa fa-power-off"></i></a></span> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--         <br><br> -->
-        <div class="row">
-        	<div id="divDocumento" class="dni-descripcion col-sm-12">
-        		<span id="txtNumeroDocumento"></span>
-        	</div>
-        </div><br>
-        <div id="pnlAgrupadores">
-	        
-        </div>
-        
-        <br><br>        
-        <br>
-		<div class="row">
-			<div class="teclado-boton col-xs-12 col-md-3">
-				<a href="teclado.app" class="justificarMenu myButton2">Regresar</a>
+<body>
+
+    <input type="hidden" id="h_idSucursal" value="${usuario.iSucursal}">
+    <input type="hidden" id="h_idRol" value="${usuario.iRolEquipo}">
+    <input type="hidden" id="h_pideDoc" value="${usuario.iPideDocumento}">
+    <input type="hidden" id="h_numDoc" value="${numDoc}">
+    <input type="hidden" id="h_tipoDoc" value="${tipoDoc}">
+
+    <div class="kiosk-container">
+        <div class="kiosk-header">
+            <div class="logo-container">
+                <img id="img_background" src="" alt="Logo Empresa">
             </div>
+            <div class="user-info">
+                <h2>NÚMERO DE DOCUMENTO: <p id="txtNumeroDocumento"></p></h2>
+            </div>
+        </div>
+
+        <div class="groups-wrapper">
+            <div id="loadingMsg">
+                <i class="fa fa-spinner fa-spin"></i> Cargando servicios...
+            </div>
+            
+            <div id="gridContainer" class="groups-grid">
+            </div>
+        </div>
+
+        <div class="pagination-controls">
+            <a href="teclado.app" class="back-btn" id="btnRegresar">
+                <i class="fa fa-arrow-left" style="margin-right:10px;"></i> REGRESAR
+            </a>
+
+            <button id="btnPrev" class="nav-btn btn-prev" onclick="pagination.prev()">
+                <i class="fa fa-chevron-left"></i> &nbsp; ANTERIOR
+            </button>
+            
+            <div id="pageIndicator" class="page-indicator"></div>
+            
+            <button id="btnNext" class="nav-btn btn-next" onclick="pagination.next()">
+                SIGUIENTE &nbsp; <i class="fa fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 
-<script>
+    <script>
+        function fnAbrirSubGrupos(prefijo) {
+            var numDoc = $('#h_numDoc').val();
+            var pideDoc = $('#h_pideDoc').val();
+            var tipoDoc = $('#h_tipoDoc').val();
+            
+            if (pideDoc != 1) {  
+                tipoDoc = 0;
+                numDoc = '00000000';
+            }
 
-		function fnAbrirSubGrupos(prefijo){//'N. P'							
-			var numDoc = '${numDoc}';
-			var pideDoc = '${usuario.iPideDocumento}';
-			var tipoDoc = '${tipoDoc}';
-			
-			if ( pideDoc != 1){	
-				tipoDoc = 0;
-				numDoc = 00000000
-			}
+            window.location.href = 'kiosco.app?numDoc=' + numDoc + '&tipoDoc=' + tipoDoc + '&prefijo=' + prefijo;
+        }
 
-			window.location.href = 'kiosco.app?numDoc='+numDoc+'&tipoDoc='+tipoDoc+'&prefijo='+prefijo;
-		}
+        var pagination = {
+            currentPage: 1,
+            itemsPerPage: 6,
+            items: [],
+            totalPages: 0,
 
-		$(document).ready(function() {
-			var idSucursal = '${usuario.iSucursal}';
-			console.log(idSucursal);
-			
-			$.ajax({
-				type: 'POST',
-				url: 'getempresabyidsucursal.app',
-				data: {idSucursal: idSucursal},
-				success: function (response) {
-					var data = response.data;
-					var idEmpresa = data;
-					var idRol = '${usuario.iRolEquipo}';
-					var pideDoc = '${usuario.iPideDocumento}';
-					var divDocumento = document.getElementById('divDocumento');
-					var numDoc = '${numDoc}';
-					console.log(numDoc);
-					var tipoDoc = '${tipoDoc}';
-					console.log(tipoDoc);
-					if ( pideDoc == 1){
-						if ( tipoDoc == 1 ) {
-							$('#txtNumeroDocumento').html("DNI: " + numDoc);
-						} else {
-							$('#txtNumeroDocumento').html("C.E: " + numDoc);
-						}						
-						$(".teclado-boton").css("display","");
-					} else {
-						divDocumento.style.display = '';
-						//$('#txtNumDni').html("<span></span>");
-						$(".teclado-boton").css("display","none");
-					}
+            init: function() {
+                if (window.innerWidth >= 1280) { this.itemsPerPage = 6; }
+                
+                this.items = document.querySelectorAll('.group-card');
+                var totalItems = this.items.length;
+                
+                if (totalItems > 0) {
+                    this.totalPages = Math.ceil(totalItems / this.itemsPerPage);
+                    this.showPage(1);
+                } else {
+                    document.getElementById('pageIndicator').innerText = '';
+                }
+            },
 
-					$.ajax({
-						type: 'POST',
-						url: 'getempresabyid.app',
-						data: {idEmpresa: idEmpresa},
-						success: function (response) {
-						var data = response.data;
-						$('#img_background').attr("src",data.urlLogo);
-						}
-					});
-					
-					console.log(idRol)
-					$.ajax({
-						type: 'POST',
-						url: 'listargruposxtiempo.app',				
-						data: {idRol: idRol}, 
-						success: function (response) {
-							var data = response.data;		 
-							console.log(data);
-							var html='';
-							for(var i=0; i<data.length; i++){								
-			    				html = 
-				    				'<div class="row">'+
-				    					'<div class="boton col-sm-6 offset-sm-3">'+
-				    						'<a onclick="fnAbrirSubGrupos(\''+data[i].prefijo+'\')" style="font-size:35px" class="justificarMenu myButton1">'+data[i].nombre+'</a>'+
-				    					'</div>'+
-			    	       			'</div><br><br>';
-			               		$('#pnlAgrupadores').append(html);
-			        		}		    		
-						}
-					});
-				}
-			});	
-		});
+            showPage: function(page) {
+                this.currentPage = page;
+                
+                this.items.forEach(item => item.classList.remove('visible'));
 
+                var start = (page - 1) * this.itemsPerPage;
+                var end = start + this.itemsPerPage;
+
+                for (var i = start; i < end; i++) {
+                    if (this.items[i]) {
+                        this.items[i].classList.add('visible');
+                    }
+                }
+                this.updateControls();
+            },
+
+            next: function() {
+                if (this.currentPage < this.totalPages) this.showPage(this.currentPage + 1);
+            },
+
+            prev: function() {
+                if (this.currentPage > 1) this.showPage(this.currentPage - 1);
+            },
+
+            updateControls: function() {
+                var btnPrev = document.getElementById('btnPrev');
+                var btnNext = document.getElementById('btnNext');
+                var indicator = document.getElementById('pageIndicator');
+
+                indicator.innerText = 'Página ' + this.currentPage + ' de ' + this.totalPages;
+
+                if (this.currentPage > 1) btnPrev.classList.add('show');
+                else btnPrev.classList.remove('show');
+
+                if (this.currentPage < this.totalPages) btnNext.classList.add('show');
+                else btnNext.classList.remove('show');
+            }
+        };
+
+        $(document).ready(function() {
+            var idSucursal = $('#h_idSucursal').val();
+            
+            $.ajax({
+                type: 'POST',
+                url: 'getempresabyidsucursal.app',
+                data: {idSucursal: idSucursal},
+                success: function (response) {
+                    var idEmpresa = response.data;
+                    
+                    var pideDoc = $('#h_pideDoc').val();
+                    var numDoc = $('#h_numDoc').val();
+                    var tipoDoc = $('#h_tipoDoc').val();
+                    $('#txtNumeroDocumento').html("<strong>" + numDoc + "</strong>");
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'getempresabyid.app',
+                        data: {idEmpresa: idEmpresa},
+                        success: function (resImg) {
+                            if(resImg.data && resImg.data.urlLogo){
+                                $('#img_background').attr("src", resImg.data.urlLogo);
+                            }
+                        }
+                    });
+
+                    var idRol = $('#h_idRol').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'listargruposxtiempo.app',                
+                        data: {idRol: idRol}, 
+                        success: function (resGrupos) {
+                            var data = resGrupos.data;       
+                            var html = '';
+                            
+                            if(data && data.length > 0){
+                                for(var i=0; i<data.length; i++){
+                                    html += '<div class="group-card" onclick="fnAbrirSubGrupos(\'' + data[i].prefijo + '\')">' +
+                                                '<div class="group-text">' + data[i].nombre + '</div>' +
+                                            '</div>';
+                                }
+                            } else {
+                                html = '<div style="width:100%; text-align:center;">No hay grupos disponibles</div>';
+                            }
+                            
+                            $('#loadingMsg').hide();
+                            $('#gridContainer').html(html);
+                            
+                            pagination.init();
+                        },
+                        error: function() {
+                            $('#loadingMsg').html('Error al cargar los grupos.');
+                        }
+                    });
+                }
+            }); 
+        });
     </script>
-
 </body>
 </html>

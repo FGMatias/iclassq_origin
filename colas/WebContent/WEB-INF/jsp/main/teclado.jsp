@@ -1,207 +1,244 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ICLASSQ</title>
-    <link href="librerias/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="librerias/css/estilosKiosko.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="librerias/jquery-confirm/demo/demo.css">
-    <link rel="stylesheet" type="text/css" href="librerias/jquery-confirm/css/jquery-confirm.css"/>
-    <script src="librerias/general/general.js"></script> 
+    <script src="librerias/essalud/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="librerias/essalud/css/boostrap.min.css">
+    <link href="librerias/css/estilosKiosko.css" rel="stylesheet">
 </head>
 <body>
-    <div class="kiosco-container">
-        <header class="kiosco-header">
-            <div class="logo-container">
-                <img id="img_background" alt="Logo" class="logo">		
-            </div>
-        </header>
 
-        <main class="kiosco-main">
-            <div class="form-container">
-                <div class="document-section">
-                    <label class="document-label">Seleccione su documento:</label>
-                    <select class="document-select" id="cboTipoDocumento">
-                    </select>
+    <div class="kiosk-container">
+        <form id="formKiosko" class="kiosk-card" action="generarticketatencion.app" method="post">
+            
+            <div class="col-info">
+                <div class="logo-area">
+                    <img id="img_background" src="librerias/imagenes/essalud.png" alt="Logo">
+                    <h2>Bienvenido</h2>
+                    <p style="color:#777; font-size: 1.1em;">Ingrese sus datos para generar el ticket</p>
                 </div>
 
-                <div class="input-section">
-                    <label class="input-label">INGRESE EL NRO:</label>
+                <div class="form-group-kiosk">
+                    <label class="kiosk-label" for="cboTipoDocumento">Tipo de Documento</label>
+                    <select id="cboTipoDocumento" name="tipoDoc" class="kiosk-select"></select>
+                </div>
+
+                <div class="form-group-kiosk">
+                    <label class="kiosk-label" for="txtNumeroDocumento">Número de Documento</label>
                     <input type="text" 
-                           autocomplete="off" 
                            id="txtNumeroDocumento" 
-                           class="document-input" 
-                           maxlength="12"
-                           readonly
-                           inputmode="numeric"
-                           pattern="\d*">
+                           name="nroDoc" 
+                           class="kiosk-input" 
+                           placeholder="Ingrese su número" 
+                           readonly 
+                           autocomplete="off" 
+                           maxlength="15">
                 </div>
 
-                <div class="keyboard-container">
-                    <div class="keyboard-grid">
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(1)">1</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(2)">2</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(3)">3</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(4)">4</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(5)">5</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(6)">6</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(7)">7</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(8)">8</button>
-                        <button type="button" class="key-btn number-key" onclick="mostrarValor(9)">9</button>
-                        <button type="button" class="key-btn action-key" onclick="document.getElementById('txtNumeroDocumento').value=document.getElementById('txtNumeroDocumento').value.slice(0, -1);">
-                            <i class="fa fa-backspace"></i> Borrar
-                        </button>
-                        <button type="button" class="key-btn number-key zero-key" onclick="mostrarValor(0)">0</button>
-                    </div>
-                </div>
+                <div id="msgError" class="error-msg" style="display:none;"></div>
+            </div>
 
-                <div class="continue-section">
-                    <button id="btnKioskoContinuar" class="continue-btn">
-                        <i class="fa fa-arrow-right"></i>
-                        Continuar
+            <div class="col-numpad">
+                <div class="numpad-grid">
+                    <button type="button" class="num-btn" onclick="teclado.add('1')">1</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('2')">2</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('3')">3</button>
+
+                    <button type="button" class="num-btn" onclick="teclado.add('4')">4</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('5')">5</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('6')">6</button>
+
+                    <button type="button" class="num-btn" onclick="teclado.add('7')">7</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('8')">8</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('9')">9</button>
+
+                    <button type="button" class="num-btn btn-c" onclick="teclado.clearAll()">BORRAR<br>TODO</button>
+                    <button type="button" class="num-btn" onclick="teclado.add('0')">0</button>
+                    <button type="button" class="num-btn btn-back" onclick="teclado.backspace()">&#9003;</button>
+
+                    <button id="btnKioskoContinuar" type="button" class="btn-action">
+                        CONTINUAR
                     </button>
                 </div>
             </div>
-        </main>
+
+        </form>
     </div>
     
-<script src="librerias/admin/plugins/jquery/jquery.min.js"></script>
-<script src="librerias/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="librerias/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="librerias/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="librerias/admin/plugins/jqvmap/maps/jquery.vmap.world.js"></script>
-<script src="librerias/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
-<script src="librerias/admin/plugins/moment/moment.min.js"></script>
-<script src="librerias/admin/plugins/daterangepicker/daterangepicker.js"></script>
-<script src="librerias/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<script src="librerias/admin/dist/js/adminlte.js"></script>
-<script src="librerias/admin/dist/js/demo.js"></script>
-<script src="librerias/admin/plugins/datatables/jquery.dataTables.js"></script>
-<script src="librerias/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <jsp:include page="utils/inputValidators.jsp" />
 
-<script src="librerias/jquery-confirm/demo/libs/bundled.js"></script>
-<script type="text/javascript" src="librerias/jquery-confirm/js/jquery-confirm.js"></script>
-    
-<script>
-    function mostrarValor(num) {
-        var cantDigitos = 0;
-        if ($('#cboTipoDocumento').val() == 1) {
-            cantDigitos = 8;
-            if ($('#txtNumeroDocumento').val().length < cantDigitos) {
-                $('#txtNumeroDocumento').val($('#txtNumeroDocumento').val() + num);
+    <script>
+        var teclado = {
+            config: {
+                '1': { max: 8, name: 'DNI', pattern: /\d/ },
+                '2': { max: 9, name: 'PTP', pattern: /\d/ },
+                '3': { max: 9, name: 'CE', pattern: /\d/ },
+                '4': { max: 11, name: 'RUC', pattern: /\d/ } 
+            },
+
+            init: function() {
+                var self = this;
+                var idSucursal = '${usuario.iSucursal}';
+                var idEmpresa = '${usuario.iEmpresa}';
+
+                this.loadLogo(idSucursal);
+
+                this.loadTiposDocumento();
+
+                aplicarRestriccionDocumento('#cboTipoDocumento', '#txtNumeroDocumento');
+
+                $('#cboTipoDocumento').on('change', function() {
+                    self.clearAll();
+                    self.actualizarModoInput();
+                });
+
+                $('#btnKioskoContinuar').click(function() {
+                    self.submit();
+                });
+
+                $('#txtNumeroDocumento').on('focus', function(e) {
+                    $(this).blur();
+                });
+
+                this.actualizarModoInput();
+            },
+
+            loadLogo: function(idSucursal) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'getempresabyidsucursal.app',
+                    data: {idSucursal: idSucursal},
+                    success: function(response) {
+                        var idEmpresa = response.data;
+                        $.ajax({
+                            type: 'POST',
+                            url: 'getempresabyid.app',
+                            data: {idEmpresa: idEmpresa},
+                            success: function(response) {
+                                var data = response.data;
+                                $('#img_background').attr("src", data.urlLogo);
+                            }
+                        });
+                    }
+                });
+            },
+
+            loadTiposDocumento: function() {
+                $.ajax({ 
+                    type: 'POST', 
+                    url: 'listarTipoDocumentoXGeneraTicket.app',
+                    success: function (response) {
+                        var data = response.data;
+                        $.each(data, function (index, item) {
+                            $("<option/>")
+                                .attr("value", item.id)
+                                .text(item.descripcion)
+                                .appendTo("#cboTipoDocumento");
+                        });
+                    }
+                });
+            },
+
+            actualizarModoInput: function() {
+                var tipo = $('#cboTipoDocumento').val();
+                var $input = $('#txtNumeroDocumento');
+                var config = this.config[tipo];
+
+                if (tipo == '4') {
+                    $input.prop('readonly', false)
+                          .attr('inputmode', 'text')
+                          .removeAttr('pattern');
+                } else {
+                    $input.prop('readonly', true)
+                          .attr('inputmode', 'numeric')
+                          .attr('pattern', '\\d*');
+                }
+                
+                if (config) {
+                    $input.attr('maxlength', config.max);
+                }
+            },
+
+            add: function(digit) {
+                var $input = $('#txtNumeroDocumento');
+                var currentVal = $input.val();
+                var tipoDoc = $('#cboTipoDocumento').val();
+                var config = this.config[tipoDoc];
+
+                if (!config) return;
+
+                if (!config.pattern.test(digit)) {
+                    return;
+                }
+
+                if (currentVal.length < config.max) {
+                    var newVal = currentVal + digit;
+                    $input.val(newVal);
+                    
+                    $input.trigger('input');
+                    
+                    this.showError('');
+                }
+            },
+
+            backspace: function() {
+                var $input = $('#txtNumeroDocumento');
+                var val = $input.val();
+                $input.val(val.slice(0, -1));
+                
+                $input.trigger('input');
+                
+                this.showError('');
+            },
+
+            clearAll: function() {
+                $('#txtNumeroDocumento').val('');
+                this.showError('');
+            },
+
+            showError: function(msg) {
+                var $error = $('#msgError');
+                if (msg) {
+                    $error.html('⚠ ' + msg).fadeIn();
+                } else {
+                    $error.fadeOut();
+                }
+            },
+
+            submit: function() {
+                var numDoc = $('#txtNumeroDocumento').val();
+                var tipoDoc = $('#cboTipoDocumento').val();
+                var config = this.config[tipoDoc];
+
+                if (!numDoc || numDoc.trim() === '') {
+                    this.showError('Por favor, ingrese su número de documento');
+                    return;
+                }
+
+                if (!isValidInputLength(numDoc)) {
+                    this.showError('El documento debe tener entre 7 y 12 caracteres');
+                    return;
+                }
+
+                if (config && numDoc.length !== config.max) {
+                    this.showError('El ' + config.name + ' debe tener ' + config.max + ' dígitos');
+                    return;
+                }
+
+                var self = this;
+                window.location.href = 'menugrupos.app?numDoc=' + numDoc + '&tipoDoc=' + tipoDoc;
             }
-        }
-        if ($('#cboTipoDocumento').val() == 2) {
-            cantDigitos = 9;
-            if ($('#txtNumeroDocumento').val().length < cantDigitos) {
-                $('#txtNumeroDocumento').val($('#txtNumeroDocumento').val() + num);
-            }
-        }
-        if ($('#cboTipoDocumento').val() == 3) {
-            cantDigitos = 12;
-            if ($('#txtNumeroDocumento').val().length < cantDigitos) {
-                $('#txtNumeroDocumento').val($('#txtNumeroDocumento').val() + num);
-            }
-        }
-        if ($('#cboTipoDocumento').val() == 4) {
-            cantDigitos = 12;
-            if ($('#txtNumeroDocumento').val().length < cantDigitos) {
-                $('#txtNumeroDocumento').val($('#txtNumeroDocumento').val() + num);
-            }
-        }
-    }
+        };
 
-    function actualizarModoInput() {
-        var tipo = $('#cboTipoDocumento').val();
-        var $input = $('#txtNumeroDocumento');
-
-        if (tipo == '4') {
-            $input.prop('readonly', false)
-                  .attr('inputmode', 'text')   
-                  .removeAttr('pattern');       
-        } else {
-            $input.prop('readonly', true)
-                  .attr('inputmode', 'numeric')
-                  .attr('pattern', '\\d*');
-        }
-        $input.val('').focus();
-    }
-    
-    $('#cboTipoDocumento').on('change', function() {
-        $('#txtNumeroDocumento').val("");
-        $('#txtNumeroDocumento').focus();
-        console.log(this.value);
-    });
-
-    $('#txtNumeroDocumento').on('input', function() {
-        var valor = $(this).val();
-        var cantDigitos = $('#cboTipoDocumento').val() == 1 ? 8 : 12; 
-
-        if (valor.length > cantDigitos) {
-            $(this).val(valor.slice(0, cantDigitos));
-        }
-    });
-
-    $("#btnKioskoContinuar").click(function() {
-        var tipoDoc = $("#cboTipoDocumento").val();
-        var iValidaDoc = '${usuario.iValidaDocumento}';
-        var idUsuario = '${usuario.iUsuarioId}';
-        var idSucursal = '${usuario.iSucursal}';
-        var numDoc = $("#txtNumeroDocumento").val();
-        
-        $.ajax({
-        	type: 'POST',
-        	url: 'existsPerson.app',
-        	data: { numeroDocumento: numDoc },
-        	success: function(response) {
-        		if (response.data) {
-                    window.location.href = 'menugrupos.app?numDoc=' + numDoc + '&tipoDoc=' + tipoDoc;
-        		} else {
-        			window.location.href = 'datosPersonales.app?numDoc=' + numDoc + '&tipoDoc=' + tipoDoc;
-        		}
-        	}
+        $(document).ready(function() {
+            teclado.init();
         });
-    });    
-    
-    $(document).ready(function() {
-        var idSucursal = '${usuario.iSucursal}';
-        var idEmpresa = '${usuario.iEmpresa}';
-        $('#txtNumeroDocumento').focus();
-        actualizarModoInput();
+    </script>
 
-        $('#cboTipoDocumento').on('change', function() {
-            actualizarModoInput();
-        });
-        
-        $.ajax({
-            type: 'POST',
-            url: 'getempresabyid.app',
-            data: { idEmpresa: idEmpresa }, 
-            success: function (response) {
-                var data = response.data;
-                $('#img_background').attr("src", data.urlLogo);
-            }
-        });
-        
-        $.ajax({ 
-    		type: 'POST', 
-    		url: 'listarTipoDocumentoXGeneraTicket.app',   		
-    		success: function (response) {
-    			var data = response.data;
-    			$.each(data, function (index, item) {
-                    $("<option/>")
-                            .attr("value", item.id)
-                        	.text(item.descripcion)
-                            .appendTo("#cboTipoDocumento");
-                });	
-    		}
-    	});
-    });
-</script>
-        
 </body>
 </html>

@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    background-color: #f4f6f9;
+}
+
+.kiosk-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding: 0 25px 0 25px;
+    box-sizing: border-box;
+}
+
+.kiosk-header {
+    height: 15%; 
+    min-height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius: 0;
+    padding: 0 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-bottom: 5px solid #d32f2f;
+    margin-bottom: 0;
+    margin-top: 0;
+    z-index: 10;
+}
+
+.logo-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    max-height: 70%;
+    width: auto;
+}
+
+.user-info {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-info h2 {
+    margin: 0;
+    color: #333;
+    font-weight: 700;
+    font-size: 1.6em;
+    line-height: 1.2;
+}
+
+.user-info p {
+    margin: 0;
+    color: #666;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.groups-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0; 
+    overflow: hidden;
+}
+
+#loadingMsg {
+    font-size: 2em;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.group-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-left: 8px solid #d32f2f;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 10px;
+    text-align: center;
+}
+
+.group-card.visible { 
+    display: flex; 
+}
+
+.group-card:active {
+    transform: scale(0.97);
+    background-color: #ffebee;
+    border-color: #d32f2f;
+}
+
+.group-text {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.1;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    hyphens: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding: 10px; 
+}
+
+.pagination-controls {
+    height: 12%;
+    min-height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.nav-btn, .back-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0 35px;
+    height: 70%;
+    min-height: 50px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    color: white !important;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.nav-btn:active, .back-btn:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
+
+.btn-next { 
+    background-color: #2e7d32; 
+    visibility: hidden; 
+}
+
+.btn-next.show { 
+    visibility: visible; 
+}
+
+.btn-prev { 
+    background-color: #1976d2; 
+    visibility: hidden; 
+}
+
+.btn-prev.show { 
+    visibility: visible; 
+}
+
+.back-btn { 
+    background-color: #c62828; 
+}
+
+.back-btn:hover { 
+    color: white; 
+    text-decoration: none; 
+}
+
+.page-indicator {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #555;
+}
+
+@media (min-width: 1280px) {
+    .groups-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+    .group-text { 
+        font-size: 2.2em; 
+    }
+}

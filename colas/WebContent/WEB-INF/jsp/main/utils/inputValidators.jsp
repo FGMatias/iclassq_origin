@@ -24,10 +24,10 @@
 				case "3": // Carnet Extranjería
 					valor = valor.replace(/\D/g, '').slice(0, 9);
 					break;
-				case "4": // Pasaporte: letras y números, máx 12 caracteres
-					valor = valor.replace(/[^a-zA-Z0-9]/g, '').slice(0, 12);
-					break;
-				case "5": // RUC: solo 11 números
+// 				case "4": // Pasaporte: letras y números, máx 12 caracteres
+// 					valor = valor.replace(/[^a-zA-Z0-9]/g, '').slice(0, 12);
+// 					break;
+				case "4": // RUC: solo 11 números
 					valor = valor.replace(/\D/g, '').slice(0, 11);
 				default:
 					valor = valor.replace(/\D/g, '');

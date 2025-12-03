@@ -960,66 +960,6 @@ public class GrupoCriteria {
 			return this;
 		}
 
-		public Criteria andTiempoObjetivoIsNull() {
-			addCriterion("tiempo_objetivo is null");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoIsNotNull() {
-			addCriterion("tiempo_objetivo is not null");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoEqualTo(Integer value) {
-			addCriterion("tiempo_objetivo =", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoNotEqualTo(Integer value) {
-			addCriterion("tiempo_objetivo <>", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoGreaterThan(Integer value) {
-			addCriterion("tiempo_objetivo >", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoGreaterThanOrEqualTo(Integer value) {
-			addCriterion("tiempo_objetivo >=", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoLessThan(Integer value) {
-			addCriterion("tiempo_objetivo <", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoLessThanOrEqualTo(Integer value) {
-			addCriterion("tiempo_objetivo <=", value, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoIn(List<Integer> values) {
-			addCriterion("tiempo_objetivo in", values, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoNotIn(List<Integer> values) {
-			addCriterion("tiempo_objetivo not in", values, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoBetween(Integer value1, Integer value2) {
-			addCriterion("tiempo_objetivo between", value1, value2, "tiempoObjetivo");
-			return this;
-		}
-
-		public Criteria andTiempoObjetivoNotBetween(Integer value1, Integer value2) {
-			addCriterion("tiempo_objetivo not between", value1, value2, "tiempoObjetivo");
-			return this;
-		}
-
 		public Criteria andEstadoIsNull() {
 			addCriterion("estado is null");
 			return this;
@@ -1077,66 +1017,6 @@ public class GrupoCriteria {
 
 		public Criteria andEstadoNotBetween(Integer value1, Integer value2) {
 			addCriterion("estado not between", value1, value2, "estado");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalIsNull() {
-			addCriterion("id_grupo_global is null");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalIsNotNull() {
-			addCriterion("id_grupo_global is not null");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalEqualTo(Integer value) {
-			addCriterion("id_grupo_global =", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalNotEqualTo(Integer value) {
-			addCriterion("id_grupo_global <>", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalGreaterThan(Integer value) {
-			addCriterion("id_grupo_global >", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalGreaterThanOrEqualTo(Integer value) {
-			addCriterion("id_grupo_global >=", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalLessThan(Integer value) {
-			addCriterion("id_grupo_global <", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalLessThanOrEqualTo(Integer value) {
-			addCriterion("id_grupo_global <=", value, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalIn(List<Integer> values) {
-			addCriterion("id_grupo_global in", values, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalNotIn(List<Integer> values) {
-			addCriterion("id_grupo_global not in", values, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalBetween(Integer value1, Integer value2) {
-			addCriterion("id_grupo_global between", value1, value2, "idGrupoGlobal");
-			return this;
-		}
-
-		public Criteria andIdGrupoGlobalNotBetween(Integer value1, Integer value2) {
-			addCriterion("id_grupo_global not between", value1, value2, "idGrupoGlobal");
 			return this;
 		}
 	}

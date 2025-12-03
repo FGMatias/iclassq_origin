@@ -170,4 +170,5 @@ public interface TicketService {
     
     public int contarTicketAtendidosDia(Map<String,Object> params);
     
+    public List<TipoDocumento> listarTipoDocumentoXGeneraTicket() throws Exception;
 }

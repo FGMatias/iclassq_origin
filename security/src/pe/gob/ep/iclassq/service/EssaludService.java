@@ -53,7 +53,7 @@ public interface EssaludService {
 	public List<Proyecto> listarProyectosXUsuarioAndEtapa(Integer estado) throws Exception;
 	public List<Grupo> saveGruposXSede(Integer idSucursal, String nombreGrupo, String prefijoGrupo,  			
 			Integer idAlgoritmo, Integer idArea, String descripcionCorta, String descripcionLarga,  		
-			Integer kioskoAlg3Entrada, Integer kioskoAlg3Minimo, String horaInicio, String horaFin, Integer tiempoObjetivo) throws Exception;
+			Integer kioskoAlg3Entrada, Integer kioskoAlg3Minimo, String horaInicio, String horaFin) throws Exception;
 	
 	public List<SubGrupo> saveSubGruposXSede(Integer idGrupo, String nombreSubGrupo, String prefijoSubGrupo,   			
 			Integer idPrioridad , Integer idSecuencia , String descCortaSubGrupo, String descLargaSubGrupo,  		
@@ -96,7 +96,7 @@ public interface EssaludService {
 	public Grupo getGrupoById(Integer idGrupo) throws Exception;
 	public List<Grupo> editGrupos(Integer idGrupo, Integer idSucursal, String nombreEdit, String prefijoEdit, Integer algEdit,
 			Integer areaEdit, String descripCortaEdit, Integer kioskoEntradaEdit, Integer kioskoMinimoEdit, 
-			String descripLargaEdit, String horaInicioEdit, String horaFinEdit, Integer tiempoObjetivoEdi) throws Exception;
+			String descripLargaEdit, String horaInicioEdit, String horaFinEdit) throws Exception;
 	
 	public SubGrupo getSubGrupoById(Integer idSubGrupo) throws Exception;
 	public List<SubGrupo> editSubGrupos(Integer idGrupo, Integer idSubGrupo, String nombreSubGrupoEdit, String prefijoSubGrupoEdit,

@@ -1749,7 +1749,6 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			    OR 
 			    (
 			      t.id_ventanilla_derivacion = 0
-			      AND re.puede_jalar = 1
 			      AND t.ventanilla_id_usuario <> #idUsuario:INTEGER#
 			      AND NOT EXISTS (
 			        SELECT 1
@@ -1765,24 +1764,49 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			        FROM tbl_ticket_derivacion td
 			        WHERE td.id_ticket_derivado = t.id
 			      )
-			      AND (
-			        (re.puede_jalar = 0 AND EXISTS (
-			          SELECT 1 
-			          FROM tbl_rol_equipo_subgrupo reg2 
-			          INNER JOIN tbl_rol_equipo re2 ON re2.id = reg2.id_rol_equipo 
-			          WHERE reg2.id_subgrupo = s.id 
-			            AND re2.puede_jalar = 0
-			            AND re2.tipo_equipo = 'VS'
-			        ))
-			        OR
-			        (re.puede_jalar = 1 AND NOT EXISTS (
-			          SELECT 1 
-			          FROM tbl_rol_equipo_subgrupo reg2 
-			          INNER JOIN tbl_rol_equipo re2 ON re2.id = reg2.id_rol_equipo 
-			          WHERE reg2.id_subgrupo = s.id 
-			            AND re2.puede_jalar = 0
-			            AND re2.tipo_equipo = 'VS'
-			        ))
+			      AND NOT EXISTS (
+			        SELECT 1
+			        FROM tbl_ticket_derivacion td
+			        INNER JOIN tbl_ticket t_origen ON t_origen.id = td.id_ticket_origen
+			        WHERE td.id_ticket_derivado = t.id
+			          AND t_origen.ventanilla_id_usuario = #idUsuario:INTEGER#
+			          AND DATE(t_origen.fecha_atencion) = CURDATE()
+			      )
+			    )
+			  )
+	   ]]>
+	</select>
+	<select id="getCantidadTicketEsperaAllVentAdmin"
+		parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(*) 
+			FROM tbl_ticket t
+			INNER JOIN tbl_subgrupo s ON s.id = t.id_subgrupo
+			INNER JOIN tbl_grupo g ON g.id = s.id_grupo
+			INNER JOIN tbl_rol_equipo_grupo reg ON reg.id_grupo = g.id
+			INNER JOIN tbl_rol_equipo re ON re.id = reg.id_rol_equipo AND re.id = 180
+			WHERE t.estado IN (0,30,31)
+			  AND DATE(t.fecha_atencion) = CURDATE()
+			  AND re.tipo_equipo = 'VA'
+			  AND (
+			    t.id_ventanilla_derivacion = #idVentanilla:INTEGER#
+			    OR 
+			    (
+			      t.id_ventanilla_derivacion = 0
+			      AND t.ventanilla_id_usuario <> #idUsuario:INTEGER#
+			      AND NOT EXISTS (
+			        SELECT 1
+			        FROM tbl_ticket_derivacion td
+			        WHERE td.id_ticket_derivado = t.id
+			      )
+			    )
+			    OR
+			    (
+			      t.id_ventanilla_derivacion = 0
+			      AND EXISTS (
+			        SELECT 1
+			        FROM tbl_ticket_derivacion td
+			        WHERE td.id_ticket_derivado = t.id
 			      )
 			      AND NOT EXISTS (
 			        SELECT 1

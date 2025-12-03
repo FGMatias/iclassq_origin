@@ -1319,7 +1319,7 @@ public class TicketServiceImpl implements TicketService {
 		gcr.createCriteria().andIdEqualTo(idRolEquipo);
 		List<RolEquipo> listRE = new ArrayList<>();
 		listRE = rolEquipoDAO.selectByExample(gcr);
-		if(listRE.get(0).getTipoEquipo().equals("VS")){
+		if(listRE.get(0).getTipoEquipo().equals("VS") || listRE.get(0).getTipoEquipo().equals("VA")){
 			if(listRE.get(0).getAlgoritmo() == 2) {
 				List<BeanSubGrupoProporcion> listSubGrupoRolEquipo = this.getSubGrupoByRolEquipo(idUsuario, idRolEquipo, idSucursal);
 				int cant1 = listSubGrupoRolEquipo.size();
@@ -1532,8 +1532,9 @@ public class TicketServiceImpl implements TicketService {
 		param.put("idVentanilla", idVentanilla);
 		if	(listRE.get(0).getTipoEquipo().equals("VS")){
 			cant = ticketDAO.getCantidadTicketEsperaAllSubGrupo(param);
-		}
-		else {
+		} else if (listRE.get(0).getTipoEquipo().equals("VA")){
+			cant = ticketDAO.getCantidadTicketEsperaAllVentAdmin(param);
+		} else {
 			cant = ticketDAO.getCantidadTicketEsperaAllGrupo(param);
 		}
 		return cant;
@@ -2368,5 +2369,14 @@ public class TicketServiceImpl implements TicketService {
     @Override
 	public int contarTicketAtendidosDia(Map<String,Object> params) {
 		return ticketDAO.contarTicketAtendidosDia(params);
+	}
+    
+    @Override
+	public List<TipoDocumento> listarTipoDocumentoXGeneraTicket() throws Exception {
+		TipoDocumentoCriteria ekc = new TipoDocumentoCriteria();
+		ekc.createCriteria();
+		List<TipoDocumento> list = new ArrayList<>();
+		list = tipoDocumentoDAO.selectByExample(ekc);
+		return list;
 	}
 }

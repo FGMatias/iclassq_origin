@@ -21,10 +21,10 @@
       <sqlMapGenerator targetPackage="pe.gob.ep.iclassq.negocio.dao.ibatis.maps"  targetProject="security">
  	  </sqlMapGenerator>
       <daoGenerator  targetPackage="pe.gob.ep.iclassq.negocio.dao" targetProject="security" type="spring" implementationPackage="pe.gob.ep.iclassq.negocio.dao.ibatis" />
-<!-- 			<table schema="iclassq_konecta4" tableName="tbl_grupo" domainObjectName="Grupo" /> -->
+<!-- 			<table schema="iclassq" tableName="tbl_grupo" domainObjectName="Grupo" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_grupoxkiosko" domainObjectName="GrupoXKiosko" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_algoritmoxgrupo" domainObjectName="AlgoritmoXGrupo" />  -->
-<!-- 			<table schema="iclassq_konecta4" tableName="tbl_subgrupo" domainObjectName="SubGrupo" />       	    -->
+			<table schema="iclassq" tableName="tbl_subgrupo" domainObjectName="SubGrupo" />       	   
 <!-- 			<table schema="iclassq2" tableName="tbl_area" domainObjectName="Area" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_algoritmo" domainObjectName="Algoritmo" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_prioridad" domainObjectName="Prioridad" /> -->
@@ -36,7 +36,7 @@
 <!-- 			<table schema="iclassq" tableName="ctrl_seg_rol" domainObjectName="Rol" />  -->
 <!-- 			<table schema="iclassq2" tableName="tbl_rol_equipo" domainObjectName="RolEquipo" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_rol_equipo_grupo" domainObjectName="RolEquipoGrupo" />   -->
-			<table schema="iclassq" tableName="tbl_monitor_cajas" domainObjectName="MonitorCajas" />
+<!-- 			<table schema="iclassq" tableName="tbl_monitor_cajas" domainObjectName="MonitorCajas" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_monitor" domainObjectName="Monitor" /> -->
 <!-- 			<table schema="essaludbd" tableName="tbl_agrupador" domainObjectName="Agrupador" /> -->
 <!-- 			<table schema="iclassq" tableName="tbl_ticket" domainObjectName="Ticket" /> -->

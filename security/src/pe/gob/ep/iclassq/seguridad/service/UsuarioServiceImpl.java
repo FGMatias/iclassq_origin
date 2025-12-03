@@ -639,8 +639,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 					mc.setSecuencia(i+1);
 					mc.setTicketTexto("--");
 					mc.setNombreVentanilla("--");
-					mc.setPersona("--");
-					mc.setGrupo("--");
 					mc.setEstado(0);
 					monitorCajasDAO.insertSelective(mc);
 				}

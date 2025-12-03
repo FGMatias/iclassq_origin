@@ -200,7 +200,7 @@ public class SeguridadController {
 			fw="main/monitor3";
 		}
 		else if(idRol ==5 || idRol == 14){
-			fw="main/ventanilla_kon";
+			fw="main/ventanilla";
 			
 			if (iAsistencia == 1) {
 				essaludService.saveAsistencia(idUsuario);
@@ -214,6 +214,9 @@ public class SeguridadController {
 		}
 		else if (idRol == 15) {
 			fw="main/superadmin";
+		}
+		else if (idRol == 17) {
+			fw="main/ventanilla_admin";
 		}
 		else{
 			fw="main/index";

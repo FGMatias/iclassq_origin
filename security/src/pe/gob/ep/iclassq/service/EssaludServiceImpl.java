@@ -260,7 +260,7 @@ public class EssaludServiceImpl implements EssaludService{
 	public List<Grupo> saveGruposXSede(Integer idSucursal, String nombreGrupo, String prefijoGrupo,  			
 			Integer idAlgoritmo, Integer idArea, String descripcionCorta, String descripcionLarga,  		
 			Integer kioskoAlg3Entrada, Integer kioskoAlg3Minimo, String horaInicio, 
-			String horaFin, Integer tiempoObjetivo) throws Exception {
+			String horaFin) throws Exception {
 		// TODO Auto-generated method stub
 		DateFormat sdf = new SimpleDateFormat("hh:mm");
 		GrupoCriteria gr = new GrupoCriteria();
@@ -283,7 +283,6 @@ public class EssaludServiceImpl implements EssaludService{
 			Date hFin = sdf.parse(horaFin);
 			grupo.setHoraInicio(hInicio);
 			grupo.setHoraFin(hFin);
-			grupo.setTiempoObjetivo(tiempoObjetivo);
 			grupo.setEstado(1);
 			grupoDAO.insertSelective(grupo);
 			
@@ -875,7 +874,7 @@ public class EssaludServiceImpl implements EssaludService{
 			String prefijoEdit, Integer algEdit, Integer areaEdit,
 			String descripCortaEdit, Integer kioskoEntradaEdit,
 			Integer kioskoMinimoEdit, String descripLargaEdit,
-			String horaInicioEdit, String horaFinEdit, Integer tiempoObjetivoEdit) throws Exception {
+			String horaInicioEdit, String horaFinEdit) throws Exception {
 		// TODO Auto-generated method stub
 		DateFormat sdf = new SimpleDateFormat("hh:mm");
 		GrupoCriteria gr = new GrupoCriteria();
@@ -899,7 +898,6 @@ public class EssaludServiceImpl implements EssaludService{
 			Date hFin = sdf.parse(horaFinEdit);
 			grupo.setHoraInicio(hInicio);
 			grupo.setHoraFin(hFin);
-			grupo.setTiempoObjetivo(tiempoObjetivoEdit);
 			grupo.setEstado(1);
 			grupoDAO.updateByPrimaryKeySelective(grupo);
 			
@@ -2213,8 +2211,6 @@ public class EssaludServiceImpl implements EssaludService{
 					mc.setSecuencia(i+1);
 					mc.setTicketTexto("--");
 					mc.setNombreVentanilla("--");
-					mc.setPersona("--");
-					mc.setGrupo("--");
 					mc.setEstado(0);
 					monitorCajasDAO.insertSelective(mc);
 	

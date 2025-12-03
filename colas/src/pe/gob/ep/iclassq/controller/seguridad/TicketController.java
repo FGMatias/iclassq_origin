@@ -197,7 +197,7 @@ public class TicketController {
 	}	
 	
 	
-	@RequestMapping(value = "nextticket.app")
+	@RequestMapping(value = "nextticket.app", method = RequestMethod.POST)
 	public @ResponseBody Map<String, ? extends Object> obtenerTicket(HttpServletRequest req) throws Exception {		
 		Integer idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
 		Integer idSucursal = Integer.parseInt(req.getParameter("idSucursal"));
@@ -1645,5 +1645,22 @@ public class TicketController {
 		return Collections.singletonMap("count", count);
 	}
 	
+	@RequestMapping(value = "listarTipoDocumentoXGeneraTicket.app")
+	public @ResponseBody Map<String, Object> listarTipoDocumento() throws Exception {
+	    Map<String, Object> data = new HashMap<>();
+	    try {
+	        List<TipoDocumento> typedocument = ticketService.listarTipoDocumentoXGeneraTicket();
+	        data.put("data", typedocument);
+	        data.put("success", true);
+	        data.put("message", typedocument.isEmpty() ? "No se encontraron tipos de documento" : "Tipos de documento recuperados exitosamente");
+	    } catch (Exception e) {
+	        data.put("data", new ArrayList<TipoDocumento>());
+	        data.put("success", false);
+	        data.put("message", "Error al recuperar los tipos de documento");
+	        log.debug(e.getMessage());
+			e.printStackTrace();
+	    }
+	    return data;
+	} 
 }
 

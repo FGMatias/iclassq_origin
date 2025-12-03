@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="librerias/jquery-confirm/css/jquery-confirm.css"/>
 <link rel="stylesheet" type="text/css" href="librerias/bootstrap-3.3.7/dist/css/bootstrap-multiselect.css">
 <link rel="stylesheet" href="librerias/admin/dist/css/adminlte.min.css">  
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">  
 <link rel="stylesheet" href="librerias/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">  
 <link rel="stylesheet" href="librerias/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 <script src="librerias/general/general.js"></script> 
@@ -780,7 +779,7 @@
     	window.location.href = 'logout.app';
     });
     
-    $("#btnLlamarSiguiente").click(function() {    	
+    $("#btnLlamarSiguiente").click(function() {  
     	var iAtencion = '${usuario.iAtencion}';
     	var idRolEquipo = '${usuario.iRolEquipo}';
     	var idSucursal='${usuario.iSucursal}';

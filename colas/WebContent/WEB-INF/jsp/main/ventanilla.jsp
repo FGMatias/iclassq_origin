@@ -1,16 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ICLASSQ</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">  
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"> -->
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
-<link rel="stylesheet" href="librerias/css/font-awesome.min.css">
+<link rel="stylesheet" href="librerias/admin/plugins/fontawesome-free/css/all.min.css">  
 <link rel="stylesheet" href="librerias/jquery-confirm/demo/demo.css">
 <link rel="stylesheet" type="text/css" href="librerias/jquery-confirm/css/jquery-confirm.css"/>
+<link rel="stylesheet" type="text/css" href="librerias/bootstrap-3.3.7/dist/css/bootstrap-multiselect.css">
+<link rel="stylesheet" href="librerias/admin/dist/css/adminlte.min.css">  
+<link rel="stylesheet" href="librerias/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">  
+<link rel="stylesheet" href="librerias/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 <script src="librerias/general/general.js"></script> 
 <style>
   	.modal-backdrop{
@@ -48,21 +49,41 @@
 	  100% { opacity: 1.0; }
 	} 
 	
+	.error-highlight {
+        border: 2px solid #d32f2f !important;
+        background-color: #ffebee !important;
+        animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+        0%, 20%, 40%, 60%, 80% { transform: translateX(-2px); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(2px); }
+    }
+    
+    .is-invalid {
+        border-color: #d32f2f !important;
+    }
+    
+    .is-valid {
+        border-color: #2e7d32 !important;
+    }
+    
+    .invalid-feedback {
+        color: #d32f2f;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
   </style>
-
-<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+  
 <script src="librerias/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="librerias/bootstrap-3.3.7/dist/css/bootstrap.min.css"> 
-
 <link href="librerias/css/estilosmenu.css" rel="stylesheet">
-
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
 <script src="librerias/jquery-confirm/demo/libs/bundled.js"></script>
 <script type="text/javascript" src="librerias/jquery-confirm/js/jquery-confirm.js"></script>
+<script type="text/javascript" src="librerias/bootstrap-3.3.7/js/multi-select.js"></script>
 
-  
+<script src="librerias/admin/plugins/datatables/jquery.dataTables.js"></script>
+<script src="librerias/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
   
   <style type="text/css">
     body {
@@ -99,7 +120,7 @@
     }
     .table-title h2 {
 		margin: 2px 0 0;
-		font-size: 24px;
+		font-size: 20px;
 	}
     table.table tr th, table.table tr td {
         border-color: #e9e9e9;
@@ -132,9 +153,9 @@
 	}
 	
 	#number {
-  font-size:50px;
-  color:#434343;
-}
+	  font-size:50px;
+	  color:#434343;
+	}
 </style>
   
 </head>
@@ -142,30 +163,38 @@
 	<div class="table-wrapper">
         <div class="table-title">
             <div class="row">
-                <div class="col-sm-4"><h2><span id="txtNombreVentanilla"></span>: <b>${usuario.vUsuarioNombres} ${usuario.vUsuarioApPaterno} ${usuario.vUsuarioApMaterno}</b></h2></div>
-                <div class="col-sm-2">
-                	<button type="button" class="btn btn-default btn-lg" onclick="modalActualizar()" disabled><span ></span>&nbsp;Actualizar Ventanilla</button>
+            	<input class="form-control" type="hidden" id="txtApellido_sino" />
+				<input class="form-control" type="hidden" id="txtNotifica_sino" />
+				<input class="form-control" type="hidden" id="puerto" />
+				<select class="form-control" id="listaDeDispositivos" required style="display:none"></select>
+				<input class="form-control" type="hidden" id="txtTieneAudio"/>
+		   		<input class="form-control" type="hidden" id="txtDirAudio"/>
+		   		
+                <div class="col-sm-3 d-flex flex-column">
+                	<h2 class="p-2">
+                		<span>SUCURSAL: <span id="nombreSucursal"></span></span>
+          			</h2>
+                	<h2 class="p-2">
+                		<span id="txtNombreVentanilla"></span>: 
+               			<b>${usuario.vUsuarioNombres} ${usuario.vUsuarioApPaterno} ${usuario.vUsuarioApMaterno}</b>
+          			</h2>
+               	</div>
+                <div class="col-sm-3 d-flex flex-column">
+               		<h2 class="p-2">
+               			<span>TICKETS ATENDIDOS: <span id="cantTickets">0</span></span>  
+               		</h2>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                		<button type="button" class="btn btn-primary btn-lg" id="btnLlamarSiguiente"><span class="glyphicon glyphicon-forward"></span>&nbsp;Siguiente</button>
-                	<button type="button" id="btnTurnos" class="btn btn-success">N° Turnos en Espera: <b><span id="cantEspera" style="font-size:15px"></span></b></button>
-                	<button type="button" class="btn btn-danger btn-lg pull-right" onclick="fnCerrarSession()"><span class="glyphicon glyphicon-off"></span>&nbsp;salir</button>
+                	<button type="button" id="btnTurnos" class="btn btn-success">N° Turnos en Espera: <b><span id="cantEspera" style="font-size:15px"></span></b></button> 
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-danger btn-lg pull-right" onclick="fnCerrarSession()"><span class="glyphicon glyphicon-off"></span>&nbsp;Salir</button>
                 	<button type="button" class="btn btn-primary btn-lg pull-right" onclick="fnCambiarClaveForm(${usuario.iUsuarioId})"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Cambiar Clave</button>
- 					<div id="divAsistencia">
- 						<button id="asistencia" type="button" class="btn btn-info btn-lg pull-right" onclick="fnTipoPausa()"><span class="glyphicon glyphicon-ok"></span>&nbsp;Registrar Evento</button> 						
- 					</div>
- 					<div id="divCharla">
- 						<button id="charla" type="button" class="btn btn-success btn-lg pull-right" onclick="fnCharla()"><span class="glyphicon glyphicon-ok"></span>&nbsp;Charla</button>
- 					</div>
- 					
-   					<input class="form-control" type="hidden" id="txtApellido_sino" style="text-transform:uppercase;" placeholder="id txtApellido_sino"/>
-   					<input class="form-control" type="hidden" id="txtNotifica_sino" style="text-transform:uppercase;" placeholder="id txtNotifica_sino"/>
-
-                                               	
-                    <div class="btn-group" data-toggle="buttons">
-<!--                         <a id="btnCambiarClave" onclick="fnCambiarClave()" class="btn btn-success" title="Cambiar Clave"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Cambiar Clave</a> -->
-<!--                         <a href="#" id="btnCerrarSession" class="btn btn-danger" title="Salir del Sistema"><span class="glyphicon glyphicon-off"></span>&nbsp;Salir</a>                        							 -->
-                    </div>
+					<button type="button" class="btn btn-info btn-lg pull-right" onclick="handleAbsence(${usuario.iUsuarioId})" id="btnAusencia">
+						<span class="glyphicon glyphicon-ok"></span>&nbsp;
+						<span id="labelBtnAusencia">Registrar Ausencia</span>
+					</button> 	
                 </div>
             </div>
         </div>
@@ -173,8 +202,10 @@
             <thead>
                 <tr>                    
                     <th>TICKET</th>
-                    <th>DNI</th>                    
+                    <th>TIPO</th>
+                    <th>N° DOCUMENTO</th>                    
                     <th>PRIORIDAD</th>   
+                    <th>FECHA</th>   
                     <th>HORA LLEGADA</th>
                     <th>HORA ATENCION</th>                   
                     <th>HORA FIN ATENCION</th>
@@ -191,53 +222,55 @@
 <!--     Deraivar Ticket -->
 	
 	<div id="modalDerivarTicket" class="modal fade" role="dialog">
-	  <div class="modal-dialog">	
+	  <div class="modal-dialog modal-lg">	
 	    <!-- Modal content-->
 	    <div class="modal-content">
 	      <div class="modal-header modal-header-primary">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        <h4 class="modal-title">Derivar Ticket</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 	      <div class="modal-body">
-	        	<div class="row">
-					<div class="col-12 form-group">
-						<div class="row">
-							<div class="" >
-								<input class="form-control" type="hidden" id="txtIdTicketDeriva" />
-						   		<input class="form-control" type="hidden" id="txtTipoDerivacion" style="text-transform:uppercase;" placeholder="id txtTipoDerivacion"/>					   	
+			<fieldset class="scheduler-border">
+				<form>
+					<div class="row">
+						<input class="form-control" type="hidden" id="txtIdTicketDeriva" />
+						<input class="form-control" type="hidden" id="txtNumeroDocumento" />
+						<input class="form-control" type="hidden" id="txtNombreGrupo" />
+				   		<input class="form-control" type="hidden" id="txtTipoDerivacion"/>				
+						<div class="col-12 form-group">
+							<div class="row center-block">
+								<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaMenu">
+									<label>Derivar a:</label>
+									<select class="form-control" id="cboTipoDeriva" required>
+										<option value="0">--Seleccione--</option>
+										<option value="1">Grupo</option>
+										<option value="2">Ventanilla</option>
+									</select>
+								</div>
+								<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaGrupo">
+									<label>Grupo</label>
+									<select class="form-control" id="cboGrupoDerivar" required>
+										<option value="0">--Seleccione--</option>
+									</select>
+								</div>
+	
+								<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaVentanilla">
+									<label>Ventanilla</label>
+									<select class="form-control" id="cboVentanillaDerivar" required>
+										<option value="0">--Seleccione--</option>
+									</select>
+								</div>
+<!-- 								<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaGrupoVentanilla"> -->
+<!-- 									<label>Grupo</label> -->
+<!-- 									<select class="form-control" id="cboGrupoVentanillaDerivar" disabled> -->
+<!-- 										<option value="0">--Seleccione--</option> -->
+<!-- 									</select> -->
+<!-- 								</div>		 -->
 							</div>
-							<div class="col-xs-12 col-sm-1">
-							</div>
-							<div class="col-xs-12 col-sm-3" style="display:none" id="divDerivaMenu">
-								<label>Derivar a:</label>
-								<select class="form-control" id="cboTipoDeriva" required>
-									<option value="0">--Seleccione--</option>
-									<option value="1">Grupo</option>
-									<option value="2">Ventanilla</option>
-								</select>
-							</div>
-							<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaGrupo">
-								<label>Grupo</label>
-								<select class="form-control" id="cboGrupoDerivar" required>
-									<option value="0">--Seleccione--</option>
-								</select>
-							</div>
-
-							<div class="col-xs-12 col-sm-4" style="display:none" id="divDerivaVentanilla">
-								<label>Ventanilla</label>
-								<select class="form-control" id="cboVentanillaDerivar" required>
-									<option value="0">--Seleccione--</option>
-								</select>
-							</div>
-							<div class="col-xs-12 col-sm-3" style="display:none" id="divDerivaGrupoVentanilla">
-								<label>Grupo</label>
-								<select class="form-control" id="cboGrupoVentanillaDerivar" disabled>
-									<option value="0">--Seleccione--</option>
-								</select>
-							</div>																														
-						</div>									
-					</div>																
-				</div>
+						</div>
+					</div>
+				</form>
+			</fieldset>
 	      </div>
 	      <div class="modal-footer">
 	        	<button type="button" id="btnDerivarTicket" class="btn btn-primary" data-dismiss="modal">Derivar</button>
@@ -336,287 +369,19 @@
 	  </div>
 </div>
 
-<!-- marcar pausa -->
-<div id="modalTipoPausa" class="modal fade" role="dialog">
-	  <div class="modal-dialog">	
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header modal-header-primary">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Registrar Asistencia</h4>
-	      </div>
-	      <div class="modal-body">
-	        	<div class="row">
-					<div class="col-12 form-group">
-						<div class="row">
-							<div class="col-xs-12 col-sm-1">
-							</div>
-							<div class="col-xs-12 col-sm-5" id="divTipoPausa">
-								<label>Selecciona una opción:</label>
-								<select class="form-control" id="cboTipoPausa" required>
-									<option value="0">--Seleccione--</option>
-								</select>
-							</div>																														
-						</div>									
-					</div>																
-				</div>
-	      </div>
-	      <div class="modal-footer">
-	        	<button type="button" id="btnRegistrar" class="btn btn-primary" data-dismiss="modal">Registrar</button>
-	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	      </div>
-	    </div>
+<jsp:include page="components/modals/modalAusencia.jsp" />
+<jsp:include page="components/modals/modalAnulacion.jsp" />
+<jsp:include page="components/scripts/toAudioRecord.jsp" />
+<jsp:include page="components/scripts/formatString.jsp" />
 	
-	  </div>
-</div>
-
-<!-- charla -->
-<div id="modalCharla" class="modal fade" role="dialog">
-	  <div class="modal-dialog">	
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header modal-header-primary">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Registrar Charla</h4>
-	      </div>
-	      <div class="modal-body">
-	        	<div class="row">
-					<div class="col-12 form-group">
-						<div class="row">
-							<div class="col-xs-12 col-sm-1">
-							</div>
-							<div class="col-xs-12 col-sm-6">
-								<label>Número de Personas</label>
-								<input class="form-control" type="text" id="txtNPersonas" placeholder="Número de Personas"/>
-							</div>																													
-						</div>									
-					</div>																
-				</div>
-	      </div>
-	      <div class="modal-footer">
-	        	<button type="button" id="btnRegistrarCharla" class="btn btn-primary" data-dismiss="modal">Registrar</button>
-	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-	      </div>
-	    </div>
+<script type="text/javascript">
 	
-	  </div>
-</div>   
-
-<!-- marcar tipo atencion -->
-
-<div class="modal" id="modalTipoAtencion">
-		  <div class="modal-dialog modal-lg">
-		    <div class="modal-content">		
-		      <!-- Modal Header -->
-		      <div class="modal-header modal-header-primary">
-		        <h4 class="modal-title">Tipo de Atención</h4>
-		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		      </div>		
-		      <!-- Modal body -->
-		      <div class="modal-body">
-		      		<fieldset class="scheduler-border">						
-							<form class="needs-validation" novalidate>
-								<div class="row">
-									<input class="form-control" type="hidden" id="txtIdTipoAtencion" style="text-transform:uppercase;" placeholder="ID Tipo Atencion"/>
-									<input class="form-control" type="hidden" id="txtTicket" style="text-transform:uppercase;" placeholder="Ticket"/>
-									<div class="col-12 form-group">
-										<div class="row center-block">	
-											<div class="col-xs-12 col-sm-4">
-												<label>DNI</label>
-												<input class="form-control" type="text" id="txtDNI" style="text-transform:uppercase;" placeholder="DNI" required/>
-											</div>																				
-										</div>	
-									</div>
-									<div class="col-12 form-group">
-										<div class="row center-block">	
-											<div class="col-xs-12 col-sm-4">
-												<label>Nombres</label>
-												<input class="form-control" type="text" id="txtNombres" style="text-transform:uppercase;" placeholder="Nombres" required/>
-											</div>
-											<div class="col-xs-12 col-sm-4">
-												<label>Apellido Paterno</label>
-												<input class="form-control" type="text" id="txtApePaterno" style="text-transform:uppercase;" placeholder="Apellido Paterno" required/>
-											</div>
-											<div class="col-xs-12 col-sm-4">
-												<label>Apellido Materno</label>
-												<input class="form-control" type="text" id="txtApeMaterno" style="text-transform:uppercase;" placeholder="Apellido Materno" required/>
-											</div>															
-										</div>	
-									</div>					
-									<div class="col-12 form-group">
-										<div class="row center-block">	
-											<div class="col-xs-12 col-sm-4">
-												<label>¿De donde nos visita?</label>
-												<select class="form-control" id="cboLugarVisita" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>
-											<div class="col-xs-12 col-sm-4">
-												<label>Nº Celular / Telefono Fijo</label>
-												<input class="form-control" type="text" id="txtNCelular" style="text-transform:uppercase;" placeholder="Número Contacto" required/>
-											</div>		
-											<div class="col-xs-12 col-sm-4">
-												<label>Correo</label>
-												<input class="form-control" type="text" id="txtCorreo" style="text-transform:uppercase;" placeholder="Correo" required/>
-											</div>													
-										</div>	
-									</div>
-									<div class="col-12 form-group">
-										<div class="row center-block">	
-											<div class="col-xs-12 col-sm-4" id="divTipoGestion">
-												<label>Tipo de Gestión:</label>
-												<select class="form-control" id="cboTipoGestion" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>		
-											<div class="col-xs-12 col-sm-4" id="divModalida">
-												<label>Modalidad:</label>
-												<select class="form-control" id="cboModalidad" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>																				
-										</div>									
-									</div>	
-									<div id="datosCliente">	
-										<div class="panel panel-primary">
-											<div class="panel-heading">Zona de Interes</div>
-											<div class="panel-body">
-												<div class="col-12 form-group">
-													<div class="row center-block">	
-														<div class="col-xs-12 col-sm-6">
-															<label>Departamento</label>
-															<select class="form-control" id="cboDepartamentos" required>
-																<option value="0">--Seleccione--</option>
-															</select>
-														</div>
-														<div class="col-xs-12 col-sm-6">
-															<label>Provincia de Interes</label>
-															<input class="form-control" type="text" id="txtProvincia" style="text-transform:uppercase;" placeholder="Provincia" required/>
-														</div>														
-													</div>	
-												</div>
-												<div class="col-12 form-group">
-													<div class="row center-block">	
-														<div class="col-xs-12 col-sm-6">
-															<label>Distrito 1</label>
-															<input class="form-control" type="text" id="txtDistrito1" style="text-transform:uppercase;" placeholder="Distrito 1" required/>
-														</div>
-														<div class="col-xs-12 col-sm-6">
-															<label>Distrito 2</label>
-															<input class="form-control" type="text" id="txtDistrito2" style="text-transform:uppercase;" placeholder="Distrito 2" required/>
-														</div>														
-													</div>	
-												</div>
-											</div>
-										</div>
-										<div class="col-12 form-group">
-											<div class="row center-block">	
-												<div class="col-xs-12 col-sm-4" id="divPlanCompraConstVivienda" style="display:none">
-													<label>¿Cuándo tiene planeado hacer la compra o construcción de su vivienda?</label>
-													<select class="form-control" id="cboPlanCompraConstVivienda" required>
-														<option value="0">--Seleccione--</option>
-													</select>
-												</div>		
-												<div class="col-xs-12 col-sm-4" id="divPlanCompraVivienda">
-													<label>¿Cuándo tiene planeado hacer la compra de su vivienda?</label>
-													<select class="form-control" id="cboPlanCompraVivienda" required>
-														<option value="0">--Seleccione--</option>
-													</select>
-												</div>		
-												<div class="col-xs-12 col-sm-4" id="divCuotaInicial">
-													<label>Cuota inicial / Ahorro programado</label>
-													<select class="form-control" id="cboCuotaInicial" required>
-														<option value="0">--Seleccione--</option>
-													</select>
-												</div>			
-												<div class="col-xs-12 col-sm-4" id="divRecibeInfo">
-													<label>¿Desea recibir información por mail?</label>
-													<select class="form-control" id="cboRecibeInfo" required>
-														<option value="0">--Seleccione--</option>
-													</select>
-												</div>																			
-											</div>									
-										</div>		
-									</div>
-																
-								</div>								
-								<div class="row">
-									<div class="col-12 form-group">
-										<div class="row center-block">					
-											<div class="col-xs-12 col-sm-4" id="divTipoPausa">
-												<label>Tipo de Entidad:</label>
-												<select class="form-control" id="cboTipoEntidad" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>					
-											<div class="col-xs-12 col-sm-4" id="divTipoPausa">
-												<label>Tipología:</label>
-												<select class="form-control" id="cboTipologia" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>	
-											<div class="col-xs-12 col-sm-4" id="divTipoPausa">
-												<label>Tipo de Documento:</label>
-												<select class="form-control" id="cboTipoDocumento" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>																						
-										</div>									
-									</div>																
-								</div>
-								<div class="row center-block">
-									<div class="col-12 form-group">
-										<div class="row">
-											<div class="col-xs-12 col-sm-4">
-												<label>Fecha Desembolso</label>
-			                                    <input class="form-control" type="date" id="fechaDesembolso"/>
-											</div>
-											<div class="col-xs-12 col-sm-4" id="divTipoPausa">
-												<label>Estado Actual:</label>
-												<select class="form-control" id="cboEstado" required>
-													<option value="0">--Seleccione--</option>
-												</select>
-											</div>	
-											<div class="col-xs-12 col-sm-4">
-												<label>Fecha de Estado Actual STP</label>
-			                                    <input class="form-control" type="date" id="fechaEstadoActual"/>
-											</div>	
-										</div>
-									</div>
-								</div>	
-								<div class="row center-block">
-									<div class="col-12 form-group">
-										<div class="row">
-											<div class="col-xs-12 col-sm-4">
-												<label>Nº Expediente</label>
-												<input class="form-control" type="text" id="txtNExpediente" style="text-transform:uppercase;" placeholder="Número Expediente" required/>
-											</div>		
-											<div class="col-xs-12 col-sm-4">
-												<label>Promotor / Entidad Técnica</label>
-												<input class="form-control" type="text" id="txtPromotor" style="text-transform:uppercase;" placeholder="Promotor / Entidad técnica" required/>
-											</div>	
-										</div>
-									</div>
-								</div>									
-								<div class="modal-footer">
-						        	<button type="button" id="btnRegistrarTA" class="btn btn-primary" data-dismiss="modal">Registrar</button>
-						        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-						      </div>
-							</form>
-					</fieldset>
-		      </div>
-	    </div>
-	  </div>
-	</div>
-	
-    <script type="text/javascript">
-
+	var usuarioAusente = false;
  	//parametros (Tipo de funcion, idEvalua)
     //S --siguiente
     //I-- Iniciar
     //F-- Finalizar
-     function derivalistadoventanilla(idSucursal, tipoParametro, idUsuario)
-	 {
+     function derivalistadoventanilla(idSucursal, tipoParametro, idUsuario) {
 		$.ajax({ 
 			type: 'POST', 
 			url: 'listarventanillaxparametroTipoDeriva.app',
@@ -624,39 +389,35 @@
 			success: function (response) {
 				var data = response.data;
 				$.each(data, function (index, item) {
-	                
 	                $("<option/>")
-	                        .attr("value", item.id)
-                        	.text(item.nombre+"-"+item.nombreArea)
-	                        .appendTo("#cboVentanillaDerivar");
+                        .attr("value", item.id)
+                       	.text(item.nombre+"-"+item.nombreArea)
+                        .appendTo("#cboVentanillaDerivar");
 	            });	
 			}
 		});
     }
 
-    function derivalistadogrupo(idSucursal, tipoParametro, idUsuario)
-	{
+    function derivalistadogrupo(idSucursal, tipoParametro, idUsuario) {
 		// idSucursal: filtra a nivel de Sucursal
 		// idArea=Fintral a nivel de Sucursal y Area
 		// id Rol, filtra a nivel del Rol
-  	
-			$.ajax({ 
-				type: 'POST', 
-				url: 'listargruposxparametroTipoDeriva.app',
-				data: {idSucursal: idSucursal, idUsuario: idUsuario }, 	    		
-				success: function (response) {
-					var data = response.data;
-
-					$.each(data, function (index, item) {		                
-		                $("<option/>")
-		                        .attr("value", item.id)
-		                        .text(item.nombre)
-		                        .appendTo("#cboGrupoDerivar");
-		            });	
-				}
-			});
+		$.ajax({ 
+			type: 'POST', 
+			url: 'listargruposxparametroTipoDeriva.app',
+			data: {idSucursal: idSucursal, idUsuario: idUsuario }, 	    		
+			success: function (response) {
+				var data = response.data;
+				$.each(data, function (index, item) {		                
+	                $("<option/>")
+	                        .attr("value", item.id)
+	                        .text(item.nombre)
+	                        .appendTo("#cboGrupoDerivar");
+	            });	
+			}
+		});
 	}
-
+    
     function formatHour(hora) {
     	if(!hora || hora == "null") return '';
     	return new Date(hora).toLocaleTimeString();
@@ -668,8 +429,11 @@
    		ATENDIENDO : 50,
    		EVALUANDO: 51,
    		FINALIZADO: 60,
+   		DERIVADO: 70,
    		ANULADO: 90,
-   		REACTIVADO: 91
+   		REACTIVADO: 91,
+   		CANCELADO: 92,
+   		AUSENTE: 93
    	};
     
     var buttonStateConfig = {
@@ -680,7 +444,6 @@
    	        derivarAtencion: false,
    	        anularAtencion: true,
    	        activarAtencion: false,
-   	        tipoAtencion: false,
    	        pendiente: true
    	    },
    	    [ESTADOS.MONITOR_PINTA]: {
@@ -690,7 +453,6 @@
    	        derivarAtencion: false,
    	        anularAtencion: true,
    	        activarAtencion: false,
-   	        tipoAtencion: false,
    	        pendiente: true
    	    },
    	    [ESTADOS.ATENDIENDO]: {
@@ -700,7 +462,6 @@
    	        derivarAtencion: true,
    	        anularAtencion: false,
    	        activarAtencion: false,
-   	        tipoAtencion: true,
    	        pendiente: true
    	    },
    	    [ESTADOS.EVALUANDO]: {
@@ -710,7 +471,6 @@
    	        derivarAtencion: false,
    	        anularAtencion: false,
    	        activarAtencion: false,
-   	        tipoAtencion: false,
    	        pendiente: false
    	    },
    	    [ESTADOS.FINALIZADO]: {
@@ -720,7 +480,15 @@
    	        derivarAtencion: false,
    	        anularAtencion: false,
    	        activarAtencion: true,
-   	        tipoAtencion: false,
+   	        pendiente: false
+   	    },
+   	    [ESTADOS.DERIVADO]: {
+   	        iniciarAtencion: false,
+   	        evaluarAtencion: false,
+   	        finalizarAtencion: false,
+   	        derivarAtencion: false,
+   	        anularAtencion: false,
+   	        activarAtencion: false,
    	        pendiente: false
    	    },
    	    [ESTADOS.ANULADO]: {
@@ -730,7 +498,6 @@
    	        derivarAtencion: false,
    	        anularAtencion: false,
    	        activarAtencion: true,
-   	        tipoAtencion: false,
    	        pendiente: false
    	    },
    	    [ESTADOS.REACTIVADO]: {
@@ -740,8 +507,25 @@
    	        derivarAtencion: false,
    	        anularAtencion: true,
    	        activarAtencion: false,
-   	        tipoAtencion: false,
    	        pendiente: true
+   	    },
+   	    [ESTADOS.CANCELADO]: {
+   	        iniciarAtencion: false,
+   	        evaluarAtencion: false,
+   	        finalizarAtencion: false,
+   	        derivarAtencion: false,
+   	        anularAtencion: false,
+   	        activarAtencion: false,
+   	        pendiente: false
+   	    },
+   	    [ESTADOS.AUSENTE]: {
+   	        iniciarAtencion: false,
+   	        evaluarAtencion: false,
+   	        finalizarAtencion: false,
+   	        derivarAtencion: false,
+   	        anularAtencion: false,
+   	        activarAtencion: false,
+   	        pendiente: false
    	    }
    	};
     
@@ -752,7 +536,6 @@
     	$('#btnDerivarAtencion' + item.id).attr("disabled", !config.derivarAtencion);
     	$('#btnAnularAtencion' + item.id).attr("disabled", !config.anularAtencion);
     	$('#btnActivarAtencion' + item.id).attr("disabled", !config.activarAtencion);
-    	$('#btnTipoAtencion' + item.id).attr("disabled", !config.tipoAtencion);
     	
     	return config.pendiente ? 1 : 0;
     }
@@ -760,8 +543,10 @@
     function ConstruyeFila(item, iApellido, horaEmision, horaInicio, horaFin, listadoBotones) {
         return '<tr>' +
             '<td><span>' + (iApellido == 1 ? item.descripcion : item.codigo) + '</span></td>' +
+            '<td><span>' + item.nombreGrupo + '</span></td>' +
             '<td><span>' + item.numeroIdentificacion + '</span></td>' +
             '<td><span>' + item.nombreSubgrupo + '</span></td>' +
+            '<td><span>' + new Date(+item.fechaAtencion).toLocaleDateString('es-PE') + '</span></td>' +
             '<td><span>' + horaEmision + '</span></td>' +
             '<td><span>' + horaInicio + '</span></td>' +
             '<td><span>' + horaFin + '</span></td>' +
@@ -771,10 +556,16 @@
     }
     
     function Construyehtml(data, tipoPantalla, idEvalua, iApellido, iAtencion, iAnula){
-    	console.log(data);
-
 		$('#tbl_ventanilla_usuario tbody').empty(); 
 		var nRegistrosPendientes = 0;
+		
+		if (!data || data.length === 0) {
+	        $('#tbl_ventanilla_usuario tbody').append(
+	            '<tr><td colspan="8" class="text-center">No hay atenciones activas</td></tr>'
+	        );
+	        updateNextButton(0);
+	        return;
+	    }
 		
 		for ( var i=0; i<data.length; i++ ) {
 
@@ -796,44 +587,59 @@
     }
     
     function updateNextButton(nRegistrosPendientes) {
-    	$('#btnLlamarSiguiente').attr("disabled", nRegistrosPendientes > 0);
+		if (usuarioAusente) {
+	        $('#btnLlamarSiguiente').prop("disabled", true);
+	        return;
+	    }
+		
+		$('#btnLlamarSiguiente').prop("disabled", nRegistrosPendientes > 0);
     }
     
     function showButtons(data, idEvalua, iAtencion, iAnula){
     	// idEvalua == 1 --> Muestra boton de evaluacion
 		// iAtencion == 1 --> Muestra boton de tipo de atencion
 		// iAnula == 1 --> Muestra boton de anulacion
-		
     	var buttons = '<td>' +
-			'<a href="#" onclick="fnLlamarXAudio('+data.id+')" class="btn btn-primary" title="Llamar">' + 
-				'<span class="glyphicon glyphicon-volume-up"></span>&nbsp;LLamar' +
-			'</a>&nbsp;' + 
-			'<a href="#" id="btnIniciarAtencion'+data.id+'" onclick="fnIniciarAtencion('+data.id+','+data.estado+')" class="btn btn-primary" title="Iniciar" >'+
-				'<span class="glyphicon glyphicon-play-circle"></span>&nbsp;Iniciar' +
-			'</a>&nbsp;' + 
-			'<a href="#" id="btnDerivarAtencion'+data.id+'" onclick="fnDerivarAtencion('+data.id+','+data.estado+')" class="btn btn-warning">' +
-				'<span class="glyphicon glyphicon-share"></span>&nbsp;Derivar' +
-			'</a>&nbsp;' +
-			'<a href="#" id="btnFinalizarAtencion'+data.id+'" onclick="fnFinalizarAtencion('+data.id+','+data.estado+')" class="btn btn-info" title="Finalizar">' +
-				'<span class="glyphicon glyphicon-ok"></span>&nbsp;Finalizar' +
-			'</a>&nbsp;' +
-			'<a href="#" id="btnActivarAtencion'+data.id+'" onclick="fnActivarAtencion('+data.id+','+data.estado+')" class="btn btn-success">' +
-				'<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Re-Activar' +
-			'</a>&nbsp;' +
-			
-			( iAtencion == 1 ? isAttended(data) : '' ) +
+    		makeACall(data) + 
+    		initiateAttention(data) + 
+    		referAttention(data) +
+			endAttention(data) +
+			activateAttention(data) +
 			( idEvalua == 1 ? isEvaluated(data) : '' ) +
 			( iAnula == 1 ? isAnulated(data) : '' ) +
-			
 		'</td>';
 		
 		return buttons;
     }
     
-    function isAttended(data) {
-    	return '<button href="#" id="btnTipoAtencion'+data.id+'" onclick="fnTipoAtencion(\''+data.numeroIdentificacion+'\','+data.id+',\''+data.nombreGrupo+'\','+data.estado+')" data-toggle="modal" class="btn btn-warning">' +
-			'<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Tipo de Atenci&oacuten'+
-		'</button>&nbsp;';
+    function makeACall(data) {
+    	return '<a href="#" onclick="fnLlamarXAudio('+data.id+')" class="btn btn-primary" title="Llamar">' + 
+			'<span class="glyphicon glyphicon-volume-up"></span>&nbsp;LLamar' +
+		'</a>&nbsp;';
+    }
+    
+    function initiateAttention(data) {
+    	return '<a href="#" id="btnIniciarAtencion'+data.id+'" onclick="fnIniciarAtencion('+data.id+','+data.estado+')" class="btn btn-primary" title="Iniciar" >'+
+			'<span class="glyphicon glyphicon-play-circle"></span>&nbsp;Iniciar' +
+		'</a>&nbsp;';
+    }
+    
+    function referAttention(data) {
+    	return '<a href="#" id="btnDerivarAtencion'+data.id+'" onclick="fnDerivarAtencion(\''+data.id+'\',\''+data.estado+'\',\''+data.idGrupo+'\',\''+data.numeroIdentificacion+'\', \''+data.nombreGrupo+'\')" class="btn btn-warning">' +
+			'<span class="glyphicon glyphicon-share"></span>&nbsp;Derivar' +
+		'</a>&nbsp;';
+    }
+    
+    function endAttention(data) {
+    	return '<a href="#" id="btnFinalizarAtencion'+data.id+'" onclick="fnFinalizarAtencion(\''+data.id+'\',\''+data.estado+'\', \''+data.nombreGrupo+'\')" class="btn btn-info" title="Finalizar">' +
+			'<span class="glyphicon glyphicon-ok"></span>&nbsp;Finalizar' +
+		'</a>&nbsp;';
+    }
+    
+    function activateAttention(data) {
+    	return '<a href="#" id="btnActivarAtencion'+data.id+'" onclick="fnActivarAtencion('+data.id+','+data.estado+')" class="btn btn-success">' +
+			'<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Re-Activar' +
+		'</a>&nbsp;';
     }
     
     function isEvaluated(data) {
@@ -843,7 +649,7 @@
     }
     
     function isAnulated(data) {
-    	return '<a href="#" id="btnAnularAtencion'+data.id+'" onclick="fnAnularAtencion('+data.id+','+data.estado+')" class="btn btn-success">' +
+    	return '<a href="#" id="btnAnularAtencion'+data.id+'" onclick="fnAnularAtencion('+data.id+','+data.estado+')" class="btn btn-danger">' +
 			'<span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Anular' +
 		'</a>&nbsp;';
     }
@@ -907,79 +713,73 @@
     	
     	nMax=$("#lTiempoEvaluacionEspera").val();
 
-    	intval=window.setInterval(function(){
-   	    $("#nroInterval").val(intval);
+    	intval = window.setInterval(function() {
+			$("#nroInterval").val(intval);
 
     		l.innerHTML = n;
-    	  if (n==nMax-5){
-    		  var j = document.getElementById("esperaEvaluarTxt");
-    		  j.innerHTML="Gracias ya puede salir"
-    	  }
-    	  if (n==nMax) {
-         		grabar_evaluacion(intval,idTicket, idUsuario, idEvalua);   
-    	  }
-    	  n=n+1;
-    	},1000);
-
+			if (n == nMax - 5){
+				var j = document.getElementById("esperaEvaluarTxt");
+				j.innerHTML="Gracias ya puede salir"
+			}
+			if (n==nMax) {
+				grabar_evaluacion(intval,idTicket, idUsuario, idEvalua);   
+			}
+			
+    	  	n = n + 1;
+    	}, 1000);
     }
-    function grabar_evaluacion(intval,idTicket, idUsuario, idEvalua ){
-    		clearInterval(intval);
-			console.log(" ingreso a la func grabacion");
-			console.log(" intval"+intval+" Ticket:"+idTicket+" idUsuario:"+idUsuario+" idEvalua"+idEvalua);
+    
+    function grabar_evaluacion(intval, idTicket, idUsuario, idEvalua) {
+   		clearInterval(intval);
 
-	    	$("#modalEvaluarTicket").modal("hide");
+    	$("#modalEvaluarTicket").modal("hide");
 
-	    	$.ajax({ 
-	     		type: 'POST', 
-	     		url: 'concluyeevaluacionespera.app',
-	     		data: {idTicket: idTicket,idUsuario: idUsuario },
-				success: function (response) {     			 			
+    	$.ajax({ 
+     		type: 'POST', 
+     		url: 'concluyeevaluacionespera.app',
+     		data: {
+     			idTicket: idTicket,
+     			idUsuario: idUsuario 
+   			},
+			success: function (response) {     			 			
 				var data = response.data;
 				var TextooApellido_sino=$('#txtApellido_sino').val();	
 				Construyehtml(data,'S',idEvalua, TextooApellido_sino);
 			}
-			});	
+		});	
     }
 
     $("#evaluar_boton_finalizar").click(function() {
-     		var intval= $("#nroInterval").val();
-      		var idUsuario='${usuario.iUsuarioId}';    	
-        	var idEvalua='${usuario.iEvalua}';
-        	var iAnula = '${usuario.iAnula}';
-        	var idTicket = $("#txtIdTicketEvalua").val(); 
-    		console.log(" ingreso al Boton Cerrar Evaluacion");
-    		console.log(" intval"+intval+" Ticket:"+idTicket+" idUsuario:"+idUsuario+" idEvalua"+idEvalua);
-        	
-        	// si el Usuario de Ventanilla tiene opcion Optativa de Evaluacion.
-        	if (idEvalua==3) {
-    		
-           		grabar_evaluacion(intval,idTicket, idUsuario, idEvalua);    	
-        	} else {
-        		console.log(" entra al Ajax");
-        		clearInterval(intval);
-    	    	$("#modalEvaluarTicket").modal("hide");
-        		$.ajax({ 
-    					type: 'POST', 
-    					url: 'listarticketbyidusuario.app',
-    					data: {idUsuario: idUsuario},
-    					success: function (response) {
-    						var data = response.data;				     			
-    						var TextooApellido_sino=$('#txtApellido_sino').val();	
-    						Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAnula);
-    						
-    					}
-    				});	
-        	}
-
-        });
-
+		var intval= $("#nroInterval").val();
+		var idUsuario='${usuario.iUsuarioId}';    	
+		var idEvalua='${usuario.iEvalua}';
+		var iAnula = '${usuario.iAnula}';
+		var idTicket = $("#txtIdTicketEvalua").val(); 
+		  	
+		if (idEvalua==3) {
+			grabar_evaluacion(intval,idTicket, idUsuario, idEvalua);    	
+		} else {
+			clearInterval(intval);
+			$("#modalEvaluarTicket").modal("hide");
+			$.ajax({ 
+				type: 'POST', 
+				url: 'listarticketbyidusuario.app',
+				data: { idUsuario: idUsuario },
+				success: function (response) {
+					var data = response.data;				     			
+					var TextooApellido_sino=$('#txtApellido_sino').val();	
+					Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAnula);
+				}
+			});	
+		}
+	});
 
     $("#btnCerrarSession").click(function() {
     	window.location.href = 'logout.app';
     });
     
     $("#btnLlamarSiguiente").click(function() {    	
-    	var idControlAsistencia = '${usuario.iControlAsistencia}';
+    	var iAtencion = '${usuario.iAtencion}';
     	var idRolEquipo = '${usuario.iRolEquipo}';
     	var idSucursal='${usuario.iSucursal}';
     	var idUsuario='${usuario.iUsuarioId}';    	
@@ -987,76 +787,74 @@
     	var idEvalua='${usuario.iEvalua}';
     	var iAnula = '${usuario.iAnula}';
 		var iEmpresa='${usuario.iEmpresa}';
-		$('#btnLlamarSiguiente').attr("disabled", true);
+		$('#btnLlamarSiguiente').prop("disabled", true);
     	$.ajax({ 
      		type: 'POST', 
      		url: 'nextticket.app',
-     		data: {idUsuario: idUsuario, 
+     		data: {
+     			idUsuario: idUsuario, 
          		idSucursal: idSucursal, 
          		idRolEquipo: idRolEquipo,         		
-         		idVentanilla: idVentanilla},
+         		idVentanilla: idVentanilla
+       		},
      		success: function (response) {     			 			
      			var data = response.data;
-
-				var TextooApellido_sino=$('#txtApellido_sino').val();	
-				Construyehtml(data,'S',idEvalua, TextooApellido_sino, idControlAsistencia, iAnula);
-    		
+				var TextooApellido_sino = $('#txtApellido_sino').val();	
+				Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAtencion, iAnula);
      		}	
    		});    					  
     });
 
 	$("#btnDerivarTicket").click(function() {    	
-    	
-    	var idRolEquipo = '${usuario.iRolEquipo}';
-    	var idSucursal='${usuario.iSucursal}';
-    	var idUsuario='${usuario.iUsuarioId}';    	
-//     	var idVentanilla='${usuario.iVentanilla}';
-    	var idTicket = $("#txtIdTicketDeriva").val();
-    	var idGrupo=$("#cboGrupoDerivar").val();
-		var tipoParametro= $("#txtTipoDerivacion").val();
-	    var tipoDeriva=$('#cboTipoDeriva').val();
+		var idRolEquipo = '${usuario.iRolEquipo}';
+		var idSucursal = '${usuario.iSucursal}';
+		var idUsuario = '${usuario.iUsuarioId}';
+		var idGrupo = $("#cboGrupoDerivar").val();
+		var tipoParametro = $("#txtTipoDerivacion").val();
+		var tipoDeriva = $('#cboTipoDeriva').val();
 		var idVentanilla = $("#cboVentanillaDerivar").val();
+		var idTicket = $("#txtIdTicketDeriva").val();
 
-		if ((tipoParametro==1) || (tipoParametro==2)) {
-		    if (tipoDeriva==1){
-		    	idVentanilla=0;
-		    } else
-		    	{
-		    	idGrupo=$("#cboGrupoVentanillaDerivar").val();
-				// idVentanilla mantiene su valor. tipoDeriva=2
-		   	}
+		if ((tipoParametro == 1) || (tipoParametro == 2)) {
+			if (tipoDeriva == 1) {
+				idVentanilla = 0;
+			}
 		}
-		if (tipoParametro==3){
-	    	idVentanilla=0;	
+		if (tipoParametro == 3) {
+			idVentanilla = 0;
 		}
+
+		const idEvalua = '${usuario.iEvalua}';
+		const iAnula = '${usuario.iAnula}';
+		const iEmpresa = '${usuario.iEmpresa}';
+		const iAtencion = '${usuario.iAtencion}';
 		
-		console.log("tipo Parametro:"+tipoParametro);
-		console.log("Valor de Grupo:"+idGrupo);
-		var idEvalua='${usuario.iEvalua}';
-		var iAnula = '${usuario.iAnula}';
-		var iEmpresa='${usuario.iEmpresa}';		
-		//genera el nuevo ticket
-		$.ajax({ 
-     		type: 'POST', 
-     		url: 'derivarticket.app',
-     		data: {idUsuario: idUsuario, idTicket: idTicket, idGrupo: idGrupo, idVentanilla: idVentanilla},
-     		success: function (response) {     			 			
-     			var data = response.data;
-     			var mensaje = response.message;	 			
-     			if(response.success==true){
-     				$.alert({
-                        title: 'Exito',
-                        content: mensaje,
-                    });
-             	}     			
-			
-				var TextooApellido_sino=$('#txtApellido_sino').val();	
-				Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAnula);
-     		}
-   		});
+		$.ajax({
+			type: 'POST',
+			url: 'derivarticket.app',
+			data: {
+				idUsuario: idUsuario,
+				idTicket: idTicket,
+				idGrupo: idGrupo,
+				idVentanilla: idVentanilla,
+				idSucursal: idSucursal
+			},
+			success: function (response) {
+				const data = response.data;
+				const mensaje = response.message;
+				if (response.success === true) {
+					$.alert({
+						title: 'Éxito',
+						content: mensaje,
+					});
+				}
+				const TextooApellido_sino = $('#txtApellido_sino').val();
+				Construyehtml(data, 'S', idEvalua, TextooApellido_sino, iAtencion, iAnula);
+			}
+		});
     });
-	
-	function fnEvaluarAtencion(idTicket, idEstado){
+
+    function fnEvaluarAtencion(idTicket, idEstado){
 		if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 ) return;
 		$("#txtIdTicketEvalua").val(idTicket);
      	var idUsuario = '${usuario.iUsuarioId}';
@@ -1080,46 +878,7 @@
    				Construyehtml(response.data, 'S', idEvalua, TextooApellido_sino, iAtencion, iAnula);	
    			},
    		})
-    }
-
-
-//     function fnEvaluarAtencion(idTicket, idEstado){
-// 		if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 ){
-			
-//     		return;
-//     	}
-// 		$("#txtIdTicketEvalua").val(idTicket);
-//     	$("#modalEvaluarTicket").modal("show");
-//      	var idUsuario = '${usuario.iUsuarioId}';
-//     	var idVentanilla='${usuario.iVentanilla}';
-// 		var idEvalua='${usuario.iEvalua}';
-// 		var iEmpresa='${usuario.iEmpresa}';	
-//    		console.log("idEvalua" +idEvalua);  
-
-// 		if (idEvalua==3){
-//        		console.log(" fnEvaluarAtencion ==3");  
-//        		$('#evaluar_boton_finalizar').html("Finaliza Atencion");       		
-
-// 		}else {
-//        		console.log(" fnEvaluarAtencion !=3");  
-
-//        		$('#evaluar_boton_finalizar').html("Cerrar");       		
-
-// 		}
-		
-
-// 		$.ajax({ 
-//      		type: 'POST', 
-//      		url: 'evaluaratencion.app',
-//      		data: {idTicket: idTicket, idVentanilla: idVentanilla, idUsuario: idUsuario},
-//      		success: function (response) {     			 			
-//      			var data = response.data;
-//      		}	
-//    		});
-// 		count(idTicket, idUsuario, idEvalua);
-
-//     }
-    
+    }    
 
     function fnLlamarXAudio(idTicket){
 		console.log("entro a llamar");
@@ -1137,12 +896,13 @@
      		}	
    		});
     }
-
+    
     function fnIniciarAtencion(idTicket, idEstado){
 		var idUsuario = '${usuario.iUsuarioId}';
+		var idSucursal = '${usuario.iSucursal}';
 		var idEvalua='${usuario.iEvalua}';
 		var iAnula = '${usuario.iAnula}';
-		var idControlAsistencia = '${usuario.iControlAsistencia}';
+		var iAtencion = '${usuario.iAtencion}';
 		var iEmpresa='${usuario.iEmpresa}';
 		if (idEstado==50 || idEstado==60 || idEstado==90 ){
     		return;
@@ -1153,43 +913,50 @@
      		url: 'iniciarprevioVerificaenTv.app',
      		data: {idTicket: idTicket, idUsuario:idUsuario},
      		success: function (response) {     			 			
-			siMuestraTV=response.data;
-			console.log("muestra informacion de iniciarprevioVerificaenTv.app :");
-			console.log(siMuestraTV);
-			if  (siMuestraTV==0) {
-				var r = confirm("Ticket no se muestra en la TV, Desea Iniciar la Atencion del Ticket?");
-				if (r == true) 	siMuestraTV=1;
-				else  siMuestraTV=0;
+				siMuestraTV=response.data;
+				console.log("muestra informacion de iniciarprevioVerificaenTv.app :");
+				console.log(siMuestraTV);
+				if  (siMuestraTV==0) {
+					var r = confirm("Ticket no se muestra en la TV, Desea Iniciar la Atencion del Ticket?");
+					if (r == true) 	siMuestraTV=1;
+					else  siMuestraTV=0;
+				}	
+				if  (siMuestraTV==1) {
+					$.ajax({ 
+						type: 'POST', 
+						url: 'iniciaratencion.app',
+						data: {idTicket: idTicket, idUsuario:idUsuario, idEstado: idEstado},
+						success: function (response) {     
+							var data = response.data;
+							console.log(data);
+	
+							var TextooApellido_sino=$('#txtApellido_sino').val();
+							Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAtencion, iAnula);
+						}	
+					});
+				}
 			}	
-			if  (siMuestraTV==1) {
-				$.ajax({ 
-					type: 'POST', 
-					url: 'iniciaratencion.app',
-					data: {idTicket: idTicket, idUsuario:idUsuario},
-					success: function (response) {     			 			
-						var data = response.data;
-
-						var TextooApellido_sino=$('#txtApellido_sino').val();
-						Construyehtml(data,'S',idEvalua, TextooApellido_sino, idControlAsistencia, iAnula);
-					}	
-				});
-			}
-		}	
    		});
      }     
+    
 // 	cambiar clave
 	function fnCambiarClaveForm(idUsuario){
-		
 		$('#modalCambiarClave').modal('show');
-
 	}
 
 	function fnCerrarSession(){
-		window.location.href = 'logout.app';
+		confirmAction({
+   			title: '¿Estás seguro de cerrar sesión?',
+   			url: 'logout.app',
+   			successMessage: 'Sesión Cerrada!',
+   			errorMessage: 'Ocurrió un Error al cerrar la sesión!',
+   			onSuccess: function() {
+				window.location.href = 'login.app'; 
+   		    }
+   		})
 	}
 
 	function fnCambiarClave(){
-
 		var pass = $('#txtNuevaClave').val();
 		var idUsuario = '${usuario.iUsuarioId}';
 		
@@ -1199,7 +966,7 @@
 			data: {idUsuario: idUsuario, pass: pass},		
 			success: function (response) {				
 				var mensaje = response.message;	 			
-     			if(response.success==true){
+     			if (response.success == true){
      				$.alert({
                         title: 'Exito',
                         content: mensaje,
@@ -1211,244 +978,16 @@
 			}
 		});		
 	}
-	
-	function fnCharla(){
-		$("#modalCharla").modal("show");
-	}
-	
-	$("#btnRegistrarCharla").click(function() {
-		var idUsuario = '${usuario.iUsuarioId}';
-		var numPersonas = $("#txtNPersonas").val();
-		
-		$.ajax({ 
-     		type: 'POST', 
-     		url: 'saveCharla.app',
-     		data: {idUsuario: idUsuario, numPersonas: numPersonas},
-     		success: function (response) {     			 			
-     			var data = response.data;
-     			var mensaje = response.message;	 			
-     			if(response.success==true){
-     				$.alert({
-     		            title: 'Exito',
-     		            content: 'Registrado correctamente',
-     		        });
-            	}     			
-     		}
-   		});
-	});
-	
-	function fnTipoPausa(){
-		$("#modalTipoPausa").modal("show");
-	}
-	
-	$("#btnRegistrar").click(function() {    
-		var idUsuario = '${usuario.iUsuarioId}';
-		var dni = '${usuario.dni}';
-		var tipoJustificacion = $('#cboTipoPausa').val();
-		
-		$.ajax({ 
-     		type: 'POST', 
-     		url: 'saveJustificacion.app',
-     		data: {idUsuario: idUsuario, dni: dni, tipoJustificacion: tipoJustificacion},
-     		success: function (response) {     			 			
-     			var data = response.data;
-     			var mensaje = response.message;	 			
-     			if(response.success==true){
-     				$.alert({
-     		            title: 'Exito',
-     		            content: 'Registrado correctamente',
-     		        });
-            	}     			
-     		}
-   		});
-	});
-	
-	function fnTipoAtencion(numeroIdentificacion, idTicket, idEstado){
-		if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 ){
 
+	function fnDerivarAtencion(idTicket, idEstado, idGrupo, numeroDocumento, nombreGrupo){		
+		if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 || idEstado==92 || idEstado==93 ){
     		return;
-    	}
-		$("#txtIdTipoAtencion").val(0);
-		$("#txtNombres").val("");
-		$("#txtApePaterno").val("");
-		$("#txtApeMaterno").val("");
-		$("#txtDNI").val("");
-		$("#cboEstado").val(0);
-		$("#cboModalidad").val(0);
-		$("#cboTipologia").val(0);
-		$("#cboTipoDocumento").val(0);
-		$("#cboTipoEntidad").val(0);
-		$("#cboTipoGestion").val(0);
-		$("#cboPlanCompraVivienda").val(0);
-		$("#cboPlanCompraConstVivienda").val(0);
-		$("#cboCuotaInicial").val(0);
-		$("#cboRecibeInfo").val(0);
-		$("#txtNExpediente").val("");
-		$("#fechaDesembolso").val("");
-		$("#fechaEstadoActual").val("");
-		$("#txtPromotor").val("");
-		$("#cboLugarVisita").val(0);
-		$("#txtNCelular").val("");
-		$("#txtCorreo").val("");
-		$("#cboDepartamentos").val(0);
-		$("#txtProvincia").val("");
-		$("#txtDistrito1").val("");
-		$("#txtDistrito2").val("");
-		$("#txtTicket").val(idTicket);
-		$("#modalTipoAtencion").modal("show");
-		var dniCliente = numeroIdentificacion;
-		var idTicket = idTicket;
-		var datosCliente = document.getElementById('datosCliente');
-		var compraVivienda = document.getElementById('divPlanCompraVivienda');
-		var constVivienda = document.getElementById('divPlanCompraConstVivienda');
-		datosCliente.style.display = 'none'; 
-		console.log(numeroIdentificacion);
-		console.log(idTicket);
-		$("#cboModalidad").change(function(){
-			var modalidad = $("#cboModalidad option:selected").val();
-			var tipoGestion = $("#cboTipoGestion option:selected").val();
-			if(tipoGestion == 126 && (modalidad == 23 || modalidad == 24 || modalidad == 25 || modalidad == 27)){
-				datosCliente.style.display = ''; 
-				if(modalidad == 23 || modalidad == 24 || modalidad == 25){
-					constVivienda.style.display = ''; 
-					compraVivienda.style.display = 'none';
-				}else if(modalidad == 27){
-					compraVivienda.style.display = ''; 
-					constVivienda.style.display = 'none'; 
-				}
-			}
-			else{
-				datosCliente.style.display = 'none'; 
-			}
-		});
-
-		$.ajax({ 
-			type: 'POST', 
-			url: 'getDataTipoAtencion.app',   		
-			data: {dniCliente: dniCliente, idTicket: idTicket},
-			success: function (response) {
-				var data = response.data;
-				if(data.length == 0){
-					$.ajax({ 
-						type: 'POST', 
-						url: 'getPersonabydni.app',   		
-						data: {dniCliente: dniCliente},
-						success: function (response) {
-							var data = response.data;
-							console.log(data);
-							if(data.length == 0){
-								$("#txtDNI").val(numeroIdentificacion);
-								$.alert({
-			     		            title: 'Persona no registrada',
-			     		            content: 'Está persona no está registrada en la base de datos',
-			     		        });
-								
-							}else{					
-								$("#txtDNI").val(data[0].dni);
-								$("#txtNombres").val(data[0].nombres);
-								$("#txtApePaterno").val(data[0].apePaterno);
-								$("#txtApeMaterno").val(data[0].apeMaterno);
-							}
-						}
-					});	
-				}
-				else{
-					$("#txtIdTipoAtencion").val(data[0].id);
-					$("#txtNombres").val(data[0].nombres);
-					$("#txtApePaterno").val(data[0].apePaterno);
-					$("#txtApeMaterno").val(data[0].apeMaterno);
-					$("#txtDNI").val(data[0].dni);
-					$("#cboEstado").val(data[0].estado);
-					$("#cboModalidad").val(data[0].modalidad);
-					$("#cboTipologia").val(data[0].tipologia);
-					$("#cboTipoDocumento").val(data[0].tipoDocumento);
-					$("#cboTipoEntidad").val(data[0].tipoEntidad);
-					$("#cboTipoGestion").val(data[0].tipoGestion);
-					$("#cboPlanCompraVivienda").val(data[0].planCompraVivienda);
-					$("#cboPlanCompraConstVivienda").val(data[0].planCompraConstVivienda);
-					$("#cboCuotaInicial").val(data[0].cuotaIniAhorroProg);
-					$("#cboRecibeInfo").val(data[0].recibeInformacion);
-					$("#txtNExpediente").val(data[0].nExpediente);
-					
-
-					$("#fechaDesembolso").val(f_fecha_unix_string(data[0].fechaDesembolso));
-					$("#fechaEstadoActual").val(f_fecha_unix_string(data[0].fechaEstado));
-					$("#txtPromotor").val(data[0].promotor);
-					$("#cboLugarVisita").val(data[0].lugarVisita);
-					$("#txtNCelular").val(data[0].nroContacto);
-					$("#txtCorreo").val(data[0].correo);
-					$("#cboDepartamentos").val(data[0].departamento);
-					$("#txtProvincia").val(data[0].provincia);
-					$("#txtDistrito1").val(data[0].distrito1);
-					$("#txtDistrito2").val(data[0].distrito2);
-				}
-			}
-		});	
-	}
-	
-	$("#btnRegistrarTA").click(function() {   
-		var idTipoAtencion = $("#txtIdTipoAtencion").val();
-		var idUsuario = '${usuario.iUsuarioId}';
-		var dni = $("#txtDNI").val();
-		var nombres = $("#txtNombres").val();
-		var apePaterno = $("#txtApePaterno").val();
-		var apeMaterno = $("#txtApeMaterno").val();
-		var estado = $('#cboEstado').val();
-		var modalidad = $("#cboModalidad").val();
-		var tipologia = $("#cboTipologia").val();
-		var tipoDocumento = $("#cboTipoDocumento").val();
-		var tipoEntidad = $("#cboTipoEntidad").val();
-		var tipoGestion = $("#cboTipoGestion").val();
-		var nExpediente = $("#txtNExpediente").val();
-		var fechaDesembolso = $("#fechaDesembolso").val();
-		var fechaEstado = $("#fechaEstadoActual").val();
-		var promotor = $("#txtPromotor").val();
-		var idTicket = $("#txtTicket").val();
-		var numeroContacto = $("#txtNCelular").val();
-		var correo = $("#txtCorreo").val();
-		var departamento = $("#cboDepartamentos").val();
-		var provincia = $("#txtProvincia").val();
-		var distrito1 = $("#txtDistrito1").val();
-		var distrito2 = $("#txtDistrito2").val();
-		var planCompraVivienda = $('#cboPlanCompraVivienda').val();
-		var planCompraConstVivienda = $('#cboPlanCompraConstVivienda').val();
-		var cuotaInicial = $('#cboCuotaInicial').val();
-		var recibeInfo =  $('#cboRecibeInfo').val();
-		var lugarVisita = $("#cboLugarVisita").val();
-		console.log(idTicket);
-		if(idTipoAtencion == ''){
-			idTipoAtencion = 0;
-		}
-		console.log(idTipoAtencion);
-		$.ajax({ 
-     		type: 'POST', 
-     		url: 'savetipoatencion.app',
-     		data: {idTipoAtencion: idTipoAtencion, idUsuario: idUsuario, dni: dni, nombres: nombres, apePaterno: apePaterno, apeMaterno: apeMaterno, estado: estado, modalidad: modalidad,
-     			tipologia: tipologia, tipoDocumento: tipoDocumento, tipoEntidad: tipoEntidad, tipoGestion: tipoGestion,
-     			nExpediente: nExpediente, fechaDesembolso: fechaDesembolso, fechaEstado: fechaEstado, promotor: promotor, idTicket: idTicket, numeroContacto: numeroContacto, 
-     			correo: correo, departamento: departamento, provincia: provincia, distrito1: distrito1, distrito2: distrito2, planCompraVivienda: planCompraVivienda, 
-     			planCompraConstVivienda: planCompraConstVivienda, cuotaInicial: cuotaInicial, recibeInfo: recibeInfo, lugarVisita: lugarVisita},
-     		success: function (response) {     			 			
-     			var data = response.data;
-     			var mensaje = response.message;	 			
-     			if(response.success==true){
-     				$.alert({
-     		            title: 'Exito',
-     		            content: 'Registrado correctamente',
-     		        });
-            	}     			
-     		}
-   		});
-	});
-	
-	function fnDerivarAtencion(idTicket, idEstado){		
+    	}			
 		
-		if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 ){
-
-    		return;
-    	}				
 		$("#modalDerivarTicket").modal("show");
 		$("#txtIdTicketDeriva").val(idTicket);
+		$("#txtNumeroDocumento").val(numeroDocumento);
+		$("#txtNombreGrupo").val(nombreGrupo);
 		var idUsuario = '${usuario.iUsuarioId}';
 		var idSucursal = '${usuario.iSucursal}';
 		var tipoParametro= $("#txtTipoDerivacion").val();
@@ -1457,12 +996,12 @@
 		 // tipoparametro=2 cargar los grupos del area
 		 // tipo parametro =3 cargar los grupos del Rol
 
-
-		 if ((tipoParametro==1) ||  (tipoParametro==2)) {
+		 if ((tipoParametro==1) || (tipoParametro==2)) {
 			$("#divDerivaMenu").show();
 			$('#divDerivaGrupo').hide()
 			$('#divDerivaVentanilla').hide();
-			$('#divDerivaGrupoVentanilla').hide();		 
+			$('#divDerivaGrupoVentanilla').hide();		
+			$('#cboGrupoDerivar').val(idGrupo);
 		 }
 
 		 if (tipoParametro==3) {
@@ -1471,38 +1010,18 @@
 			$('#divDerivaVentanilla').hide();
 			$('#divDerivaGrupoVentanilla').hide();
 		 }				 
-
-
 	} 
 
 	function fnAnularAtencion(idTicket, idEstado){
-		if ( idEstado==60 || idEstado==90 ) return;
+		if ( idEstado == 50 || 
+			 idEstado == 60 || 
+			 idEstado == 70 || 
+			 idEstado == 90 || 
+			 idEstado == 92 || 
+			 idEstado == 93 ) return;
     	
-		var idUsuario = '${usuario.iUsuarioId}';
-		var idEvalua='${usuario.iEvalua}';
-		var iAnula = '${usuario.iAnula}';		
-		var tipoAnulacion =11;
-		var descripcion = 'Se retiro sin Motivo';
-		var idSucursal = '${usuario.iSucursal}';
-		var iAtencion = '${usuario.iAtencion}';
-		var TextooApellido_sino=$('#txtApellido_sino').val();	
-
-		confirmAction({
-   			title: '¿Estás seguro de anular el ticket?',
-   			url: 'anularatencion.app',
-   			data: { 
-   				idTicket: idTicket, 
-   				idUsuario: idUsuario,  
-   				idSucursal: idSucursal,
-   				tipoAnulacion: tipoAnulacion, 
-   				descripcion: descripcion
- 			},		 
-   			successMessage: 'Ticket Anulado!',
-   			errorMessage: 'Ocurrió un Error al anular el ticket!',
-   			onSuccess: function(response) {
-   				Construyehtml(response.data, 'S', idEvalua, TextooApellido_sino, iAtencion, iAnula);	
-   			},
-   		})	
+		$("#modalGenerarAnulacion").modal("show");		
+		getInitDataGenerateCancellation(idTicket);
     }
 
 	function fnActivarAtencion(idTicket, idEstado){
@@ -1531,32 +1050,59 @@
    		})
     }
 
-    function fnFinalizarAtencion(idTicket, idEstado){
-    	var idControlAsistencia = '${usuario.iControlAsistencia}';
+    function fnFinalizarAtencion(idTicket, idEstado, nombreGrupo){
+    	var iAtencion = '${usuario.iAtencion}';
 		var idUsuario = '${usuario.iUsuarioId}';
-		var idEvalua='${usuario.iEvalua}';
+		var idEvalua ='${usuario.iEvalua}';
 		var iAnula = '${usuario.iAnula}';
-		var iEmpresa='${usuario.iEmpresa}';		
-			if (idEstado==40 || idEstado==41 || idEstado==60 || idEstado==90 ){
-	    		return;
-	    	}
-    	$.ajax({ 
-     		type: 'POST', 
-     		url: 'finalizaratencion.app',
-     		data: {idTicket: idTicket, idUsuario:idUsuario},
-     		success: function (response) {     			 			
-     			var data = response.data;
-				var TextooApellido_sino=$('#txtApellido_sino').val();	
-				Construyehtml(data,'S',idEvalua, TextooApellido_sino, idControlAsistencia, iAnula);
-     		}	
+		var iEmpresa ='${usuario.iEmpresa}';	
+		var TextooApellido_sino=$('#txtApellido_sino').val();
+
+		if (idEstado==40 || 
+			idEstado==41 || 
+			idEstado==60 || 
+			idEstado==70 || 
+			idEstado==90 ||  
+			idEstado==92 || 
+			idEstado==93){
+    		return;
+    	}
+
+		confirmAction({
+   			title: '¿Estás seguro de finalizar la atención?',
+   			url: 'finalizaratencion.app',
+   			data: { 
+   				idTicket: idTicket, 
+   				idUsuario: idUsuario,  
+   				idSucursal: idSucursal,
+   				idEstado: idEstado
+ 			},		 
+   			successMessage: 'Atención Finalizada!',
+   			errorMessage: 'Ocurrió un Error al finalizar la atención!',
+   			onSuccess: function(response) {
+   				Construyehtml(response.data, 'S', idEvalua, TextooApellido_sino, iAtencion, iAnula);	
+   				loadDailyTicketCount();
+   			},
    		});
     }
-
+    
+    function loadDailyTicketCount() {
+    	var idUsuario = '${usuario.iUsuarioId}';
+    	
+    	$.ajax({
+    		type: 'POST',
+    		url: 'contarTicketAtendidosDia.app',
+    		data: { idUsuario: idUsuario },
+    		success: function(res) {
+    			$("#cantTickets").text(res.count || 0);
+    		}
+    	});
+    }
     
     $('#cboTipoDeriva').on('change', function() {
 		var tipoDeriva = this.value;
 		$('#cboGrupoVentanillaDerivar').val(0);	
-		$('#cboGrupoDerivar').val(0);	
+// 		$('#cboGrupoDerivar').val(0);	
 		$('#cboVentanillaDerivar').val(0);	
 		if(tipoDeriva==1){			
 			$('#divDerivaGrupo').show()
@@ -1580,7 +1126,7 @@
 		var idVentanilla = this.value;
 		var idSucursal = '${usuario.iSucursal}';
 		$('#cboGrupoVentanillaDerivar').val(0);	
-		$('#cboGrupoDerivar').val(0);	
+// 		$('#cboGrupoDerivar').val(0);	
 		
 		$("#cboGrupoVentanillaDerivar").children("option:not(:first)").remove();
 		$("#cboGrupoVentanillaDerivar").prop('disabled', false);
@@ -1592,10 +1138,7 @@
     		data: {idSucursal: idSucursal, idVentanilla: idVentanilla}, 	    		
     		success: function (response) {
     			var data = response.data;
-				console.log('data->>>');
-    			console.log(data);
     			$.each(data, function (index, item) {
-                    console.log(data);
                     $("<option/>")
                             .attr("value", item.id)
                             .text(item.nombre)
@@ -1604,28 +1147,12 @@
                 });	
     		}
     	});	
-		console.log("no pasa");
-		
 	});
 
     function modalActualizar(){
     	$("#modalActualizarVentanilla").modal('show');	
     }
-    function f_fecha_unix_string(p_fecha){
-    	console.log(p_fecha)
-    	if (p_fecha != null) {
-			var u_fecha = new Date(p_fecha)
-			var v_year = u_fecha.toLocaleString("default", { year: "numeric" });
-			var v_month = u_fecha.toLocaleString("default", { month: "2-digit" });
-			var v_day = u_fecha.toLocaleString("default", { day: "2-digit" });
-			
-			// Generate yyyy-mm-dd date string
-			var v_formatodate = v_year + "-" + v_month + "-" + v_day;
-			console.log('linea 1213-->'+v_formatodate);	
-    	}
-		else v_formatodate=' ';
-		return v_formatodate;
-    }
+    
     $('#cboArea').on('change', function() {
 //		var idSede = this.value;
 		var idSucursal = '${usuario.iSucursal}';
@@ -1640,7 +1167,6 @@
 				var data = response.data;
 
 				$.each(data, function (index, item) {
-
 	                $("<option/>")
 	                        .attr("value", item.id)
 	                        .text(item.nombre)
@@ -1650,80 +1176,26 @@
 		});	
 	
 	});  
-      
+
+    var idSucursal = 0;
+	var nombreArea = "";
 $(document).ready(function(){
-	var idSucursal='${usuario.iSucursal}';
+	init();
+	idSucursal='${usuario.iSucursal}';
 	var idUsuario='${usuario.iUsuarioId}';	
 	var idVentanilla='${usuario.iVentanilla}';
 	var idEvalua='${usuario.iEvalua}';
 	var iAnula = '${usuario.iAnula}';
-	var idControlAsistencia = '${usuario.iControlAsistencia}';
+	var iAtencion = '${usuario.iAtencion}';
     var idRolEquipo = '${usuario.iRolEquipo}';
 	var iEmpresa='${usuario.iEmpresa}';	
-	var estado = '1';
-	var modalidad = '22';
-	var tipologia = '36';
-	var tipoDocumento = '85';
-	var tipoEntidad = '106';
-	var tipoGestion = '125';
-	var planCompra = '129';
-	var cuotaInicial = '133';
-	var recibeInfo = '137';
-	var lugarVisita = '140';
-	var departamentos = '165';
-	var datosCliente = document.getElementById('datosCliente');
-	datosCliente.style.display = 'none'; 
-	console.log("Control de asistencia: "+idControlAsistencia);
+	loadUserAbsence(idUsuario);
+	loadDailyTicketCount();
 
+	// tipo documento
 	$.ajax({ 
 		type: 'POST', 
-		url: 'listarEstado.app',   		
-		data: {estado: estado, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboEstado");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarModalidad.app',   		
-		data: {modalidad: modalidad, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboModalidad");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarTipologia.app',   		
-		data: {tipologia: tipologia, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboTipologia");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarTipoDocumento.app',   		
-		data: {tipoDocumento: tipoDocumento, idSucursal: idSucursal},
+		url: 'listarTipoDocumentoXGeneraTicket.app',   		
 		success: function (response) {
 			var data = response.data;
 			$.each(data, function (index, item) {
@@ -1735,132 +1207,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarTipoEntidad.app',   		
-		data: {tipoEntidad: tipoEntidad, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboTipoEntidad");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarTipoGestion.app',   		
-		data: {tipoGestion: tipoGestion, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboTipoGestion");
-            });	
-		}
-	});	
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarPlanCompra.app',   		
-		data: {planCompra: planCompra, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboPlanCompraVivienda");
-                $("<option/>")
-                .attr("value", item.id)
-            	.text(item.descripcion)
-                .appendTo("#cboPlanCompraConstVivienda");
-            });	
-		}
-	});	
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarCuotaInicial.app',   
-		data: {cuotaInicial: cuotaInicial, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboCuotaInicial");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarRecibeInfo.app',   		
-		data: {recibeInfo: recibeInfo, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboRecibeInfo");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarLugarVisita.app',   		
-		data: {lugarVisita: lugarVisita, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboLugarVisita");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarDepartamentos.app',   		
-		data: {departamentos: departamentos, idSucursal: idSucursal},
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.id)
-                    	.text(item.descripcion)
-                        .appendTo("#cboDepartamentos");
-            });	
-		}
-	});
-	
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarJustificacion.app',   		
-		success: function (response) {
-			var data = response.data;
-			$.each(data, function (index, item) {
-                $("<option/>")
-                        .attr("value", item.idTipoJustificacion)
-                    	.text(item.descripcion)
-                        .appendTo("#cboTipoPausa");
-            });	
-
-			$("#cboTipoPausa option[value= 1 ]").remove();
-		}
-	});
-	
-// obtener parametro de tipo de derivacion DE LA TABLA PARAMETRO
+	// obtener parametro de tipo de derivacion DE LA TABLA PARAMETRO
 	$.ajax({ 
 		type: 'POST', 
 		url: 'consultaParametroTipo.app',
@@ -1871,10 +1218,28 @@ $(document).ready(function(){
 		}
 	});
 
-//obtener el nombre de ventanilla por idUsuario
+	// obtener Audio 20241223 
+	$.ajax({ 
+		type: 'POST', 
+		url: 'consultaParametroTipo.app',
+		data: {idSucursal: idSucursal, parametro:'040'},		 	    		
+		success: function (response) {
+			var data = response.data;
+			$('#txtTieneAudio').val(data);	
 
-
-	//listar los ghrupos
+			$.ajax({ 
+				type: 'POST', 
+				url: 'consultaParametroTipoDescrip.app',
+				data: {idSucursal: idSucursal, parametro:'041'},		 	    		
+				success: function (response) {
+					var data = response.data;
+					$('#txtDirAudio').val(data);	
+				}
+			});
+			
+		}
+	});
+	//End obtener Audio 20241223 
 	
 	// vbr 20191124 OBTENER el tiempo de espera para la evaluacion parametro 150
 	$.ajax({ 
@@ -1901,9 +1266,15 @@ $(document).ready(function(){
 		}
 	});
 
-	// listar ventanillas
-
-
+	$.ajax({
+		type: 'POST',
+		url: 'getsucursalbyid.app',
+		data: {idSucursal: idSucursal},
+		success: function (response) {
+			var data = response.data;
+			$('#nombreSucursal').html(data.nombre);
+		}
+	});
 	
 	$.ajax({ 
 		type: 'POST', 
@@ -1926,47 +1297,7 @@ $(document).ready(function(){
 			$('#txtApellido_sino').val(data);	
 		}
 	});
-	$.ajax({ 
-		type: 'POST', 
-		url: 'consultaAsistencia.app',
-		data: {idSucursal: idSucursal},		 	    		
-		success: function (response) {
-			var data = response.data;
-			var asistencia = document.getElementById('divAsistencia');
-			if(data == 1){
-				asistencia.style.display = '';
-			}
-			
-		}
-	});
-	$.ajax({ 
-		type: 'POST', 
-		url: 'consultaCharla.app',
-		data: {idSucursal: idSucursal},		 	    		
-		success: function (response) {
-			var data = response.data;
-			var charla = document.getElementById('divCharla');
-			if(data == 1){
-				charla.style.display = '';
-			}
-		}
-	});
 
-	$.ajax({ 
-		type: 'POST', 
-		url: 'listarticketbyidusuario.app',
-		data: {idUsuario: idUsuario},			
-		success: function (response) {			
-			var data = response.data;				     			
-			var html;									
-			var hi;
-			var hf; 
-			var TextooApellido_sino=$('#txtApellido_sino').val();			
-			Construyehtml(data,'S',idEvalua, TextooApellido_sino, idControlAsistencia, iAnula);
-
-		}
-	});
-	
 	$(".btn-group .btn").click(function(){
 		var inputValue = $(this).find("input").val();
 		if(inputValue != 'all'){
@@ -1994,10 +1325,7 @@ $(document).ready(function(){
 		data: {idSucursal: idSucursal}, 	    		
 		success: function (response) {
 			var data = response.data;
-	
-
 			$.each(data, function (index, item) {
-                
                 $("<option/>")
                         .attr("value", item.id)
                         .text(item.descripcion)
@@ -2005,54 +1333,67 @@ $(document).ready(function(){
             });	
 		}
 	});
+    
 	var tipoParametro= $("#txtTipoDerivacion").val();	
 	derivalistadogrupo(idSucursal, tipoParametro, idUsuario);	
 	derivalistadoventanilla(idSucursal, tipoParametro, idUsuario);
-	
 });
-
-window.onbeforeunload = function() {
-	  var xhr = new XMLHttpRequest();
-	  xhr.open("GET", "logout.app", true);
-	  xhr.send();
-	};
-// vbr 20241223
-//End vbr 20241223
-setInterval(verTicketEspera,10000);
-function verTicketEspera(){										       
-	var idRol='${usuario.iRolEquipo}';
-	console.log(idRol);
+	
+function listarTicketByIdUsuario(){
+	var idUsuario='${usuario.iUsuarioId}';
+	var idEvalua='${usuario.iEvalua}';
+	var iAnula = '${usuario.iAnula}';
+	var iAtencion = '${usuario.iAtencion}';	
+	var TextooApellido_sino=$('#txtApellido_sino').val();	
+	
 	$.ajax({ 
 		type: 'POST', 
-		url: 'getcantidadticketesperaTodo.app',
-		data: {idRol: idRol},
-		success: function (response) {
-					var data = response.data;
-					cant = data;
-					var dataInicial=$("#cantEspera").html();
-					var notificaSiNo=$("#txtNotifica_sino").val();
-					console.log("data inicio:"+dataInicial);
-					if(cant!=0){
-						$('#btnTurnos').addClass("parpadea");
+		url: 'listarticketbyidusuario.app',
+		data: {idUsuario: idUsuario},			
+		success: function (response) {			
+			var data = response.data;	
+			var TextooApellido_sino=$('#txtApellido_sino').val();	
+			Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAtencion, iAnula);
+
+		}
+	});
+}
+
+	setInterval(verTicketEspera,1000);
+	function verTicketEspera(){				
+		var idRol='${usuario.iRolEquipo}';
+		var idUsuario='${usuario.iUsuarioId}';
+		var idVentanilla='${usuario.iVentanilla}';
+		
+		$.ajax({ 
+			type: 'POST', 
+			url: 'getcantidadticketesperaTodo.app',
+			data: {
+				idRol: idRol,
+				idUsuario: idUsuario,
+				idVentanilla: idVentanilla
+			},
+			success: function (response) {
+				var data = response.data;
+				cant = data;
+				var dataInicial=$("#cantEspera").html();
+				var notificaSiNo=$("#txtNotifica_sino").val();
+				if (cant!=0) {
+					$('#btnTurnos').addClass("parpadea");
+				} else{
+					$('#btnTurnos').removeClass("parpadea");
+				}
+				if (notificaSiNo==1){
+					if (cant>dataInicial){
+						notificacion_windows();
 					}
-					else{
-						$('#btnTurnos').removeClass("parpadea");
-					}
-					console.log("data carga:"+cant);
-					if (notificaSiNo==1){
-						if (cant>dataInicial){
-							notificacion_windows();
-						}
-					}	
-					$("#cantEspera").html(cant);
-					
+				}	
+				$("#cantEspera").html(cant);
 			}
 		});
  	}
 
-
 $("#btnActualizarVentanilla").click(function() {    	
-	
 	var idSucursal='${usuario.iSucursal}';
 	var idUsuario='${usuario.iUsuarioId}';
 	var idArea = $("#cboArea").val();
@@ -2069,6 +1410,7 @@ $("#btnActualizarVentanilla").click(function() {
     					
 		}
 	});
+	
 	$.ajax({ 
 		type: 'POST', 
 		url: 'actualizarventanilla.app',

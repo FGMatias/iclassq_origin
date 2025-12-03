@@ -123,6 +123,7 @@ public interface TicketDAO {
   	public void actulizarMonitorcajas();
 
 	public int getCantidadTicketEsperaAllSubGrupo(Map<String, Object> paramet);
+	public int getCantidadTicketEsperaAllVentAdmin(Map<String, Object> paramet);
 	
 	
 	// MATIAS: traer Nombre del grupo segun id subgrupo

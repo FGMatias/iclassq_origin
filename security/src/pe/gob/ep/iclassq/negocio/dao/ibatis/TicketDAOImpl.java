@@ -296,6 +296,12 @@ public class TicketDAOImpl extends SqlMapClientDaoSupport implements TicketDAO {
      	return (Integer) getSqlMapClientTemplate().queryForObject("tbl_ticket.getCantidadTicketEsperaAllSubGrupo", paramet);
  	}
   	@Override
+  	public int getCantidadTicketEsperaAllVentAdmin(Map<String, Object> paramet) {
+  		// TODO Auto-generated method stub
+  		
+  		return (Integer) getSqlMapClientTemplate().queryForObject("tbl_ticket.getCantidadTicketEsperaAllVentAdmin", paramet);
+  	}
+  	@Override
 	public List<BeanTicketLlamado> getListTicketCallVoz(Map<String, Object> params) {
 		// TODO Auto-generated method stub
 		List<BeanTicketLlamado> list = getSqlMapClientTemplate().queryForList("tbl_ticket.getListTicketCallVoz", params);

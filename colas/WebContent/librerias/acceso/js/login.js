@@ -38,7 +38,6 @@ login={
 		},
 		
 		validateLogin:function(){
-			debugger
 			var j_username = $('#j_username').val();
 			var j_password = $('#j_password').val();
 			var j_rol = $('#roles').val();
@@ -109,22 +108,22 @@ login={
                               myMask.hide();
                               var msg = xhr && xhr.responseJSON && xhr.responseJSON.message;
                               if(msg){
-                                      $('.errorlogin').html(msg);
-                                      $('#messageValidation').html(msg);
+	                              $('.errorlogin').html(msg);
+	                              $('#messageValidation').html(msg);
                               }
                               Util.UiMessageBox({
-                                            msg : 'Ocurri&oacute; un error al intentar obtener los roles del usuario ingresado.<br/> Desea volver ha intentar obtener los roles del usuario?',
-                                            title : 'Error',
-                                            textAceptar : 'Si',
-                                            fn_aceptar:function(){
-                                                    login.findRolesByUserName($('#j_username').val());
-                                            },
-                                            textCancelar:'No',
-                                            fn_concelar:function(){
-                                                    myMask.hide();
-                                            },
-                                            showCancel:true
-                                    });
+		                            msg : 'Ocurri&oacute; un error al intentar obtener los roles del usuario ingresado.<br/> Desea volver ha intentar obtener los roles del usuario?',
+		                            title : 'Error',
+		                            textAceptar : 'Si',
+		                            fn_aceptar:function(){
+	                                    login.findRolesByUserName($('#j_username').val());
+		                            },
+		                            textCancelar:'No',
+		                            fn_concelar:function(){
+		                                    myMask.hide();
+		                            },
+		                            showCancel:true
+							  });
                       }
                       ,success: function(response, textStatus, jqXHR){
                               myMask.hide();

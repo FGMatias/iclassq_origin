@@ -209,10 +209,6 @@
 											<label>Hora Fin (Kiosko)</label>
 											<input class="form-control" type="time" id="txtHoraFin" required>
 										</div>
-										<div class="col-xs-12 col-sm-4">
-											<label>Tiempo Objetivo (Minutos)</label>
-											<input class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="txtTiempoObjetivo" placeholder="18"/>
-										</div>	
 									</div>
 								</div>																
 							</div>
@@ -416,10 +412,6 @@
 											<label>Hora Fin (Kiosko)</label>
 											<input class="form-control" type="time" id="txtHoraFinEdit" required>
 										</div>
-										<div class="col-xs-12 col-sm-4">
-											<label>Tiempo Objetivo (Minutos)</label>
-											<input class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" id="txtTiempoObjetivoEdit" placeholder="18"/>
-										</div>	
 									</div>
 								</div>																
 							</div>
@@ -712,7 +704,6 @@ $("#btnOpenModal").click(function() {
 		$("#txtPrioridadAlgoritmo3").val("");
 		$("#cboAgrupador").val("");
 		$('#txtIdGrupo').val(id);
-		$('#txtTiempoObjetivo').val(id);
 		$('#nuevoSubGrupo').modal('show');
 		$("#msgValidate").removeClass("show");
 	}
@@ -730,16 +721,23 @@ $("#btnOpenModal").click(function() {
 		var kioskoAlg3Minimo = $("#txtKioskoA3Minimo").val();
 		var horaInicio = $("#txtHoraInicio").val();
 		var horaFin = $("#txtHoraFin").val();
-		var tiempoObjetivo = $("#txtTiempoObjetivo").val();
 			
 		$.ajax({ 
 	 		type: 'POST', 
 	 		url: 'savegruposxsede.app',
-	 		data: {idSucursal: idSucursal, nombreGrupo: nombreGrupo, 
-		 		prefijoGrupo: prefijoGrupo, idAlgoritmo: idAlgoritmo, 
-		 		idArea: idArea, descripcionCorta:descripcionCorta, descripcionLarga: descripcionLarga, 
-		 		kioskoAlg3Entrada: kioskoAlg3Entrada, kioskoAlg3Minimo: kioskoAlg3Minimo, horaInicio: horaInicio,
-		 		horaFin: horaFin, tiempoObjetivo: tiempoObjetivo}, 	    		
+	 		data: {
+				idSucursal: idSucursal, 
+				nombreGrupo: nombreGrupo, 
+		 		prefijoGrupo: prefijoGrupo, 
+		 		idAlgoritmo: idAlgoritmo, 
+		 		idArea: idArea, 
+		 		descripcionCorta:descripcionCorta, 
+		 		descripcionLarga: descripcionLarga, 
+		 		kioskoAlg3Entrada: kioskoAlg3Entrada,
+		 		kioskoAlg3Minimo: kioskoAlg3Minimo, 
+		 		horaInicio: horaInicio,
+		 		horaFin: horaFin
+	 		}, 	    		
 	 		success: function (response) {
 	 			var data = response.data;
 	 			if(response.success==true){
@@ -1061,7 +1059,6 @@ function fnEditarGrupo(id){
  			$("#txtKioskoA3MinimoEdit").val(data.kioskoAlg3Minimo);
  			$("#txtHoraInicioEdit").val(time_format(fini));
  			$("#txtHoraFinEdit").val(time_format(ffin));
- 			$("#txtTiempoObjetivoEdit").val(data.tiempoObjetivo);
 		}
 	});
 }
@@ -1080,16 +1077,24 @@ $("#btnEditarGrupoXSucursal").click(function() {
 	var descripLargaEdit = $("#txtDescripcionLargaEdit").val();
 	var horaInicioEdit = $("#txtHoraInicioEdit").val();
 	var horaFinEdit = $("#txtHoraFinEdit").val();
-	var tiempoObjetivoEdit = $("#txtTiempoObjetivoEdit").val();
 	
 	$.ajax({ 
  		type: 'POST', 
  		url: 'editgrupos.app',
- 		data: {idGrupo: idGrupo, idSucursal: idSucursal, nombreEdit: nombreEdit, 
- 	 		prefijoEdit: prefijoEdit, algEdit: algEdit, areaEdit: areaEdit, 
- 	 		descripCortaEdit: descripCortaEdit, kioskoEntradaEdit: kioskoEntradaEdit, 
- 	 		kioskoMinimoEdit: kioskoMinimoEdit,	descripLargaEdit: descripLargaEdit,
- 	 		horaInicioEdit: horaInicioEdit, horaFinEdit: horaFinEdit, tiempoObjetivoEdit: tiempoObjetivoEdit},
+ 		data: {
+			idGrupo: idGrupo, 
+			idSucursal: idSucursal, 
+			nombreEdit: nombreEdit, 
+ 	 		prefijoEdit: prefijoEdit, 
+ 	 		algEdit: algEdit, 
+ 	 		areaEdit: areaEdit, 
+ 	 		descripCortaEdit: descripCortaEdit, 
+ 	 		kioskoEntradaEdit: kioskoEntradaEdit, 
+ 	 		kioskoMinimoEdit: kioskoMinimoEdit,	
+ 	 		descripLargaEdit: descripLargaEdit,
+ 	 		horaInicioEdit: horaInicioEdit, 
+ 	 		horaFinEdit: horaFinEdit
+ 		},
  		success: function (response) {
  			var mensaje = response.message;	 			
  			var data = response.data;
