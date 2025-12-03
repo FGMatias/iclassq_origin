@@ -154,6 +154,7 @@ public interface TicketService {
 	public Ticket sonidoTimbreSecundario(Integer iRolEquipo) throws Exception;
 	public BeanTicketLlamado verificarNuevoLlamadoVozSecundario(Integer iRolEquipo) throws Exception;
 	public int getNextTicketSubGrupo_Alg_1_2_VS(Integer idRolEquipo, Integer idSucursal, Integer idUsuario) throws Exception;
+	public int getNextTicketSubGrupo_Alg_1_2_VA(Integer idRolEquipo, Integer idSucursal, Integer idUsuario) throws Exception;
 	
 	public void saveRutaAudio(Integer idTicket, String rutaAudio, Integer idSucursal) throws Exception;
 	

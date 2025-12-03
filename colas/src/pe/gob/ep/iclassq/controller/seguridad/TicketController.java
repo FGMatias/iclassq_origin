@@ -580,8 +580,6 @@ public class TicketController {
 		Map<String, Object> data = new HashMap<String, Object>();		
 		Integer idSucursal= Integer.parseInt(req.getParameter("idSucursal"));
 		Integer idUsuario= Integer.parseInt(req.getParameter("idUsuario"));
-
-		
 		try{			
 			data.put("data", ticketService.listargruposxparametroTipoDeriva(idSucursal, idUsuario));
 			data.put("message", "Listado de Grupos");

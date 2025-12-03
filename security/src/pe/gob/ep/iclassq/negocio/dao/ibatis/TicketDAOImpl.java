@@ -394,6 +394,13 @@ public class TicketDAOImpl extends SqlMapClientDaoSupport implements TicketDAO {
 		
 		return (BeanTicketId) getSqlMapClientTemplate().queryForObject("tbl_ticket.getNextTicketSubGrupo_Alg_1_2_VS", paramet);
 	}
+  	
+  	@Override
+  	public BeanTicketId getNextTicketSubGrupo_Alg_1_2_VA(Map<String, Object> paramet) {
+  		// TODO Auto-generated method stub
+  		
+  		return (BeanTicketId) getSqlMapClientTemplate().queryForObject("tbl_ticket.getNextTicketSubGrupo_Alg_1_2_VA", paramet);
+  	}
 	
 	//actualizacion de eventos desde JOB
 	@Override

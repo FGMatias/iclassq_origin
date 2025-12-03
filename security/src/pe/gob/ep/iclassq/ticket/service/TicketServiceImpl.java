@@ -1284,6 +1284,28 @@ public class TicketServiceImpl implements TicketService {
 	}
 	
 	@Override
+	public int getNextTicketSubGrupo_Alg_1_2_VA(Integer idRolEquipo, Integer idSucursal, Integer idUsuario) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> param = new HashMap<String, Object>();		
+		int iTicket_alg3=0;
+		try {
+			param.put("idRolEquipo", idRolEquipo);	
+			param.put("idSucursal", idSucursal);	
+			param.put("idUsuario", idUsuario);	
+			BeanTicketId beanTicketId =  ticketDAO.getNextTicketSubGrupo_Alg_1_2_VA(param);
+			iTicket_alg3=beanTicketId.getId();
+			System.out.println("TicketAlg2-->>>"+iTicket_alg3);
+		} catch (Exception npe) {
+			iTicket_alg3=0;
+			System.out.println("algun error");
+			
+		}finally{
+			System.out.println("finaliza controlado getNextTicketGrupo_Alg_1_2_VA");
+		}
+		return iTicket_alg3;
+	}
+	
+	@Override
 	public int getNextTicketSubGrupo(Integer idSubGrupo, Integer idRolEquipo, Integer idUsuario, Integer idSucursal) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> param = new HashMap<String, Object>();		
@@ -1319,7 +1341,7 @@ public class TicketServiceImpl implements TicketService {
 		gcr.createCriteria().andIdEqualTo(idRolEquipo);
 		List<RolEquipo> listRE = new ArrayList<>();
 		listRE = rolEquipoDAO.selectByExample(gcr);
-		if(listRE.get(0).getTipoEquipo().equals("VS") || listRE.get(0).getTipoEquipo().equals("VA")){
+		if(listRE.get(0).getTipoEquipo().equals("VS")){
 			if(listRE.get(0).getAlgoritmo() == 2) {
 				List<BeanSubGrupoProporcion> listSubGrupoRolEquipo = this.getSubGrupoByRolEquipo(idUsuario, idRolEquipo, idSucursal);
 				int cant1 = listSubGrupoRolEquipo.size();
@@ -1338,6 +1360,23 @@ public class TicketServiceImpl implements TicketService {
 				}
 			}else if (listRE.get(0).getAlgoritmo() == 1){
 				idTicket=this.getNextTicketSubGrupo_Alg_1_2_VS( idRolEquipo, idSucursal, idUsuario ); //getNextTicketSubGrupo_Alg_1_2_VS agregar nueva funcion
+			}	
+		} else if(listRE.get(0).getTipoEquipo().equals("VA")){
+			if(listRE.get(0).getAlgoritmo() == 2) {
+				List<BeanSubGrupoProporcion> listSubGrupoRolEquipo = this.getSubGrupoByRolEquipo(idUsuario, idRolEquipo, idSucursal);
+				int cant1 = listSubGrupoRolEquipo.size();
+				for(int k=0; k<cant1; k++) {
+					idTicket=this.getNextTicketSubGrupo(listSubGrupoRolEquipo.get(k).getIdSubGrupo(), idRolEquipo, idUsuario, idSucursal);
+					if (idTicket==0){
+						continue;
+					}else{
+						break;
+					}	
+					//}
+					
+				}
+			}else if (listRE.get(0).getAlgoritmo() == 1){
+				idTicket=this.getNextTicketSubGrupo_Alg_1_2_VA( idRolEquipo, idSucursal, idUsuario );
 			}	
 		}
 		else {

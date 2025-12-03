@@ -188,6 +188,7 @@
                 <div class="col-sm-4">
                		<button type="button" class="btn btn-primary btn-lg" id="btnLlamarSiguiente"><span class="glyphicon glyphicon-forward"></span>&nbsp;Siguiente</button>
                 	<button type="button" id="btnTurnos" class="btn btn-success">N° Turnos en Espera: <b><span id="cantEspera" style="font-size:15px"></span></b></button> 
+                	<button type="button" class="btn btn-success btn-lg" id="btnModalGrupos">&nbsp;Grupos</button>
                 </div>
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-danger btn-lg pull-right" onclick="fnCerrarSession()"><span class="glyphicon glyphicon-off"></span>&nbsp;Salir</button>
@@ -372,6 +373,7 @@
 
 <jsp:include page="components/modals/modalAusencia.jsp" />
 <jsp:include page="components/modals/modalAnulacion.jsp" />
+<jsp:include page="components/modals/modalViewGroups.jsp" />
 <jsp:include page="components/scripts/toAudioRecord.jsp" />
 <jsp:include page="components/scripts/formatString.jsp" />
 	
@@ -777,6 +779,11 @@
 
     $("#btnCerrarSession").click(function() {
     	window.location.href = 'logout.app';
+    });
+    
+    $("#btnModalGrupos").click(function() {    	
+		$("#modalViewGroups").modal("show");		
+		getInitDataViewGroups();
     });
     
     $("#btnLlamarSiguiente").click(function() {  

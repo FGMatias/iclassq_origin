@@ -1576,6 +1576,44 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 		LIMIT 1
 	</select>
 	
+	<select id="getNextTicketSubGrupo_Alg_1_2_VA"
+		parameterClass="java.util.HashMap" resultMap="getTicketId">
+		SELECT TK.ID
+		FROM
+		TBL_TICKET TK
+		inner JOIN TBL_SUBGRUPO SGRG ON SGRG.ID=TK.ID_SUBGRUPO
+		inner JOIN TBL_GRUPO GRG ON GRG.ID=SGRG.ID_GRUPO
+		WHERE 
+			Date_format(TK.FECHA_ATENCION, '%Y/%M/%d') = Date_format(now(),'%Y/%M/%d') 
+			AND TK.ESTADO=0
+			AND TK.ID_SUCURSAL = #idSucursal:INTEGER#
+			AND GRG.ID_ALGORITMO IN (1,2)
+			AND (TK.ID_VENTANILLA_DERIVACION = 0 
+				OR (TK.ID_VENTANILLA_DERIVACION != 0 
+					AND TK.ID_VENTANILLA_DERIVACION IN (
+						SELECT USV.I_VENTANILLA FROM
+						ctrl_seg_usuario USV WHERE
+						USV.I_USUARIO_ID=#idUsuario:INTEGER#
+					)
+				)
+			)
+			AND	TK.ID_SUBGRUPO IN (
+				SELECT reg1.id_subgrupo
+				FROM tbl_rol_equipo_subgrupo REG1, TBL_ROL_EQUIPO RE1
+				WHERE RE1.id = #idRolEquipo#
+				AND RE1.ID=REG1.ID_ROL_EQUIPO AND RE1.TIPO_EQUIPO='VA'
+			)
+			AND NOT EXISTS (
+			    SELECT 1 FROM TBL_TICKET_DERIVACION TD
+			    INNER JOIN TBL_TICKET T_ORIGEN ON T_ORIGEN.ID = TD.ID_TICKET_ORIGEN
+			    WHERE TD.ID_TICKET_DERIVADO = TK.ID
+			    AND T_ORIGEN.VENTANILLA_ID_USUARIO = #idUsuario:INTEGER#
+			    AND DATE(T_ORIGEN.FECHA_ATENCION) = CURDATE()
+			)
+		ORDER BY tk.fecha_hora_prog_alg_2_tiempo asc
+		LIMIT 1
+	</select>
+	
 	<select id="getNextTicketSubGrupo_Alg_1_2"
 		parameterClass="java.util.HashMap" resultMap="getTicketId">
 <!-- 		SELECT TK.ID -->
