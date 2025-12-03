@@ -1598,10 +1598,12 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 				)
 			)
 			AND	TK.ID_SUBGRUPO IN (
-				SELECT reg1.id_subgrupo
-				FROM tbl_rol_equipo_subgrupo REG1, TBL_ROL_EQUIPO RE1
-				WHERE RE1.id = #idRolEquipo#
-				AND RE1.ID=REG1.ID_ROL_EQUIPO AND RE1.TIPO_EQUIPO='VA'
+				SELECT SGR.ID
+	            FROM TBL_SUBGRUPO SGR, TBL_GRUPO GR, TBL_ROL_EQUIPO_GRUPO REG, TBL_ROL_EQUIPO RE
+	            WHERE GR.ID=SGR.ID_GRUPO 
+	            AND  REG.ID_GRUPO=GR.ID
+	            AND  RE.ID=REG.ID_ROL_EQUIPO AND RE.TIPO_EQUIPO='VA' 
+	           	AND  RE.id=#idRolEquipo#
 			)
 			AND NOT EXISTS (
 			    SELECT 1 FROM TBL_TICKET_DERIVACION TD
@@ -1611,6 +1613,84 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			    AND DATE(T_ORIGEN.FECHA_ATENCION) = CURDATE()
 			)
 		ORDER BY tk.fecha_hora_prog_alg_2_tiempo asc
+		LIMIT 1
+	</select>
+	
+	<select id="getNextTicketByGrupoAlg1" parameterClass="java.util.Map" resultMap="getTicketId">
+		SELECT TK.ID as id
+		FROM TBL_TICKET TK
+		INNER JOIN TBL_SUBGRUPO SG ON SG.ID = TK.ID_SUBGRUPO
+		INNER JOIN TBL_GRUPO G ON G.ID = SG.ID_GRUPO
+		WHERE DATE(TK.FECHA_ATENCION) = CURDATE()
+			AND TK.ESTADO = 0
+			AND TK.ID_SUCURSAL = #idSucursal:INTEGER#
+			AND G.ID = #idGrupo:INTEGER#
+			AND G.ID_ALGORITMO = 1
+			AND (
+				TK.ID_VENTANILLA_DERIVACION = 0
+				OR (
+					TK.ID_VENTANILLA_DERIVACION != 0
+					AND TK.ID_VENTANILLA_DERIVACION IN (
+						SELECT I_VENTANILLA 
+						FROM ctrl_seg_usuario 
+						WHERE I_USUARIO_ID = #idUsuario:INTEGER#
+					)
+				)
+			)
+			AND TK.ID_SUBGRUPO IN (
+				SELECT REG.id_subgrupo
+				FROM tbl_rol_equipo_subgrupo REG
+				INNER JOIN TBL_ROL_EQUIPO RE ON RE.ID = REG.ID_ROL_EQUIPO
+				WHERE RE.id = #idRolEquipo:INTEGER#
+			)
+			AND NOT EXISTS (
+				SELECT 1 
+				FROM TBL_TICKET_DERIVACION TD
+				INNER JOIN TBL_TICKET T_ORIGEN ON T_ORIGEN.ID = TD.ID_TICKET_ORIGEN
+				WHERE TD.ID_TICKET_DERIVADO = TK.ID
+				AND T_ORIGEN.VENTANILLA_ID_USUARIO = #idUsuario:INTEGER#
+				AND DATE(T_ORIGEN.FECHA_ATENCION) = CURDATE()
+			)
+		ORDER BY TK.id ASC
+		LIMIT 1
+	</select>
+	
+	<select id="getNextTicketByGrupoAlg2" parameterClass="java.util.Map" resultMap="getTicketId">
+		SELECT TK.ID as id
+		FROM TBL_TICKET TK
+		INNER JOIN TBL_SUBGRUPO SG ON SG.ID = TK.ID_SUBGRUPO
+		INNER JOIN TBL_GRUPO G ON G.ID = SG.ID_GRUPO
+		WHERE DATE(TK.FECHA_ATENCION) = CURDATE()
+			AND TK.ESTADO = 0
+			AND TK.ID_SUCURSAL = #idSucursal:INTEGER#
+			AND G.ID = #idGrupo:INTEGER#
+			AND G.ID_ALGORITMO = 2
+			AND (
+				TK.ID_VENTANILLA_DERIVACION = 0
+				OR (
+					TK.ID_VENTANILLA_DERIVACION != 0
+					AND TK.ID_VENTANILLA_DERIVACION IN (
+						SELECT I_VENTANILLA 
+						FROM ctrl_seg_usuario 
+						WHERE I_USUARIO_ID = #idUsuario:INTEGER#
+					)
+				)
+			)
+			AND TK.ID_SUBGRUPO IN (
+				SELECT REG.id_subgrupo
+				FROM tbl_rol_equipo_subgrupo REG
+				INNER JOIN TBL_ROL_EQUIPO RE ON RE.ID = REG.ID_ROL_EQUIPO
+				WHERE RE.id = #idRolEquipo:INTEGER#
+			)
+			AND NOT EXISTS (
+				SELECT 1 
+				FROM TBL_TICKET_DERIVACION TD
+				INNER JOIN TBL_TICKET T_ORIGEN ON T_ORIGEN.ID = TD.ID_TICKET_ORIGEN
+				WHERE TD.ID_TICKET_DERIVADO = TK.ID
+				AND T_ORIGEN.VENTANILLA_ID_USUARIO = #idUsuario:INTEGER#
+				AND DATE(T_ORIGEN.FECHA_ATENCION) = CURDATE()
+			)
+		ORDER BY TK.fecha_hora_prog_alg_2_tiempo ASC
 		LIMIT 1
 	</select>
 	
@@ -1744,7 +1824,7 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			INNER JOIN tbl_grupo g ON g.id = s.id_grupo
 			WHERE t.estado IN (0,30,31)
 			AND Date_format(t.FECHA_ATENCION, '%Y/%M/%d')= Date_format(now(),'%Y/%M/%d') 
-			AND t.ID_SUBGRUPO  IN (SELECT   SGR.ID
+			AND t.ID_SUBGRUPO  IN (SELECT SGR.ID
 	            FROM TBL_SUBGRUPO SGR ,  TBL_GRUPO GR , TBL_ROL_EQUIPO_GRUPO REG, TBL_ROL_EQUIPO RE
 	            WHERE GR.ID=SGR.ID_GRUPO 
 	            AND  REG.ID_GRUPO=GR.ID
@@ -1822,7 +1902,7 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			INNER JOIN tbl_subgrupo s ON s.id = t.id_subgrupo
 			INNER JOIN tbl_grupo g ON g.id = s.id_grupo
 			INNER JOIN tbl_rol_equipo_grupo reg ON reg.id_grupo = g.id
-			INNER JOIN tbl_rol_equipo re ON re.id = reg.id_rol_equipo AND re.id = 180
+			INNER JOIN tbl_rol_equipo re ON re.id = reg.id_rol_equipo AND re.id = #idRol:INTEGER#
 			WHERE t.estado IN (0,30,31)
 			  AND DATE(t.fecha_atencion) = CURDATE()
 			  AND re.tipo_equipo = 'VA'
@@ -1857,6 +1937,43 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			    )
 			  )
 	   ]]>
+	</select>
+	<select id="getCantidadTicketEsperaByGrupo"
+		parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(DISTINCT TK.ID)
+			FROM TBL_TICKET TK
+			INNER JOIN TBL_SUBGRUPO SG ON SG.ID = TK.ID_SUBGRUPO
+			INNER JOIN TBL_GRUPO G ON G.ID = SG.ID_GRUPO
+			WHERE DATE(TK.FECHA_ATENCION) = CURDATE()
+				AND TK.ESTADO = 0
+				AND G.ID = #idGrupo:INTEGER#
+				AND (
+					TK.ID_VENTANILLA_DERIVACION = 0
+					OR (
+						TK.ID_VENTANILLA_DERIVACION != 0
+						AND TK.ID_VENTANILLA_DERIVACION IN (
+							SELECT I_VENTANILLA 
+							FROM ctrl_seg_usuario 
+							WHERE I_USUARIO_ID = #idUsuario:INTEGER#
+						)
+					)
+				)
+				AND TK.ID_SUBGRUPO IN (
+					SELECT REG.id_subgrupo
+					FROM tbl_rol_equipo_subgrupo REG
+					INNER JOIN TBL_ROL_EQUIPO RE ON RE.ID = REG.ID_ROL_EQUIPO
+					WHERE RE.id = #idRolEquipo:INTEGER#
+				)
+				AND NOT EXISTS (
+					SELECT 1 
+					FROM TBL_TICKET_DERIVACION TD
+					INNER JOIN TBL_TICKET T_ORIGEN ON T_ORIGEN.ID = TD.ID_TICKET_ORIGEN
+					WHERE TD.ID_TICKET_DERIVADO = TK.ID
+					AND T_ORIGEN.VENTANILLA_ID_USUARIO = #idUsuario:INTEGER#
+					AND DATE(T_ORIGEN.FECHA_ATENCION) = CURDATE()
+				)
+		]]>
 	</select>
 
 	<resultMap id="getResultTicketXLlamado" class="pe.gob.ep.iclassq.entidad.BeanTicketLlamado">
@@ -2089,11 +2206,10 @@ FROM (SELECT 	DATE_FORMAT(t.fecha_atencion, "%Y-%m") as 	periodo,
 			ibator, do not modify. -->
 		<result column="id" property="id" jdbcType="INTEGER" />
 		<result column="nombreGrupo" property="nombreGrupo" jdbcType="VARCHAR" />
-		<result column="tiempoObjetivo" property="tiempoObjetivo" jdbcType="INTEGER" />
 	</resultMap>
 
 	<select id="getNombreGrupo" parameterClass="java.util.HashMap" resultMap="getNombreGrupoxSubGrupo">
-			SELECT b.id, b.nombre as nombreGrupo, b.tiempo_objetivo as tiempoObjetivo
+			SELECT b.id, b.nombre as nombreGrupo
 			FROM tbl_subgrupo a
 			INNER JOIN tbl_grupo b ON b.id = a.id_grupo
 			WHERE a.id = #idSubGrupo:INTEGER# 

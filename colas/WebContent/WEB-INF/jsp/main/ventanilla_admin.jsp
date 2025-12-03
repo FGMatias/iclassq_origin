@@ -184,6 +184,9 @@
                		<h2 class="p-2">
                			<span>TICKETS ATENDIDOS: <span id="cantTickets">0</span></span>  
                		</h2>
+               		<button type="button" class="btn btn-warning btn-lg" id="btnLimpiarFiltro" style="display:none;">
+						&nbsp;Ver Todos los Grupos
+					</button>
                 </div>
                 <div class="col-sm-4">
                		<button type="button" class="btn btn-primary btn-lg" id="btnLlamarSiguiente"><span class="glyphicon glyphicon-forward"></span>&nbsp;Siguiente</button>
@@ -380,6 +383,10 @@
 <script type="text/javascript">
 	
 	var usuarioAusente = false;
+	var selectedGroupId = localStorage.getItem('selectedGroupId') 
+							? parseInt(localStorage.getItem('selectedGroupId')) 
+							: null;
+							
  	//parametros (Tipo de funcion, idEvalua)
     //S --siguiente
     //I-- Iniciar
@@ -786,31 +793,62 @@
 		getInitDataViewGroups();
     });
     
+    $("#btnLimpiarFiltro").click(function() {
+    	selectedGroupId = null;
+    	
+    	localStorage.removeItem('selectedGroupId');
+    	localStorage.removeItem('selectedGroupName');
+    	
+    	verTicketEspera();
+    	$(this).hide();
+    	
+    	$.alert({
+    		title: 'Información',
+    		content: 'Filtro eliminado. Ahora se muestran todos los tickets.',
+    	});
+    });
+    
     $("#btnLlamarSiguiente").click(function() {  
     	var iAtencion = '${usuario.iAtencion}';
     	var idRolEquipo = '${usuario.iRolEquipo}';
-    	var idSucursal='${usuario.iSucursal}';
-    	var idUsuario='${usuario.iUsuarioId}';    	
-    	var idVentanilla='${usuario.iVentanilla}';
-    	var idEvalua='${usuario.iEvalua}';
+    	var idSucursal = '${usuario.iSucursal}';
+    	var idUsuario = '${usuario.iUsuarioId}';    	
+    	var idVentanilla = '${usuario.iVentanilla}';
+    	var idEvalua = '${usuario.iEvalua}';
     	var iAnula = '${usuario.iAnula}';
-		var iEmpresa='${usuario.iEmpresa}';
-		$('#btnLlamarSiguiente').prop("disabled", true);
+    	var iEmpresa = '${usuario.iEmpresa}';
+    	
+    	$('#btnLlamarSiguiente').prop("disabled", true);
+    	
+    	var endpoint = selectedGroupId ? 'nextticketbygrupo.app' : 'nextticket.app';
+    	var requestData = {
+    		idUsuario: idUsuario, 
+    		idSucursal: idSucursal, 
+    		idRolEquipo: idRolEquipo,         		
+    		idVentanilla: idVentanilla
+    	};
+    	
+    	if (selectedGroupId) {
+    		requestData.idGrupo = selectedGroupId;
+    	}
+    	
     	$.ajax({ 
-     		type: 'POST', 
-     		url: 'nextticket.app',
-     		data: {
-     			idUsuario: idUsuario, 
-         		idSucursal: idSucursal, 
-         		idRolEquipo: idRolEquipo,         		
-         		idVentanilla: idVentanilla
-       		},
-     		success: function (response) {     			 			
-     			var data = response.data;
-				var TextooApellido_sino = $('#txtApellido_sino').val();	
-				Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAtencion, iAnula);
-     		}	
-   		});    					  
+    		type: 'POST', 
+    		url: endpoint,
+    		data: requestData,
+    		success: function (response) {     			 			
+    			var data = response.data;
+    			var TextooApellido_sino = $('#txtApellido_sino').val();	
+    			Construyehtml(data, 'S', idEvalua, TextooApellido_sino, iAtencion, iAnula);
+    		},
+    		error: function(xhr, status, error) {
+    			$('#btnLlamarSiguiente').prop("disabled", false);
+    			$.alert({
+    				title: 'Error',
+    				content: 'No se pudo obtener el siguiente ticket',
+    			});
+    		}
+    	});    					  
     });
 
 	$("#btnDerivarTicket").click(function() {    	
@@ -1199,7 +1237,18 @@ $(document).ready(function(){
 	var iEmpresa='${usuario.iEmpresa}';	
 	loadUserAbsence(idUsuario);
 	loadDailyTicketCount();
+	setInterval(listarTicketByIdUsuario,1000);
 
+	if (selectedGroupId) {
+		$("#btnLimpiarFiltro").show();
+		verTicketEsperaPorGrupo();
+		
+		$.alert({
+			title: 'Filtro activo',
+			content: 'Estás viendo tickets del grupo guardado anteriormente.',
+		});
+	}
+	
 	// tipo documento
 	$.ajax({ 
 		type: 'POST', 
@@ -1368,7 +1417,12 @@ function listarTicketByIdUsuario(){
 }
 
 	setInterval(verTicketEspera,1000);
-	function verTicketEspera(){				
+	function verTicketEspera(){		
+		if (selectedGroupId) {
+			verTicketEsperaPorGrupo();
+			return;
+		}
+		
 		var idRol='${usuario.iRolEquipo}';
 		var idUsuario='${usuario.iUsuarioId}';
 		var idVentanilla='${usuario.iVentanilla}';
@@ -1400,6 +1454,48 @@ function listarTicketByIdUsuario(){
 			}
 		});
  	}
+	
+	function verTicketEsperaPorGrupo() {
+		if (!selectedGroupId) {
+			verTicketEspera();
+			return;
+		}
+		
+		var idRol = '${usuario.iRolEquipo}';
+		var idUsuario = '${usuario.iUsuarioId}';
+		var idVentanilla = '${usuario.iVentanilla}';
+		
+		$.ajax({ 
+			type: 'POST', 
+			url: 'getcantidadticketesperabygrupo.app',
+			data: {
+				idRol: idRol,
+				idUsuario: idUsuario,
+				idVentanilla: idVentanilla,
+				idGrupo: selectedGroupId
+			},
+			success: function (response) {
+				var data = response.data;
+				var cant = data;
+				var dataInicial = $("#cantEspera").html();
+				var notificaSiNo = $("#txtNotifica_sino").val();
+				
+				if (cant != 0) {
+					$('#btnTurnos').addClass("parpadea");
+				} else {
+					$('#btnTurnos').removeClass("parpadea");
+				}
+				
+				if (notificaSiNo == 1) {
+					if (cant > dataInicial) {
+						notificacion_windows();
+					}
+				}
+				
+				$("#cantEspera").html(cant);
+			}
+		});
+	}
 
 $("#btnActualizarVentanilla").click(function() {    	
 	var idSucursal='${usuario.iSucursal}';

@@ -219,6 +219,31 @@ public class TicketController {
 		return data;
 	}
 	
+	@RequestMapping(value = "nextticketbygrupo.app", method = RequestMethod.POST)
+	public @ResponseBody Map<String, ? extends Object> obtenerTicketByGrupo(HttpServletRequest req) throws Exception {
+		Integer idUsuario = Integer.parseInt(req.getParameter("idUsuario"));
+		Integer idSucursal = Integer.parseInt(req.getParameter("idSucursal"));
+		Integer idRolEquipo = Integer.parseInt(req.getParameter("idRolEquipo"));
+		Integer idVentanilla = Integer.parseInt(req.getParameter("idVentanilla"));
+		Integer idGrupo = Integer.parseInt(req.getParameter("idGrupo"));
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		try {
+			ticketService.getNextTicketByGrupo(idUsuario, idSucursal, idRolEquipo, idVentanilla, idGrupo);
+			data.put("data", ticketService.listarTicketByIdUsuario(idUsuario));
+			data.put("success", Boolean.TRUE);
+			data.put("message", "Ticket obtenido correctamente");
+		} catch (Exception e) {
+			data.put("data", new ArrayList<Ticket>());
+			data.put("success", Boolean.FALSE);
+			data.put("message", "Error al obtener ticket");
+			log.debug(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
 	
 	@RequestMapping(value = "listarticket.app")
 	public @ResponseBody Map<String, ? extends Object> listarTicket() throws Exception {		
@@ -729,6 +754,24 @@ public class TicketController {
 		return data;
 	}
 	
+	@RequestMapping(value = "getcantidadticketesperabygrupo.app")
+	public @ResponseBody Map<String, ? extends Object> getCantidadTicketEsperaByGrupo(
+			Integer idRol, 
+			Integer idUsuario, 
+			Integer idVentanilla,
+			Integer idGrupo
+	) throws Exception {
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			data.put("data", ticketService.getCantidadTicketEsperaByGrupo(idRol, idUsuario, idVentanilla, idGrupo));
+		} catch (Exception e) {
+			data.put("data", 0);
+			log.debug(e.getMessage());
+			e.printStackTrace();
+		}
+		return data;
+	}
 	
 	@RequestMapping(value = "activarllamadoxaudio.app")
 	public @ResponseBody Map<String, ? extends Object> activarLlamadoXAudio(HttpServletRequest req) throws Exception {

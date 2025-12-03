@@ -22,7 +22,6 @@ public class BeanTicketXGrupo {
 	private Integer evaluacion3;
 	private Integer evaluacion4;
 	private Integer evaluacion5;
-	private Integer tiempoObjetivo;
 	
 	public Integer getId() {
 		return id;
@@ -150,12 +149,5 @@ public class BeanTicketXGrupo {
 	public void setevaluacion5(Integer evaluacion5) {
 		this.evaluacion5 = evaluacion5;
 	}
-	public Integer getTiempoObjetivo() {
-		return tiempoObjetivo;
-	}
-	public void setTiempoObjetivo(Integer tiempoObjetivo) {
-		this.tiempoObjetivo = tiempoObjetivo;
-	}
-	
 }
 

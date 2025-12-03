@@ -45,7 +45,7 @@ public interface TicketService {
 	public List<BeanSubGrupoProporcion> getSubGrupoByRolEquipo(Integer idUsuario, Integer idRolEquipo, Integer idSucursal) throws Exception;
 	public void getNextTicket(Integer idUsuario, Integer idSucursal, 
 			Integer idRolEquipo, Integer idVentanilla) throws Exception;
-	
+	public void getNextTicketByGrupo(Integer idUsuario, Integer idSucursal, Integer idRolEquipo, Integer idVentanilla, Integer idGrupo) throws Exception;
 	public int getRegistrosActuales(Integer idGrupo, Integer idRolEquipo) throws Exception;
 	public int getRegistrosActualesSubGrupo(Integer idSubGrupo, Integer idRolEquipo) throws Exception;
 	
@@ -99,6 +99,7 @@ public interface TicketService {
 	
 	public int getCantidadTicketEspera(Integer idGrupo) throws Exception ;
 	public int getCantidadTicketEsperaAllGrupo(Integer idRol, Integer idUsuario, Integer idVentanilla) throws Exception ;	
+	public Integer getCantidadTicketEsperaByGrupo(Integer idRolEquipo, Integer idUsuario, Integer idVentanilla, Integer idGrupo) throws Exception;
 	public void activarLlamadoXAudio(Integer idTicket)	throws Exception;
 			
 	public BeanTicketLlamado verificarNuevoLlamadoVoz(Integer iRolEquipo) throws Exception;

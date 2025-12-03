@@ -770,6 +770,15 @@ public class TicketServiceImpl implements TicketService {
 			else{
 				list.get(i).setDescripcionEstado("EVALUANDO");
 			}
+			
+			Integer idSubGrupo = list.get(i).getIdSubgrupo();
+			grupo = this.getNombreGrupo(idSubGrupo);
+			Integer idGrupo = grupo.get(0).getId();
+			
+			if (grupo != null && !grupo.isEmpty()) {
+				ticket.setIdGrupo(grupo.get(0).getId());
+	            ticket.setNombreGrupo(grupo.get(0).getnombreGrupo());
+	        }
 		}
 		return list;
 		
@@ -1533,6 +1542,96 @@ public class TicketServiceImpl implements TicketService {
 			}
 		}
 	}
+	
+	@Override
+	public void getNextTicketByGrupo(Integer idUsuario, Integer idSucursal, Integer idRolEquipo, Integer idVentanilla, Integer idGrupo) throws Exception {
+		int iNuevoTicket, cantidad_ticket_40_41_50_60 = 0;
+		Date fechallamado = new Date();
+		
+		cantidad_ticket_40_41_50_60 = getValidaTicketPendiente(idUsuario, idSucursal, idRolEquipo, idVentanilla);
+		
+		if (cantidad_ticket_40_41_50_60 == 0) {
+			iNuevoTicket = getNextTicketObtieneByGrupo(idUsuario, idSucursal, idRolEquipo, idVentanilla, idGrupo);
+			
+			if (iNuevoTicket > 0) {
+				List<Ticket> list = new ArrayList<>();
+				TicketCriteria tc = new TicketCriteria();
+				tc.createCriteria().andIdEqualTo(iNuevoTicket);
+				tc.setOrderByClause("id asc");
+				list = ticketDAO.selectByExample(tc);
+				
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getEstado() == Constante.ESTADO_LLAMANDO) {
+						list.get(i).setDescripcionEstado("LLAMANDO");
+					} else if (list.get(i).getEstado() == Constante.ESTADO_LLAMANDO_MONITOR) {
+						list.get(i).setDescripcionEstado("LLAMANDO MONITOR");
+					} else if (list.get(i).getEstado() == Constante.ESTADO_ATENCION) {
+						list.get(i).setDescripcionEstado("ATENDIENDO");
+					} else if (list.get(i).getEstado() == Constante.ESTADO_FINALIZADO) {
+						list.get(i).setDescripcionEstado("FINALIZADO");
+					} else if (list.get(i).getEstado() == Constante.ESTADO_REACTIVADO) {
+						list.get(i).setDescripcionEstado("REACTIVADO");
+					} else {
+						list.get(i).setDescripcionEstado("EVALUANDO");
+					}
+				}
+				
+				if (list.size() > 0) {
+					Ticket t = new Ticket(); 
+					t = list.get(0);	
+					t.setEstado(Constante.ESTADO_LLAMANDO);
+					t.setVentanillaIdUsuario(idUsuario);
+					t.setVentanillaCaja(idVentanilla);
+					ticketDAO.updateByPrimaryKeySelective(t);
+					
+					try {
+						this.verificarNuevoTurno(idUsuario, idSucursal, null, idRolEquipo);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	public int getNextTicketObtieneByGrupo(Integer idUsuario, Integer idSucursal, Integer idRolEquipo, Integer idVentanilla, Integer idGrupo) throws Exception {
+		int idTicket = 0;
+		BeanTicketId beanTicketId = null;
+		RolEquipoCriteria gcr = new RolEquipoCriteria();
+		gcr.createCriteria().andIdEqualTo(idRolEquipo);
+		List<RolEquipo> listRE = new ArrayList<>();
+		listRE = rolEquipoDAO.selectByExample(gcr);
+		
+		if (listRE.isEmpty()) {
+			return 0;
+		}
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("idRolEquipo", idRolEquipo);
+		param.put("idGrupo", idGrupo);
+		param.put("idUsuario", idUsuario);
+		param.put("idSucursal", idSucursal);
+		
+		if (listRE.get(0).getTipoEquipo().equals("VS")) {
+			if (listRE.get(0).getAlgoritmo() == 2) {
+				beanTicketId = ticketDAO.getNextTicketByGrupoAlg2(param);
+				idTicket = beanTicketId.getId();
+			} else if (listRE.get(0).getAlgoritmo() == 1) {
+				beanTicketId = ticketDAO.getNextTicketByGrupoAlg1(param);
+				idTicket = beanTicketId.getId();
+			}
+		} else if (listRE.get(0).getTipoEquipo().equals("VA")) {
+			if (listRE.get(0).getAlgoritmo() == 2) {
+				beanTicketId = ticketDAO.getNextTicketByGrupoAlg2(param);
+				idTicket = beanTicketId.getId();
+			} else if (listRE.get(0).getAlgoritmo() == 1) {
+				beanTicketId = ticketDAO.getNextTicketByGrupoAlg1(param);
+				idTicket = beanTicketId.getId();
+			}
+		}
+		
+		return idTicket;
+	}
 
 	@Override
 	public List<SubGrupo> getSubGrupoByIdGrupoAlg3(Integer idGrupo)
@@ -1578,6 +1677,17 @@ public class TicketServiceImpl implements TicketService {
 		}
 		return cant;
 	}	
+	
+	@Override
+	public Integer getCantidadTicketEsperaByGrupo(Integer idRolEquipo, Integer idUsuario, Integer idVentanilla, Integer idGrupo) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("idRolEquipo", idRolEquipo);
+		param.put("idUsuario", idUsuario);
+		param.put("idVentanilla", idVentanilla);
+		param.put("idGrupo", idGrupo);
+		
+		return ticketDAO.getCantidadTicketEsperaByGrupo(param);
+	}
 	
 	@Override
 	public void activarLlamadoXAudio(Integer idTicket)

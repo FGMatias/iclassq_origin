@@ -290,6 +290,13 @@ public class TicketDAOImpl extends SqlMapClientDaoSupport implements TicketDAO {
  	} 
   	
   	@Override
+  	public int getCantidadTicketEsperaByGrupo(Map<String, Object> paramet) {
+  		// TODO Auto-generated method stub
+  		
+  		return (Integer) getSqlMapClientTemplate().queryForObject("tbl_ticket.getCantidadTicketEsperaByGrupo", paramet);
+  	} 
+  	
+  	@Override
  	public int getCantidadTicketEsperaAllSubGrupo(Map<String, Object> paramet) {
  		// TODO Auto-generated method stub
      	
@@ -400,6 +407,20 @@ public class TicketDAOImpl extends SqlMapClientDaoSupport implements TicketDAO {
   		// TODO Auto-generated method stub
   		
   		return (BeanTicketId) getSqlMapClientTemplate().queryForObject("tbl_ticket.getNextTicketSubGrupo_Alg_1_2_VA", paramet);
+  	}
+  	
+  	@Override
+  	public BeanTicketId getNextTicketByGrupoAlg1(Map<String, Object> paramet) {
+  		// TODO Auto-generated method stub
+  		
+  		return (BeanTicketId) getSqlMapClientTemplate().queryForObject("tbl_ticket.getNextTicketByGrupoAlg1", paramet);
+  	}
+  	
+  	@Override
+  	public BeanTicketId getNextTicketByGrupoAlg2(Map<String, Object> paramet) {
+  		// TODO Auto-generated method stub
+  		
+  		return (BeanTicketId) getSqlMapClientTemplate().queryForObject("tbl_ticket.getNextTicketByGrupoAlg2", paramet);
   	}
 	
 	//actualizacion de eventos desde JOB

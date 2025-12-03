@@ -62,48 +62,36 @@
 		getGruposBySucursal();
 	}
 	
-	$("#btnGenerarAnulacion").click(function() {    	
-		var idUsuario = '${usuario.iUsuarioId}';
-		var idEvalua='${usuario.iEvalua}';
-		var iAnula = '${usuario.iAnula}';		
-		var tipoAnulacion =11;
-		var descripcion = 'Se retiro sin Motivo';
-		var idSucursal = '${usuario.iSucursal}';
-		var iAtencion = '${usuario.iAtencion}';
-		var TextooApellido_sino=$('#txtApellido_sino').val();	
-		var idTicket = $('#idTicket').val();	
-		var motivo = $('#cboMotivoAnulacion').val();	
+	$("#btnSeleccionarGrupo").click(function() {    	
+		var idGrupo = $("#cboGrupos").val();
 		
-		v_tieneAudio=$('#txtTieneAudio').val();
-
-		if (v_tieneAudio=='1') {
-			fnFinGrabacionAudio();
-        }
+		if (idGrupo == "0") {
+			$.alert({
+				title: 'Advertencia',
+				content: 'Debe seleccionar un grupo',
+			});
+			return;
+		}
 		
-		$.ajax({ 
-	 		type: 'POST', 
-	 		url: 'anularatencion.app',
-	 		data: {
-	 			idTicket: idTicket, 
-   				idUsuario: idUsuario,  
-   				idSucursal: idSucursal,
-   				tipoAnulacion: tipoAnulacion, 
-   				descripcion: descripcion,
-   				motivo: motivo
-	     	},
-	 		success: function (response) { 
-	 			$('#modalGenerarAnulacion').modal('hide');
-	 			var data = response.data;
-
-				var TextooApellido_sino=$('#txtApellido_sino').val();	
-				
-				Construyehtml(data,'S',idEvalua, TextooApellido_sino, iAtencion, iAnula);
-				stopMaximumAttentionTimer();
-	 		}	
-		});    					  
+		selectedGroupId = idGrupo;
+		localStorage.setItem('selectedGroupId', idGrupo);
+		
+		var nombreGrupo = $("#cboGrupos option:selected").text();
+		localStorage.setItem('selectedGroupName', nombreGrupo);
+		
+		verTicketEsperaPorGrupo();
+		
+		$("#btnLimpiarFiltro").show();
+		
+		$("#modalViewGroups").modal("hide");
+		
+		$.alert({
+			title: 'Éxito',
+			content: 'Grupo "' + nombreGrupo + '" seleccionado.',
+		});					  
 	});
 	
-	$("#modalVerGrupos").on("hidden.bs.modal", function() {
+	$("#modalViewGroups").on("hidden.bs.modal", function() {
 		clearForm();
 	});
 </script>

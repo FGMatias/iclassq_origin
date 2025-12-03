@@ -106,9 +106,12 @@ public interface TicketDAO {
     public BeanTicketId getNextTicketSubGrupo_Alg_1_2(Map<String, Object> params);
     public BeanTicketId getNextTicketSubGrupo_Alg_1_2_VS(Map<String, Object> params);
     public BeanTicketId getNextTicketSubGrupo_Alg_1_2_VA(Map<String, Object> params);
+    public BeanTicketId getNextTicketByGrupoAlg1(Map<String, Object> params);
+    public BeanTicketId getNextTicketByGrupoAlg2(Map<String, Object> params);
     
     public int getCantidadTicketEspera(Map<String, Object> params);
     public int getCantidadTicketEsperaAllGrupo(Map<String, Object> params);   
+    public int getCantidadTicketEsperaByGrupo(Map<String, Object> params);   
     List<BeanTicketLlamado> getListTicketCallVoz(Map<String, Object> params);
     
     public List<BeanTicketXReporte> getResultConsultaTicket(Map<String, Object> params);
